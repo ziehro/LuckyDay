@@ -26,7 +26,16 @@ public class addDataFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        Button addLottery=(Button)view.findViewById(R.id.addLottery);
+        addLottery.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent n=new Intent(getContext(), addLottery.class);
+                startActivity(n);
+            }
+        });
 
         view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
             @Override
