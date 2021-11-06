@@ -37,9 +37,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
+        app:iconTint="#FB0D0D"
         app:layout_constraintBottom_toBottomOf="@id/addLottery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_first" />
+
+    <Button
+        android:id="@+id/redLightButton"
+        android:layout_width="58dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="101dp"
+        android:background="@drawable/roundedbutton"
+        android:backgroundTint="#FD0404"
+
+        app:cornerRadius="88dp"
+        app:icon="@drawable/roundedbutton"
+        app:iconTint="#FD0404"
+        app:iconTintMode="add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#F80909"
+        app:strokeColor="#E30808"
+        tools:text="!" />
 </androidx.constraintlayout.widget.ConstraintLayout>
