@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "655554012943",
+    "firebase_url": "https://luckydaytester-5f78b-default-rtdb.firebaseio.com",
+    "project_id": "luckydaytester-5f78b",
+    "storage_bucket": "luckydaytester-5f78b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655554012943:android:5733ae4fe7a6c7b7fd007a",
+        "android_client_info": {
+          "package_name": "com.ziehro.luckyday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655554012943-avjl96j6uagskq78g4drc3gmceggfi20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5tljIdRKqVSMdGnw4uCcxbuvmKwDmjaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655554012943-avjl96j6uagskq78g4drc3gmceggfi20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -70,8 +70,6 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
 
                 final ProgressDialog loading = ProgressDialog.show(addLottery.this, "Adding Item", "Please Wait");
 
-
-
                 String time;
                 //if (minute < 10) time = ("" + hour + ":" + "0" + minute);
                 //else {time = ("" + hour + ":" + minute);}
