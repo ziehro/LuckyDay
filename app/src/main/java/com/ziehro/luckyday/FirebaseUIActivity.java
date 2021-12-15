@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -100,12 +101,14 @@ public class FirebaseUIActivity extends AppCompatActivity {
     // [START auth_fui_result]
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
+        TextView statusText;
 
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             Toast.makeText(FirebaseUIActivity.this,"User good", Toast.LENGTH_LONG).show();
-
+            statusText = (TextView)findViewById(R.id.firebaseStatusText);
+            statusText.setText(user.getDisplayName());
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
