@@ -44,6 +44,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
     );
     // [END auth_fui_create_launcher]
 
+    TextView statusText;
 
 
     @Override
@@ -52,6 +53,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
         setContentView(R.layout.activity_firebase_ui);
 
 
+        statusText = (TextView)findViewById(R.id.firebaseStatusText);
         Button SignInButton = (Button) findViewById(R.id.Firebase_sign_in_button);
         SignInButton.setOnClickListener(new View.OnClickListener() {
 
@@ -101,13 +103,13 @@ public class FirebaseUIActivity extends AppCompatActivity {
     // [START auth_fui_result]
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
-        TextView statusText;
+
 
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             Toast.makeText(FirebaseUIActivity.this,"User good", Toast.LENGTH_LONG).show();
-            statusText = (TextView)findViewById(R.id.firebaseStatusText);
+
             statusText.setText(user.getDisplayName());
             // ...
         } else {
@@ -127,6 +129,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(FirebaseUIActivity.this,"Signed Out", Toast.LENGTH_LONG).show();
+                        statusText.setText("Signed Out");
                     }
                 });
         // [END auth_fui_signout]
