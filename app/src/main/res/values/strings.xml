@@ -6,7 +6,14 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <string name="signed_in_fmt">You %1$s</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="default_web_client_id2">655554012943-avjl96j6uagskq78g4drc3gmceggfi20.apps.googleusercontent.com</string>
     <string name="hello_first_fragment">Feelin Lucky?</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">Lucky Day</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">Lucky Day</string>
+    <string name="email_link">ziehro@gmail.com</string>
+
 </resources>

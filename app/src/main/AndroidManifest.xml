@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".addLottery" />
+        <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".FirebaseUIActivity" />
 
     </application>
 
