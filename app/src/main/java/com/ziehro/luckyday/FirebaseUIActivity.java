@@ -1,9 +1,17 @@
 package com.ziehro.luckyday;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +19,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.firebase.ui.auth.AuthUI;
@@ -24,7 +34,13 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,9 +67,17 @@ public class FirebaseUIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase_ui);
-
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         statusText = (TextView)findViewById(R.id.firebaseStatusText);
+        if (user != null) {
+            ImageView profilePic = findViewById(R.id.profilePic);
+            statusText.setText(user.getDisplayName());
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
+
+        }
+
+
+
         Button SignInButton = (Button) findViewById(R.id.Firebase_sign_in_button);
         SignInButton.setOnClickListener(new View.OnClickListener() {
 
@@ -72,6 +96,24 @@ public class FirebaseUIActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 signOut();
+                ImageView profilePic = findViewById(R.id.profilePic);
+                //profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
+
+            }
+        });
+
+        Button doneButton=findViewById(R.id.doneButton);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //Intent n=new Intent(getContext(), MainActivity.class);
+                //startActivity(n);
+
+                Intent n=new Intent(getBaseContext(), MainActivity.class);
+                startActivity(n);
+
 
             }
         });
@@ -110,7 +152,10 @@ public class FirebaseUIActivity extends AppCompatActivity {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             Toast.makeText(FirebaseUIActivity.this,"User good", Toast.LENGTH_LONG).show();
 
+            ImageView profilePic = findViewById(R.id.profilePic);
             statusText.setText(user.getDisplayName());
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
+
             // ...
         } else {
             // Sign in failed. If response is null the user canceled the
@@ -130,6 +175,8 @@ public class FirebaseUIActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(FirebaseUIActivity.this,"Signed Out", Toast.LENGTH_LONG).show();
                         statusText.setText("Signed Out");
+                        ImageView profilePic = findViewById(R.id.profilePic);
+                        profilePic.setImageDrawable(null);
                     }
                 });
         // [END auth_fui_signout]
@@ -221,6 +268,23 @@ public class FirebaseUIActivity extends AppCompatActivity {
             }*/
         }
         // [END auth_fui_email_link_catch]
+    }
+
+    private Bitmap getImageBitmap(String url) {
+        Bitmap bm = null;
+        try {
+            URL aURL = new URL(url);
+            URLConnection conn = aURL.openConnection();
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            is.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting bitmap", e);
+        }
+        return bm;
     }
 }
 

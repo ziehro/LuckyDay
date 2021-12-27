@@ -17,6 +17,7 @@
     <style name="Theme.LuckyDay.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
     <style name="Button.Red" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@android:color/holo_red_light</item>
