@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -21,6 +22,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -33,6 +40,8 @@ import static com.ziehro.luckyday.BaseActivity.sheetURL;
 
 public class addLottery extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
+    private FirebaseFirestore mFirestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +51,7 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
         final Calendar c = Calendar.getInstance();
         final int hour = c.get(Calendar.HOUR_OF_DAY);
         final int minute = c.get(Calendar.MINUTE);
+        final int second = c.get(Calendar.SECOND);
         final int date = c.get(Calendar.DATE);
         final int month = c.get(Calendar.MONTH);
         String time;
@@ -59,6 +69,10 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
         final Editable moneyInValue = moneyIn.getText();
         final Editable moneyOutValue = moneyOut.getText();
         final Editable cribSoldValue = cribSold.getText();
+
+        //Firestore Stuff
+        mFirestore = FirebaseFirestore.getInstance();
+
 
         final String[] cribSoldString = {"0"};
         cribSoldString[0] = "0";
@@ -141,8 +155,41 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
                 };
 
 
-                RequestQueue queue = Volley.newRequestQueue(addLottery.this);
-                queue.add(stringRequest);
+                //RequestQueue queue = Volley.newRequestQueue(addLottery.this);
+                //queue.add(stringRequest);
+
+
+                //  Firestore Stuff
+
+
+                    Map<String, String> params = new HashMap<>();
+                    params.put("action", "addItem");
+                    params.put("moneyIn", moneyInString);
+                    params.put( "moneyOut", moneyOutString);
+                    params.put( "percent", percentString);
+                    params.put( "moonPhase", moonPhaseString);
+                    params.put( "moonAge", moonAgeString);
+                    params.put( "moonIllum", moonIllumString);
+                    params.put( "moonDay", moonDayString);
+                    params.put( "cribSold", cribSoldString[0]);
+                    params.put( "diceRoll", diceRollString);
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = user.getUid();
+
+                    mFirestore.collection("Lottery").document(uid).collection("Data").document(time + ":" + second +" " + monthname + " " +date).set(params).addOnSuccessListener(new OnSuccessListener() {
+                        @Override
+                        public void onSuccess(@NonNull Object o) {
+                            Toast.makeText(addLottery.this, "Added to FireStore",Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(addLottery.this,"FireStore Failed", Toast.LENGTH_LONG).show();
+                        }
+                    });
 
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
