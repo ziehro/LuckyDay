@@ -34,6 +34,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
@@ -47,8 +48,7 @@ import java.util.List;
 
 public class FirebaseUIActivity extends AppCompatActivity {
 
-    // [START auth_fui_create_launcher]
-    // See: https://developer.android.com/training/basics/intents/result
+    private FirebaseFirestore mFirestore;
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {

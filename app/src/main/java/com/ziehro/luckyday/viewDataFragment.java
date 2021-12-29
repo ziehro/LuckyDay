@@ -34,6 +34,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +75,8 @@ public class viewDataFragment extends Fragment {
     public moonAgeInDays moonDay27 = new moonAgeInDays(0.0, 0.0);
     public moonAgeInDays moonDay28 = new moonAgeInDays(0.0, 0.0);
     public moonAgeInDays moonDay29 = new moonAgeInDays(0.0, 0.0);
-
+    Integer luckyMoonDay = 0;
+    Double luckyDayWinPercent= 0.0;
 
     @Override
     public View onCreateView(
@@ -89,19 +92,17 @@ public class viewDataFragment extends Fragment {
         TextView textView = (TextView) view.findViewById(R.id.textView);
         TextView totalSpentTV = (TextView) view.findViewById(R.id.totalSpentTV);
         TextView totalWonTV = (TextView) view.findViewById(R.id.totalWonTV);
+        TextView luckyDay = (TextView) view.findViewById(R.id.luckyDayTV);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+
+
 
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         ListView mainListView = (ListView)view.findViewById(R.id.listView);
         ListView moonDayListView = (ListView)view.findViewById(R.id.moonDayList);
         List<String> list = new ArrayList<>();
         List<String> moonDaylist = new ArrayList<>();
-        Map<String, Object> moonDayMap = new HashMap<>();
-
-
-        moonAgeInDays moonDay24 = new moonAgeInDays(0.0, 0.0);
-
 
         mFirestore.collection("Lottery").document(uid).collection("Data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -112,8 +113,6 @@ public class viewDataFragment extends Fragment {
                     Double percentWin = 0.0;
                     Double totalSpent = 0.0;
                     Double totalWin = 0.0;
-                    String ObjectString = null;
-
 
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -127,8 +126,6 @@ public class viewDataFragment extends Fragment {
                         totalWin = totalWin+moneyOut;
 
                         String moonDayLetter = whatDayIsIt.letterDay(document.getString("moonDay"));
-
-
 
                         addMoneyInToMoonDay(document.getString("moonDay"),moneyIn);
                         addMoneyOutToMoonDay(document.getString("moonDay"),moneyOut);
@@ -157,10 +154,42 @@ public class viewDataFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
                 }
 
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) moonDaylist.add("1" + "  " +moonDay23.getPercent());
-
-                if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) moonDaylist.add("23" + "  " +moonDay23.getPercent());
-                if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) moonDaylist.add("24" + "  " +moonDay23.getPercent());
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay1.getPercent());
+                     if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 1;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("2" + "  " +moonDay2.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 2;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("3" + "  " +moonDay3.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 3;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("4" + "  " +moonDay4.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 4;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("5" + "  " +moonDay5.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 5;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("6" + "  " +moonDay6.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 6;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 7;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 8;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 9;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 10;}}
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
+                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 11;}}
+                if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) {moonDaylist.add("23" + "  " +moonDay23.getPercent());
+                    if(moonDay23.moneyOut/moonDay23.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay23.moneyOut/moonDay23.moneyIn;luckyMoonDay = 23;}}
+                if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) {moonDaylist.add("24" + "  " +moonDay24.getPercent());
+                    if(moonDay24.moneyOut/moonDay24.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay24.moneyOut/moonDay24.moneyIn;luckyMoonDay = 24;}}
+                if(moonDay25.moneyIn!=0.0 &&moonDay25.moneyOut!=0.0) {moonDaylist.add("25" + "  " +moonDay25.getPercent());
+                    if(moonDay25.moneyOut/moonDay25.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay25.moneyOut/moonDay25.moneyIn;luckyMoonDay = 25;}}
+                if(moonDay26.moneyIn!=0.0 &&moonDay26.moneyOut!=0.0) {moonDaylist.add("26" + "  " +moonDay26.getPercent());
+                    if(moonDay26.moneyOut/moonDay26.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay26.moneyOut/moonDay26.moneyIn;luckyMoonDay = 26;}}
+                if(moonDay27.moneyIn!=0.0 &&moonDay27.moneyOut!=0.0) {moonDaylist.add("27" + "  " +moonDay27.getPercent());
+                    if(moonDay27.moneyOut/moonDay27.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay27.moneyOut/moonDay27.moneyIn;luckyMoonDay = 27;}}
+                if(moonDay28.moneyIn!=0.0 &&moonDay28.moneyOut!=0.0) {moonDaylist.add("28" + "  " +moonDay28.getPercent());
+                    if(moonDay28.moneyOut/moonDay28.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay28.moneyOut/moonDay28.moneyIn;luckyMoonDay = 28;}}
+                if(moonDay29.moneyIn!=0.0 &&moonDay29.moneyOut!=0.0) {moonDaylist.add("29" + "  " +moonDay29.getPercent());
+                    if(moonDay29.moneyOut/moonDay29.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay29.moneyOut/moonDay29.moneyIn;luckyMoonDay = 29;}}
 
                 ArrayAdapter<String> moonDayArrayAdapter = new ArrayAdapter<String>(
                         getContext(),
@@ -168,6 +197,7 @@ public class viewDataFragment extends Fragment {
                         moonDaylist );
 
                 moonDayListView.setAdapter(moonDayArrayAdapter);
+                luckyDay.setText(luckyMoonDay.toString());
 
             }
         });
@@ -186,64 +216,94 @@ public class viewDataFragment extends Fragment {
         switch (moonDay){
             case "1":
                 moonDay1.moneyIn +=moneyInVar;
+                break;
             case "2":
                 moonDay2.moneyIn +=moneyInVar;
+                break;
             case "3":
                 moonDay3.moneyIn +=moneyInVar;
+                break;
             case "4":
                 moonDay4.moneyIn +=moneyInVar;
+                break;
             case "5":
                 moonDay5.moneyIn +=moneyInVar;
+                break;
             case "6":
                 moonDay6.moneyIn +=moneyInVar;
+                break;
             case "7":
                 moonDay7.moneyIn +=moneyInVar;
+                break;
             case "8":
                 moonDay8.moneyIn +=moneyInVar;
+                break;
             case "9":
                 moonDay9.moneyIn +=moneyInVar;
+                break;
             case "10":
                 moonDay10.moneyIn +=moneyInVar;
+                break;
             case "11":
                 moonDay11.moneyIn +=moneyInVar;
+                break;
             case "12":
                 moonDay12.moneyIn +=moneyInVar;
+                break;
             case "13":
                 moonDay13.moneyIn +=moneyInVar;
+                break;
             case "14":
                 moonDay14.moneyIn +=moneyInVar;
+                break;
             case "15":
                 moonDay15.moneyIn +=moneyInVar;
+                break;
             case "16":
                 moonDay16.moneyIn +=moneyInVar;
+                break;
             case "17":
                 moonDay17.moneyIn +=moneyInVar;
+                break;
             case "18":
                 moonDay18.moneyIn +=moneyInVar;
+                break;
             case "19":
                 moonDay19.moneyIn +=moneyInVar;
+                break;
             case "20":
                 moonDay20.moneyIn +=moneyInVar;
+                break;
             case "21":
                 moonDay21.moneyIn +=moneyInVar;
+                break;
             case "22":
                 moonDay22.moneyIn +=moneyInVar;
+                break;
             case "23":
                 moonDay23.moneyIn +=moneyInVar;
+                break;
             case "24":
                 moonDay24.moneyIn +=moneyInVar;
+                break;
             case "25":
                 moonDay25.moneyIn +=moneyInVar;
+                break;
             case "26":
                 moonDay26.moneyIn +=moneyInVar;
+                break;
             case "27":
                 moonDay27.moneyIn +=moneyInVar;
+                break;
             case "28":
                 moonDay28.moneyIn +=moneyInVar;
+                break;
             case "29":
                 moonDay29.moneyIn +=moneyInVar;
+                break;
             case "0":
                 moonDay0.moneyIn +=moneyInVar;
+                break;
 
         }
 
@@ -255,62 +315,91 @@ public class viewDataFragment extends Fragment {
         switch (moonDay){
             case "1":
                 moonDay1.moneyOut +=moneyOutVar;
+                break;
             case "2":
                 moonDay2.moneyOut +=moneyOutVar;
+                break;
             case "3":
                 moonDay3.moneyOut +=moneyOutVar;
+                break;
             case "4":
                 moonDay4.moneyOut +=moneyOutVar;
+                break;
             case "5":
                 moonDay5.moneyOut +=moneyOutVar;
+                break;
             case "6":
                 moonDay6.moneyOut +=moneyOutVar;
+                break;
             case "7":
                 moonDay7.moneyOut +=moneyOutVar;
+                break;
             case "8":
                 moonDay8.moneyOut +=moneyOutVar;
+                break;
             case "9":
                 moonDay9.moneyOut +=moneyOutVar;
+                break;
             case "10":
                 moonDay10.moneyOut +=moneyOutVar;
+                break;
             case "11":
                 moonDay11.moneyOut +=moneyOutVar;
+                break;
             case "12":
                 moonDay12.moneyOut +=moneyOutVar;
+                break;
             case "13":
                 moonDay13.moneyOut +=moneyOutVar;
+                break;
             case "14":
                 moonDay14.moneyOut +=moneyOutVar;
+                break;
             case "15":
                 moonDay15.moneyOut +=moneyOutVar;
+                break;
             case "16":
                 moonDay16.moneyOut +=moneyOutVar;
+                break;
             case "17":
                 moonDay17.moneyOut +=moneyOutVar;
+                break;
             case "18":
                 moonDay18.moneyOut +=moneyOutVar;
+                break;
             case "19":
                 moonDay19.moneyOut +=moneyOutVar;
+                break;
             case "20":
                 moonDay20.moneyOut +=moneyOutVar;
+                break;
             case "21":
                 moonDay21.moneyOut +=moneyOutVar;
+                break;
             case "22":
                 moonDay22.moneyOut +=moneyOutVar;
+                break;
             case "23":
                 moonDay23.moneyOut +=moneyOutVar;
+                break;
             case "24":
                 moonDay24.moneyOut +=moneyOutVar;
+                break;
             case "25":
                 moonDay25.moneyOut +=moneyOutVar;
+                break;
             case "26":
                 moonDay26.moneyOut +=moneyOutVar;
+                break;
             case "27":
                 moonDay27.moneyOut +=moneyOutVar;
+                break;
             case "28":
                 moonDay28.moneyOut +=moneyOutVar;
+                break;
             case "29":
                 moonDay29.moneyOut +=moneyOutVar;
+                break;
         }
 
 
