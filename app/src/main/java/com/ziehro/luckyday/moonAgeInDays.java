@@ -1,5 +1,9 @@
 package com.ziehro.luckyday;
 
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
+
 public class moonAgeInDays {
     Double moneyIn = 0.0;
     Double moneyOut = 0.0;
@@ -10,9 +14,10 @@ public class moonAgeInDays {
         this.moneyOut += moneyOut;
 
     }
-    Double getPercent() {
-        this.percent = this.moneyOut/this.moneyIn;
-        return this.percent;
+    Integer getPercent() {
+        percent = this.moneyOut/this.moneyIn*100;
+        Integer place = (int)Math.round(percent);
+        return place;
     }
 }
 

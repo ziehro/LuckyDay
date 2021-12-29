@@ -64,11 +64,11 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
 
         final EditText moneyIn = (EditText)findViewById(R.id.moneyIn);
         final EditText moneyOut = (EditText)findViewById(R.id.moneyOut);
-        final EditText cribSold = (EditText)findViewById(R.id.cribSoldInput);
+        //final EditText cribSold = (EditText)findViewById(R.id.cribSoldInput);
 
         final Editable moneyInValue = moneyIn.getText();
         final Editable moneyOutValue = moneyOut.getText();
-        final Editable cribSoldValue = cribSold.getText();
+        //final Editable cribSoldValue = cribSold.getText();
 
         //Firestore Stuff
         mFirestore = FirebaseFirestore.getInstance();
@@ -93,7 +93,7 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
                 String dateIs = ((monthname) + " " + String.valueOf(date));
                 final String moneyInString = String.valueOf(moneyInValue);
                 final String moneyOutString = String.valueOf(moneyOutValue);
-                if (String.valueOf(cribSoldValue)!=null)  cribSoldString[0] = String.valueOf(cribSoldValue);
+                //if (String.valueOf(cribSoldValue)!=null)  cribSoldString[0] = String.valueOf(cribSoldValue);
 
 
                 String value2= moneyOut.getText().toString();

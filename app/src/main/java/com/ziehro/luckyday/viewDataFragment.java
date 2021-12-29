@@ -96,6 +96,7 @@ public class viewDataFragment extends Fragment {
         ListView mainListView = (ListView)view.findViewById(R.id.listView);
         ListView moonDayListView = (ListView)view.findViewById(R.id.moonDayList);
         List<String> list = new ArrayList<>();
+        List<String> moonDaylist = new ArrayList<>();
         Map<String, Object> moonDayMap = new HashMap<>();
 
 
@@ -131,8 +132,9 @@ public class viewDataFragment extends Fragment {
 
                         addMoneyInToMoonDay(document.getString("moonDay"),moneyIn);
                         addMoneyOutToMoonDay(document.getString("moonDay"),moneyOut);
+                        Integer place = (int)Math.round(percentWin)*100;
 
-                        String entryString = document.getString("moonDay") + moonDayLetter +"  " + document.getString("moonPhase") + "  " + percentWin.toString();
+                        String entryString = document.getString("moonDay") + moonDayLetter +"  " + document.getString("moonPhase") + "  " + place.toString() + " % Win";
                         list.add(entryString);
 
                     }
@@ -155,11 +157,15 @@ public class viewDataFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
                 }
 
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) moonDayMap.put("1", moonDay1.percent);
-                if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) moonDayMap.put("23", moonDay23.percent);
-                if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) moonDayMap.put("24", moonDay24.percent);
+                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) moonDaylist.add("1" + "  " +moonDay23.getPercent());
 
-                ArrayAdapter<Map> moonDayArrayAdapter = new ArrayAdapter<Map>(getContext(),R.layout.fragment_view_data,moonDayMap);
+                if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) moonDaylist.add("23" + "  " +moonDay23.getPercent());
+                if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) moonDaylist.add("24" + "  " +moonDay23.getPercent());
+
+                ArrayAdapter<String> moonDayArrayAdapter = new ArrayAdapter<String>(
+                        getContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        moonDaylist );
 
                 moonDayListView.setAdapter(moonDayArrayAdapter);
 
