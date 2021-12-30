@@ -48,6 +48,7 @@ public class addDataFragment extends Fragment {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String uid = user.getUid();
+    //String uid = "bob";
 
 
     final Calendar c = Calendar.getInstance();
@@ -65,8 +66,7 @@ public class addDataFragment extends Fragment {
     double moonPhaseData2 = Double.parseDouble(df.format(moonPhaseData));
     final String moonAgeString = String.valueOf(moonPhaseData2);
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
-    String greenLightCounter = "1";
-    String redLightCounter ="1";
+
 
 
 
@@ -83,8 +83,7 @@ public class addDataFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView redLightsDisplay = (TextView)view.findViewById(R.id.redLightsTV);
-        TextView greenLightsDisplay = (TextView)view.findViewById(R.id.greenLightsTV);
+
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -96,6 +95,9 @@ public class addDataFragment extends Fragment {
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
         }
+
+        moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+        moonDayDisplay.setText(moonDayString);
 
 
 
@@ -128,7 +130,7 @@ public class addDataFragment extends Fragment {
             }
         });
 
-        moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+
 
         Button greenLight=(Button)view.findViewById(R.id.greenLightButton);
         greenLight.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +166,6 @@ public class addDataFragment extends Fragment {
                                         Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
                                     }
                                 });
-                                greenLightCounter =  document.get("GreenLights").toString();
                             } else {
                                 Log.d(TAG, "Document does not exist!");
                                 mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
@@ -175,28 +176,6 @@ public class addDataFragment extends Fragment {
                     }
                 });
 
-
-
-
-                moonDayDisplay.setText(moonDayString);
-             /*   DocumentReference docRef = mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                greenLightCounter =  document.get("GreenLights").toString();
-
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });*/
-                greenLightsDisplay.setText(greenLightCounter);
             }
         });
 
@@ -224,7 +203,7 @@ public class addDataFragment extends Fragment {
                                     @Override
                                     public void onSuccess(@NonNull Object o) {
                                         Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
-                                        redLightCounter = document.get("RedLights").toString();
+
                                     }
 
 
@@ -243,28 +222,6 @@ public class addDataFragment extends Fragment {
                         }
                     }
                 });
-
-                moonDayDisplay.setText(moonDayString);
-              /*  DocumentReference docRef = mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                redLightCounter = (String)document.get("RedLights").toString();
-                                //mLastName = (String) document.getString("lastName");
-
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });*/
-                redLightsDisplay.setText(redLightCounter);
-
 
             }
         });

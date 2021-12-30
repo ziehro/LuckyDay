@@ -29,11 +29,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -44,6 +48,7 @@ public class viewDataFragment extends Fragment {
 
 
     private ArrayAdapter<String> adapter;
+
 
     public moonAgeInDays moonDay0 = new moonAgeInDays(0.0, 0.0);
     public moonAgeInDays moonDay1 = new moonAgeInDays(0.0, 0.0);
@@ -77,6 +82,8 @@ public class viewDataFragment extends Fragment {
     public moonAgeInDays moonDay29 = new moonAgeInDays(0.0, 0.0);
     Integer luckyMoonDay = 0;
     Double luckyDayWinPercent= 0.0;
+    String greenLightCounter;
+    String redLightCounter;
 
     @Override
     public View onCreateView(
@@ -93,12 +100,57 @@ public class viewDataFragment extends Fragment {
         TextView totalSpentTV = (TextView) view.findViewById(R.id.totalSpentTV);
         TextView totalWonTV = (TextView) view.findViewById(R.id.totalWonTV);
         TextView luckyDay = (TextView) view.findViewById(R.id.luckyDayTV);
+        TextView redLightsDisplay = (TextView)view.findViewById(R.id.redLightsTV);
+        TextView greenLightsDisplay = (TextView)view.findViewById(R.id.greenLightsTV);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         String uid = user.getUid();
 
+        final Calendar c = Calendar.getInstance();
+        MoonPhase moonPhase1 = new MoonPhase(c);
+        String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
 
 
-        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).get().addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                redLightsDisplay.setText(document.get("RedLights").toString());
+                                greenLightsDisplay.setText(document.get("GreenLights").toString());
+                                Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        //mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+
+
+
+
+
         ListView mainListView = (ListView)view.findViewById(R.id.listView);
         ListView moonDayListView = (ListView)view.findViewById(R.id.moonDayList);
         List<String> list = new ArrayList<>();
@@ -139,7 +191,9 @@ public class viewDataFragment extends Fragment {
                     totalWonTV.setText(totalWin.toString());
                     mainListView.setAdapter(adapter);
                     Log.d(TAG, list.toString());
-                    textView.setText(moonDay23.moneyIn.toString());
+
+                    greenLightsDisplay.setText(greenLightCounter);
+                    redLightsDisplay.setText(redLightCounter);
 
 
                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
