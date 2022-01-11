@@ -46,9 +46,9 @@ public class addDataFragment extends Fragment {
 
 
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String uid = user.getUid();
-    //String uid = "bob";
+
+
+
 
 
     final Calendar c = Calendar.getInstance();
@@ -68,6 +68,8 @@ public class addDataFragment extends Fragment {
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
 
 
+    String uid = "user";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
@@ -76,6 +78,7 @@ public class addDataFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+
         return inflater.inflate(R.layout.fragment_add_data, container, false);
     }
 
@@ -84,9 +87,11 @@ public class addDataFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        if (user == null) uid = "bob";
+                else uid = user.getUid();
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user !=null) {
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             Picasso.get().load(user.getPhotoUrl()).into(profilePic);

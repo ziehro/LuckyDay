@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "655554012943",
+    "firebase_url": "https://luckydaytester-5f78b-default-rtdb.firebaseio.com",
+    "project_id": "luckydaytester-5f78b",
+    "storage_bucket": "luckydaytester-5f78b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655554012943:android:5733ae4fe7a6c7b7fd007a",
+        "android_client_info": {
+          "package_name": "com.ziehro.luckyday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655554012943-b74ss08tgktf2p271jg6dtlt8n7rb7rj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziehro.luckyday",
+            "certificate_hash": "7dca0366448735eb43ab03a9b829d60d0c5db7d7"
+          }
+        },
+        {
+          "client_id": "655554012943-ih4m7itjlmhshqrjpogm3d200au1k4do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziehro.luckyday",
+            "certificate_hash": "2d0bfc70b0def744f9a4b71e526aa6369bba8147"
+          }
+        },
+        {
+          "client_id": "655554012943-vq5o4pv87d9uskbtevuodcann98opkvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziehro.luckyday",
+            "certificate_hash": "4d6b7db3b1ea3cc69dc10954f151458da698f10e"
+          }
+        },
+        {
+          "client_id": "655554012943-avjl96j6uagskq78g4drc3gmceggfi20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5tljIdRKqVSMdGnw4uCcxbuvmKwDmjaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655554012943-avjl96j6uagskq78g4drc3gmceggfi20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
