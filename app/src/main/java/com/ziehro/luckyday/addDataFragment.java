@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,8 +48,8 @@ public class addDataFragment extends Fragment {
 
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String uid = user.getUid();
-    //String uid = "bob";
+    //String uid = user.getUid();
+    String uid = "bob";
 
 
     final Calendar c = Calendar.getInstance();
@@ -96,7 +97,7 @@ public class addDataFragment extends Fragment {
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
         }
 
-        moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+        moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
         moonDayDisplay.setText(moonDayString);
 
 

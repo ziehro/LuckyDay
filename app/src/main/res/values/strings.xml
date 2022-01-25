@@ -15,5 +15,8 @@
     <string name="facebook_application_id" translatable="false">Lucky Day</string>
     <string name="facebook_login_protocol_scheme" translatable="false">Lucky Day</string>
     <string name="email_link">ziehro@gmail.com</string>
+    <string name="msg_token_fmt">Token Works</string>
+    <string name="fcm_message">Test Message</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
 </resources>

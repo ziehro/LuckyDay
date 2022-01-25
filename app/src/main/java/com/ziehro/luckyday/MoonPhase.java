@@ -455,8 +455,8 @@ public class MoonPhase {
         int aom_h = (int) (24 * (_moonAgeAsDays - Math.floor(_moonAgeAsDays)));
         int aom_m = (int) (1440 * (_moonAgeAsDays - Math.floor(_moonAgeAsDays))) % 60;
 
-        return "" + aom_d + (aom_d == 1 ? " day old.": " days old." )/* +
-                aom_h + (aom_h == 1 ? " hour ":" hours ") +
+        return "" + aom_d + (aom_d == 1 ? " day old.": " days, " ) +
+                aom_h + (aom_h == 1 ? " hour ":" hours ") /*+
                 aom_m + (aom_m == 1 ? " minute":" minutes")*/;
     }
 
