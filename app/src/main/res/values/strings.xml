@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">LuckyDay</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -18,5 +18,7 @@
     <string name="msg_token_fmt">Token Works</string>
     <string name="fcm_message">Test Message</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-
+    <string name="example_appwidget_description">Lucky as Fuck</string>
+    <string name="appwidget_prefix_default">LuckyDay widget confirmation</string>
+    <string name="appwidget_text_format"><xliff:g id="prefix">%1$s</xliff:g>: <xliff:g id="time">%2$s</xliff:g></string>
 </resources>
