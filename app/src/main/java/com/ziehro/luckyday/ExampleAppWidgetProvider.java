@@ -142,10 +142,12 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
         moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
 
-        text = moonDayString;
+        text = moonDayString + moonPhaseString;
         views.setTextViewText(R.id.appwidget_text, text);
 
         // Tell the widget manager
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
+
     }
 }
