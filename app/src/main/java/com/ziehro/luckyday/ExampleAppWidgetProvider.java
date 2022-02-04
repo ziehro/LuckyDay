@@ -32,6 +32,7 @@ import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
 import com.ziehro.luckyday.R;
@@ -55,9 +56,15 @@ import java.util.Date;
  *   <li>res/xml/appwidget_provider.xml</li>
  * </ul>
  */
+
 public class ExampleAppWidgetProvider extends AppWidgetProvider {
     // log tag
     private static final String TAG = "ExampleAppWidgetProvider";
+    public static String WIDGET_BUTTON_RED = "com.ziehro.luckyday.WIDGET_BUTTON_RED";
+    public static String WIDGET_BUTTON_GREEN = "com.ziehro.luckyday.WIDGET_BUTTON_GREEN";
+    private static final String MyOnClickRed = "myOnClickTag";
+    private static final String MyOnClickGreen = "myOnClickTag1";
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
@@ -66,12 +73,22 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         //   - Set the text in the RemoteViews object
         //   - Tell the AppWidgetManager to show that views object for the widget.
         final int N = appWidgetIds.length;
-        for (int i=0; i<N; i++) {
-            int appWidgetId = appWidgetIds[i];
-            String titlePrefix = ExampleAppWidgetConfigure.loadTitlePref(context, appWidgetId);
-            updateAppWidget(context, appWidgetManager, appWidgetId, titlePrefix);
-        }
 
+        ComponentName thisWidget = new ComponentName(context, ExampleAppWidgetProvider.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+        for (int widgetId : allWidgetIds) {
+            /*int appWidgetId = appWidgetIds[i];
+            String titlePrefix = ExampleAppWidgetConfigure.loadTitlePref(context, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId, titlePrefix);*/
+
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
+            views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
+            views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
+            views.setTextViewText(R.id.tester, "onUpdate");
+
+            appWidgetManager.updateAppWidget(widgetId, views);
+        }
 
     }
 
@@ -145,9 +162,49 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         text = moonDayString + moonPhaseString;
         views.setTextViewText(R.id.appwidget_text, text);
 
+
+
+
         // Tell the widget manager
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
 
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // TODO Auto-generated method stub
+        super.onReceive(context, intent);
+        String uid = "Bill";
+        String moonDayString = "22";
+
+        if (MyOnClickRed.equals(intent.getAction())) {
+
+            //RemoteViews remoteViews;
+            //remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
+            remoteViews.setTextViewText(R.id.tester, "Red");
+            Toast.makeText(context, "Red", Toast.LENGTH_SHORT).show();
+            //addDataFragment.postRedLight(uid, moonDayString);
+
+
+
+        } else
+        if (MyOnClickGreen.equals(intent.getAction())) {
+
+            RemoteViews remoteViews;
+            remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
+            remoteViews.setTextViewText(R.id.tester, "Green");
+            Toast.makeText(context, "Green", Toast.LENGTH_SHORT).show();
+            //addDataFragment.postRedLight(uid, moonDayString);
+
+
+        }
+    }
+
+    protected PendingIntent getPendingSelfIntent(Context context, String action) {
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(action);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 }

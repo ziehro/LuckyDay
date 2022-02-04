@@ -37,13 +37,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.grpc.Context;
+
 
 public class addDataFragment extends Fragment {
 
 
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
-    private FirebaseFirestore mFirestore;
+    private static FirebaseFirestore mFirestore;
 
 
 
@@ -185,45 +187,7 @@ public class addDataFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                mFirestore = FirebaseFirestore.getInstance();
-
-                Map<String, Integer> redlights = new HashMap<>();
-                redlights.put("RedLights", -1);
-                redlights.put("GreenLights", 0);
-
-                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-                DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "Document exists!");
-                                mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("RedLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
-                                    @Override
-                                    public void onSuccess(@NonNull Object o) {
-                                        Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
-
-                                    }
-
-
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } else {
-                                Log.d(TAG, "Document does not exist!");
-                                mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(redlights);
-                            }
-                        } else {
-                            Log.d(TAG, "Failed with: ", task.getException());
-                        }
-                    }
-                });
-
+                postRedLight(uid,moonDayString);
             }
         });
 
@@ -232,6 +196,48 @@ public class addDataFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(addDataFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
+    }
+
+    public static void postRedLight(String uid, String moonDayString) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> redlights = new HashMap<>();
+        redlights.put("RedLights", -1);
+        redlights.put("GreenLights", 0);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("RedLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(redlights);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
             }
         });
     }

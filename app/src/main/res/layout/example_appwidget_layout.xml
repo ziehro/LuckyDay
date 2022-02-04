@@ -15,7 +15,7 @@
         android:textColor="@color/black" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/widget_red_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -23,9 +23,16 @@
         android:backgroundTint="#F60707" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/widget_green_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="#08A310" />
+
+    <TextView
+        android:id="@+id/tester"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="TextView" />
 </LinearLayout>

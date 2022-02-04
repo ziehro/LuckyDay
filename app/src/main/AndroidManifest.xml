@@ -43,6 +43,8 @@
             <intent-filter>
                 <action android:name="android.intent.ACTION_TIMEZONE_CHANGED"/>
                 <action android:name="android.intent.ACTION_TIME"/>
+                <action android:name="com.ziehro.luckyday.WIDGET_BUTTON_RED"/>
+                <action android:name="com.ziehro.luckyday.WIDGET_BUTTON_GREEN"/>
             </intent-filter>
         </receiver>
 
