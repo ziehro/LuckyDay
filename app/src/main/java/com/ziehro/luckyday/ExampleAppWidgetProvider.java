@@ -1,5 +1,8 @@
 package com.ziehro.luckyday;
 
+import static com.ziehro.luckyday.addDataFragment.postGreenLight;
+import static com.ziehro.luckyday.addDataFragment.postRedLight;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -35,6 +38,8 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ziehro.luckyday.R;
 
 import java.text.DecimalFormat;
@@ -65,6 +70,25 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     private static final String MyOnClickRed = "myOnClickTag";
     private static final String MyOnClickGreen = "myOnClickTag1";
 
+
+    // Moon Age fo the widget construction.
+    final Calendar c = Calendar.getInstance();
+    final int hour = c.get(Calendar.HOUR_OF_DAY);
+    final int minute = c.get(Calendar.MINUTE);
+    final int second = c.get(Calendar.SECOND);
+    final int date = c.get(Calendar.DATE);
+    final int month = c.get(Calendar.MONTH);
+    String time;
+    final String monthname=(String)android.text.format.DateFormat.format("MMMM", new Date());
+    String moonDayString = "1";
+    MoonPhase moonPhase1 = new MoonPhase(c);
+    final double moonPhaseData = MoonPhase.phase(MoonPhase.calendarToJD(c));
+    DecimalFormat df = new DecimalFormat("#.##");
+    double moonPhaseData2 = Double.parseDouble(df.format(moonPhaseData));
+    final String moonAgeString = String.valueOf(moonPhaseData2);
+    final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
+
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
@@ -86,6 +110,27 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
             views.setTextViewText(R.id.tester, "onUpdate");
+
+            // Moon Age fo the widget construction.
+            final Calendar c = Calendar.getInstance();
+            final int hour = c.get(Calendar.HOUR_OF_DAY);
+            final int minute = c.get(Calendar.MINUTE);
+            final int second = c.get(Calendar.SECOND);
+            final int date = c.get(Calendar.DATE);
+            final int month = c.get(Calendar.MONTH);
+            String time;
+            final String monthname=(String)android.text.format.DateFormat.format("MMMM", new Date());
+            String moonDayString = "1";
+            MoonPhase moonPhase1 = new MoonPhase(c);
+            final double moonPhaseData = MoonPhase.phase(MoonPhase.calendarToJD(c));
+            DecimalFormat df = new DecimalFormat("#.##");
+            double moonPhaseData2 = Double.parseDouble(df.format(moonPhaseData));
+            final String moonAgeString = String.valueOf(moonPhaseData2);
+            final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
+            moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
+
+            String text = moonDayString + moonPhaseString;
+            views.setTextViewText(R.id.appwidget_text, text);
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
@@ -175,8 +220,9 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
         super.onReceive(context, intent);
-        String uid = "Bill";
-        String moonDayString = "22";
+        //String uid = "Bill";
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
         if (MyOnClickRed.equals(intent.getAction())) {
 
@@ -186,6 +232,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.tester, "Red");
             Toast.makeText(context, "Red", Toast.LENGTH_SHORT).show();
             //addDataFragment.postRedLight(uid, moonDayString);
+            moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+            postRedLight(uid,moonDayString);
 
 
 
@@ -197,6 +245,9 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.tester, "Green");
             Toast.makeText(context, "Green", Toast.LENGTH_SHORT).show();
             //addDataFragment.postRedLight(uid, moonDayString);
+            moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+            postGreenLight(uid,moonDayString);
+
 
 
         }

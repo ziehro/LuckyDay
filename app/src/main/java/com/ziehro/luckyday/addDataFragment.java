@@ -50,8 +50,8 @@ public class addDataFragment extends Fragment {
 
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //String uid = user.getUid();
-    String uid = "bob";
+    String uid = user.getUid();
+    //String uid = "bob";
 
 
     final Calendar c = Calendar.getInstance();
@@ -63,6 +63,7 @@ public class addDataFragment extends Fragment {
     String time;
     final String monthname=(String)android.text.format.DateFormat.format("MMMM", new Date());
     String moonDayString = "1";
+    String moonDayStringAddDataPage = "1";
     MoonPhase moonPhase1 = new MoonPhase(c);
     final double moonPhaseData = MoonPhase.phase(MoonPhase.calendarToJD(c));
     DecimalFormat df = new DecimalFormat("#.##");
@@ -99,8 +100,9 @@ public class addDataFragment extends Fragment {
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
         }
 
-        moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
-        moonDayDisplay.setText(moonDayString);
+        moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+        moonDayStringAddDataPage = moonPhase1.getMoonAgeAsDaysOnly();
+        moonDayDisplay.setText(moonDayStringAddDataPage);
 
 
 
@@ -140,44 +142,7 @@ public class addDataFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                mFirestore = FirebaseFirestore.getInstance();
-
-                Map<String, Integer> greenlights = new HashMap<>();
-                greenlights.put("GreenLights", -1);
-                greenlights.put("RedLights", 0);
-
-                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-                DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
-                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "Document exists!");
-                                mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("GreenLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
-                                    @Override
-                                    public void onSuccess(@NonNull Object o) {
-                                        Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
-
-                                    }
-
-
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } else {
-                                Log.d(TAG, "Document does not exist!");
-                                mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
-                            }
-                        } else {
-                            Log.d(TAG, "Failed with: ", task.getException());
-                        }
-                    }
-                });
+                postGreenLight(uid,moonDayString);
 
             }
         });
@@ -204,8 +169,9 @@ public class addDataFragment extends Fragment {
 
         mFirestore = FirebaseFirestore.getInstance();
 
+
         Map<String, Integer> redlights = new HashMap<>();
-        redlights.put("RedLights", -1);
+        redlights.put("RedLights", 1);
         redlights.put("GreenLights", 0);
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -234,6 +200,48 @@ public class addDataFragment extends Fragment {
                     } else {
                         Log.d(TAG, "Document does not exist!");
                         mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(redlights);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public static void postGreenLight(String uid, String moonDayString) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> greenlights = new HashMap<>();
+        greenlights.put("GreenLights", 1);
+        greenlights.put("RedLights", 0);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("GreenLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
                     }
                 } else {
                     Log.d(TAG, "Failed with: ", task.getException());
