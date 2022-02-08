@@ -70,6 +70,7 @@ public class addDataFragment extends Fragment {
     double moonPhaseData2 = Double.parseDouble(df.format(moonPhaseData));
     final String moonAgeString = String.valueOf(moonPhaseData2);
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
+    final public String didItWork = "no";
 
 
 
@@ -143,6 +144,7 @@ public class addDataFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 postGreenLight(uid,moonDayString);
+                Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -153,6 +155,7 @@ public class addDataFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 postRedLight(uid,moonDayString);
+                Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -168,6 +171,7 @@ public class addDataFragment extends Fragment {
     public static void postRedLight(String uid, String moonDayString) {
 
         mFirestore = FirebaseFirestore.getInstance();
+        String cats = "cats";
 
 
         Map<String, Integer> redlights = new HashMap<>();
@@ -186,7 +190,6 @@ public class addDataFragment extends Fragment {
                         mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("RedLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(@NonNull Object o) {
-                                //Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -228,7 +231,7 @@ public class addDataFragment extends Fragment {
                         mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).update("GreenLights", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(@NonNull Object o) {
-                                //Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(addDataFragment.this.getActivity(), "u", Toast.LENGTH_LONG);
 
                             }
 

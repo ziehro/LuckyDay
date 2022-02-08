@@ -30,7 +30,7 @@
         android:backgroundTint="#08A310" />
 
     <TextView
-        android:id="@+id/tester"
+        android:id="@+id/widgetIllumDisplayText"
         android:layout_width="102dp"
         android:layout_height="35dp"
         android:layout_weight="1"

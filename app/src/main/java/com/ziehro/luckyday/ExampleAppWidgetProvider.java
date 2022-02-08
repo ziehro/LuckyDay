@@ -8,7 +8,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.EditText;
 import android.widget.RemoteViews;
 
 /*
@@ -27,20 +26,15 @@ import android.widget.RemoteViews;
  * limitations under the License.
  */
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.util.Log;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ziehro.luckyday.R;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -89,6 +83,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
 
 
+
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
@@ -106,10 +102,13 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             String titlePrefix = ExampleAppWidgetConfigure.loadTitlePref(context, appWidgetId);
             updateAppWidget(context, appWidgetManager, appWidgetId, titlePrefix);*/
 
+
+
+
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
-            views.setTextViewText(R.id.tester, "onUpdate");
+            views.setTextViewText(R.id.widgetIllumDisplayText, "onUpdate");
 
             // Moon Age fo the widget construction.
             final Calendar c = Calendar.getInstance();
@@ -130,7 +129,9 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
 
             String text = moonDayString + moonPhaseString;
+            int moonPhaseIllum = ((int) moonPhase1.getPhase());
             views.setTextViewText(R.id.appwidget_text, text);
+            views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + " %");
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
@@ -158,6 +159,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
                 new ComponentName("com.ziehro.luckyday", "com.ziehro.luckyday.WidgetBroadcastReceiver"),
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+
 
 
 
@@ -229,7 +231,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             //RemoteViews remoteViews;
             //remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
-            remoteViews.setTextViewText(R.id.tester, "Red");
+            remoteViews.setTextViewText(R.id.widgetIllumDisplayText, "Red");
             Toast.makeText(context, "Red", Toast.LENGTH_SHORT).show();
             //addDataFragment.postRedLight(uid, moonDayString);
             moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
@@ -242,7 +244,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
             RemoteViews remoteViews;
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
-            remoteViews.setTextViewText(R.id.tester, "Green");
+            remoteViews.setTextViewText(R.id.widgetIllumDisplayText, "Green");
             Toast.makeText(context, "Green", Toast.LENGTH_SHORT).show();
             //addDataFragment.postRedLight(uid, moonDayString);
             moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
