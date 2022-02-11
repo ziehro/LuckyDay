@@ -108,7 +108,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
-            views.setTextViewText(R.id.widgetIllumDisplayText, "onUpdate");
+            //views.setTextViewText(R.id.widgetIllumDisplayText, "onUpdate");
 
             // Moon Age fo the widget construction.
             final Calendar c = Calendar.getInstance();

@@ -48,10 +48,9 @@ public class addDataFragment extends Fragment {
     private static FirebaseFirestore mFirestore;
 
 
-
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String uid = user.getUid();
-    //String uid = "bob";
+
+    String uid = "bob";
 
 
     final Calendar c = Calendar.getInstance();
@@ -93,10 +92,12 @@ public class addDataFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user !=null) {
+            String uid = user.getUid();
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             Picasso.get().load(user.getPhotoUrl()).into(profilePic);
         }
         else {
+            String uid = "bob";
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
         }
