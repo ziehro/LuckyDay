@@ -48,9 +48,9 @@ public class addDataFragment extends Fragment {
     private static FirebaseFirestore mFirestore;
 
 
-    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    String uid = "bob";
+
 
 
     final Calendar c = Calendar.getInstance();
@@ -70,7 +70,7 @@ public class addDataFragment extends Fragment {
     final String moonAgeString = String.valueOf(moonPhaseData2);
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
     final public String didItWork = "no";
-
+    public String uid = "bob";
 
 
 
@@ -92,13 +92,14 @@ public class addDataFragment extends Fragment {
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = "bob";
         if (user !=null) {
-            String uid = user.getUid();
+            uid = user.getUid();
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             Picasso.get().load(user.getPhotoUrl()).into(profilePic);
         }
         else {
-            String uid = "bob";
+            uid = "bob";
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
         }
@@ -142,22 +143,24 @@ public class addDataFragment extends Fragment {
 
 
         Button greenLight=(Button)view.findViewById(R.id.greenLightButton);
+        String finalUid = uid;
         greenLight.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                postGreenLight(uid,moonDayString);
+                postGreenLight(finalUid,moonDayString);
                 Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
 
             }
         });
 
         Button redLight=(Button)view.findViewById(R.id.redLightButton);
+        String finalUid1 = uid;
         redLight.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                postRedLight(uid,moonDayString);
+                postRedLight(finalUid1,moonDayString);
                 Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -167,6 +170,7 @@ public class addDataFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(addDataFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+
             }
         });
     }
