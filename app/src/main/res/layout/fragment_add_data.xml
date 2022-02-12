@@ -93,6 +93,7 @@
         android:layout_marginBottom="80dp"
         android:background="@android:color/transparent"
 
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

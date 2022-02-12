@@ -223,8 +223,12 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         // TODO Auto-generated method stub
         super.onReceive(context, intent);
         //String uid = "Bill";
+
+        String uid = "Brah";
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
+        if(user != null) {
+            uid = user.getUid(); //Do what you need to do with the id
+        }
 
         if (MyOnClickRed.equals(intent.getAction())) {
 

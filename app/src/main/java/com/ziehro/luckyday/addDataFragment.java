@@ -48,7 +48,7 @@ public class addDataFragment extends Fragment {
     private static FirebaseFirestore mFirestore;
 
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     String uid = "bob";
 
@@ -79,15 +79,16 @@ public class addDataFragment extends Fragment {
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
+
+
     ) {
-        return inflater.inflate(R.layout.fragment_add_data, container, false);
+                return inflater.inflate(R.layout.fragment_add_data, container, false);
+
     }
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -105,6 +106,7 @@ public class addDataFragment extends Fragment {
         moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
         moonDayStringAddDataPage = moonPhase1.getMoonAgeAsDaysOnly();
         moonDayDisplay.setText(moonDayStringAddDataPage);
+
 
 
 

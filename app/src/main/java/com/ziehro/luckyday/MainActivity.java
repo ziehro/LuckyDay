@@ -48,6 +48,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         // Log and toast
                         String msg = (token);
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "msg", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
