@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".viewDataFragment">
 
-    <TextView
+     <TextView
         android:id="@+id/greenLightsText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         android:layout_height="407dp"
         android:background="#3C1111"
         app:layout_constraintBottom_toTopOf="@+id/button_second"
-        app:layout_constraintEnd_toStartOf="@+id/_dynamic"
+
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

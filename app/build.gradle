@@ -6,12 +6,18 @@ plugins {
 android {
     compileSdkVersion 30
 
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
     defaultConfig {
         applicationId "com.ziehro.luckyday"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 8
-        versionName '8'
+        versionCode 12
+        versionName '12'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

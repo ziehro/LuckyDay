@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -71,6 +73,7 @@ public class addDataFragment extends Fragment {
     final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
     final public String didItWork = "no";
     public String uid = "bob";
+    public String NumberOfEntries = "1";
 
 
 
@@ -92,7 +95,7 @@ public class addDataFragment extends Fragment {
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = "bob";
+
         if (user !=null) {
             uid = user.getUid();
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
@@ -154,22 +157,82 @@ public class addDataFragment extends Fragment {
             }
         });
 
-        Button redLight=(Button)view.findViewById(R.id.redLightButton);
+        Button imBleeding=(Button)view.findViewById(R.id.imBleedingButton);
         String finalUid1 = uid;
-        redLight.setOnClickListener(new View.OnClickListener() {
+        imBleeding.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                postRedLight(finalUid1,moonDayString);
-                Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
+                postImBleeding(finalUid1,moonDayString);
+                Toast.makeText(getContext(), "Clean it up!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
+        Button stats = (Button)view.findViewById(R.id.button_first);
+        stats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(addDataFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                Toast.makeText(getContext(), "clicked!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        SeekBar emotions= (SeekBar) view.findViewById(R.id.emotionsSeekbar);
+        emotions.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                postEmotions(finalUid1, moonDayString, emotions.getProgress());
+                Toast.makeText(getContext(), "Emotions Logged", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        SeekBar stress= (SeekBar) view.findViewById(R.id.stressSeekbar);
+        stress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                addDataFunctions.postStress(finalUid1, moonDayString, stress.getProgress());
+                Toast.makeText(getContext(), "Stress Logged", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        SeekBar energy= (SeekBar) view.findViewById(R.id.energySeekbar);
+        energy.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                addDataFunctions.postEnergy(finalUid1, moonDayString, energy.getProgress());
+                Toast.makeText(getContext(), "Energy Logged", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
@@ -252,6 +315,108 @@ public class addDataFragment extends Fragment {
                     } else {
                         Log.d(TAG, "Document does not exist!");
                         mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public static void postImBleeding(String uid, String moonDayString) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> imBleeding = new HashMap<>();
+        imBleeding.put("ImBleeding", 1);
+        //greenlights.put("RedLights", 0);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("ImBleeding").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("ImBleeding").document(uid).collection("Data").document(moonDayString).update("ImBleeding", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), "u", Toast.LENGTH_LONG);
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        mFirestore.collection("ImBleeding").document(uid).collection("Data").document(moonDayString).set(imBleeding);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+    public void postEmotions(String uid, String moonDayString, int progress) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> emotions = new HashMap<>();
+        //emotions.put("Emotions", progress);
+        //emotions.put("Counter", 1);
+
+
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("Human Metrics").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Log.d(TAG, "Document exists!");
+
+                        double counter;
+
+                        counter = document.getDouble("Counter");
+                        String CounterUpper = "Emotions"+(int)counter;
+                        emotions.put(CounterUpper, progress);
+                        emotions.put("Counter", (int)counter);
+
+                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update(CounterUpper, progress).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), progress, Toast.LENGTH_LONG);
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
+                        //mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+
+                        double counter = 0;
+                        emotions.put("Emotions"+(int)counter, progress);
+                        emotions.put("Counter",(int)counter);
+
+                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).set(emotions);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
                     }
                 } else {
                     Log.d(TAG, "Failed with: ", task.getException());

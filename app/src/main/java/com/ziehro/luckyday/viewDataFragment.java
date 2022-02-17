@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -35,6 +36,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,6 +86,7 @@ public class viewDataFragment extends Fragment {
     Double luckyDayWinPercent= 0.0;
     String greenLightCounter;
     String redLightCounter;
+    public String uid = "boob";
 
     @Override
     public View onCreateView(
@@ -92,6 +95,7 @@ public class viewDataFragment extends Fragment {
     ) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_data, container, false);
+
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -104,7 +108,15 @@ public class viewDataFragment extends Fragment {
         TextView greenLightsDisplay = (TextView)view.findViewById(R.id.greenLightsTV);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-        String uid = user.getUid();
+        if (user !=null) {
+            uid = user.getUid();
+
+        }
+        else {
+            uid = "bob";
+
+        }
+        //uid = user.getUid();
 
         final Calendar c = Calendar.getInstance();
         MoonPhase moonPhase1 = new MoonPhase(c);
