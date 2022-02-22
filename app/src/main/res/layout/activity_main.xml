@@ -9,4 +9,19 @@
 
     <include layout="@layout/content_main" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerOnBoarding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="56dp"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabBackground="@drawable/tab_selector" />
+
  </androidx.coordinatorlayout.widget.CoordinatorLayout>
