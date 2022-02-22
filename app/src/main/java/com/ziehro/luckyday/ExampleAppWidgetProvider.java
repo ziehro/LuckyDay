@@ -128,10 +128,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
             moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
 
-            String text = moonDayString + moonPhaseString;
+            String text = moonDayString;
             int moonPhaseIllum = ((int) moonPhase1.getPhase());
             views.setTextViewText(R.id.appwidget_text, text);
-            views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + " %");
+            views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + "% "+ moonPhaseString);
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
@@ -206,8 +206,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
         moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
 
-        text = moonDayString + moonPhaseString;
+        int moonPhaseIllum = ((int) moonPhase1.getPhase());
+        text = moonDayString;
         views.setTextViewText(R.id.appwidget_text, text);
+        views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + "% " + moonPhaseString);
 
 
 
@@ -262,6 +264,6 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     protected PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_MUTABLE);
     }
 }
