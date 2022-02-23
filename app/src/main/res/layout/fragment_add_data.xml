@@ -73,33 +73,24 @@
 
     <Button
         android:id="@+id/redLightButton"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="58dp"
         android:layout_height="59dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="220dp"
         android:background="@drawable/roundedbutton"
-        android:backgroundTint="#FD0404"
-
-        android:textColor="#C5CAE9"
-        android:theme="@style/Button.Red"
-        app:cornerRadius="88dp"
-        app:icon="@drawable/roundedbutton"
-        app:iconTint="#FD0404"
-        app:iconTintMode="add"
+        android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="#FD0404"
-        app:strokeColor="#E30808"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:text=" " />
+
+
+        />
 
     <Button
         android:id="@+id/greenLightButton"
         android:layout_width="58dp"
         android:layout_height="56dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="132dp"
         android:background="@drawable/roundedbuttongreen"
         android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="parent"

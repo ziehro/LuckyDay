@@ -74,7 +74,8 @@ public class addDataFragment extends Fragment {
     final public String didItWork = "no";
     public String uid = "bob";
     public String NumberOfEntries = "1";
-
+    public String MoonZodiac;
+    public String finalUid = uid;
 
 
 
@@ -109,7 +110,8 @@ public class addDataFragment extends Fragment {
 
         moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
         moonDayStringAddDataPage = moonPhase1.getMoonAgeAsDaysOnly();
-        moonDayDisplay.setText(moonDayStringAddDataPage);
+        MoonZodiac = moonPhase1.getMoonZodiac();
+        moonDayDisplay.setText(moonDayStringAddDataPage + ", " + MoonZodiac);
 
 
 
@@ -146,13 +148,25 @@ public class addDataFragment extends Fragment {
 
 
         Button greenLight=(Button)view.findViewById(R.id.greenLightButton);
-        String finalUid = uid;
+        finalUid = uid;
         greenLight.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 postGreenLight(finalUid,moonDayString);
                 Toast.makeText(getContext(), "Green Light!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        Button redLight=(Button)view.findViewById(R.id.redLightButton);
+        finalUid = uid;
+        redLight.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                postRedLight(finalUid,moonDayString);
+                Toast.makeText(getContext(), "Red Light!", Toast.LENGTH_SHORT).show();
 
             }
         });

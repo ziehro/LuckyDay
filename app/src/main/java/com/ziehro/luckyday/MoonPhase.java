@@ -31,6 +31,7 @@ public class MoonPhase {
     public static final long RC_MIN_BCE_TO_1_CE = 1721424L;  /* Days between 1.5-Jan-4713 BCE and 1.5-Jan-0001 CE */
     public static final double SYNMONTH    = 29.53058868;    /* Synodic month (new Moon to new Moon) */
     public static final int DAY_LAST = 365;
+    public static double moon_mean_longitude_for_zodiac;
 
     public static final boolean orthodox_calendar = false;
 
@@ -269,10 +270,12 @@ public class MoonPhase {
                 - moon_annual_equation + moon_correction_term2;
         moon_variation = 0.6583 * Math.sin(TORAD(2.0 * (moon_corrected_longitude - sun_geocentric_elong)));
 
+
         // true longitude
         moon_present_longitude = moon_corrected_longitude + moon_variation;
         moon_present_age = moon_present_longitude - sun_geocentric_elong;
         moon_present_phase = 100.0 * ((1.0 - Math.cos(TORAD(moon_present_age))) / 2.0);
+        moon_mean_longitude_for_zodiac = moon_present_longitude;
 
         if (0.0 < FIXANGLE(moon_present_age) - 180.0) {
             moon_present_phase = -moon_present_phase;
@@ -458,6 +461,39 @@ public class MoonPhase {
         return "" + aom_d + (aom_d == 1 ? " day old.": " days, " ) +
                 aom_h + (aom_h == 1 ? " hour ":" hours ") /*+
                 aom_m + (aom_m == 1 ? " minute":" minutes")*/;
+    }
+
+    public String getMoonZodiac() {
+    double longitude=moon_mean_longitude_for_zodiac;
+            String zodiac = "cats";
+        if (longitude <  33.18) {
+            zodiac = "Pisces";
+        } else if (longitude <  51.16) {
+            zodiac = "Aries";
+        } else if (longitude <  93.44) {
+            zodiac = "Taurus";
+        } else if (longitude < 119.48) {
+            zodiac = "Gemini";
+        } else if (longitude < 135.30) {
+            zodiac = "Cancer";
+        } else if (longitude < 173.34) {
+            zodiac = "Leo";
+        } else if (longitude < 224.17) {
+            zodiac = "Virgo";
+        } else if (longitude < 242.57) {
+            zodiac = "Libra";
+        } else if (longitude < 271.26) {
+            zodiac = "Scorpio";
+        } else if (longitude < 302.49) {
+            zodiac = "Sagittarius";
+        } else if (longitude < 311.72) {
+            zodiac = "Capricorn";
+        } else if (longitude < 348.58) {
+            zodiac = "Aquarius";
+        } else {
+            zodiac = "Pisces";
+        }
+    return zodiac;
     }
 
     public String getMoonAgeAsDaysOnlyInt() {

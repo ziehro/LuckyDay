@@ -63,6 +63,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     public static String WIDGET_BUTTON_GREEN = "com.ziehro.luckyday.WIDGET_BUTTON_GREEN";
     private static final String MyOnClickRed = "myOnClickTag";
     private static final String MyOnClickGreen = "myOnClickTag1";
+    public static String moonZodiac = "Hoot";
 
 
     // Moon Age fo the widget construction.
@@ -98,17 +99,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
         for (int widgetId : allWidgetIds) {
-            /*int appWidgetId = appWidgetIds[i];
-            String titlePrefix = ExampleAppWidgetConfigure.loadTitlePref(context, appWidgetId);
-            updateAppWidget(context, appWidgetManager, appWidgetId, titlePrefix);*/
-
-
-
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
-            //views.setTextViewText(R.id.widgetIllumDisplayText, "onUpdate");
 
             // Moon Age fo the widget construction.
             final Calendar c = Calendar.getInstance();
@@ -127,11 +121,13 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             final String moonAgeString = String.valueOf(moonPhaseData2);
             final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
             moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
+            moonZodiac=moonPhase1.getMoonZodiac();
 
             String text = moonDayString;
             int moonPhaseIllum = ((int) moonPhase1.getPhase());
             views.setTextViewText(R.id.appwidget_text, text);
             views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + "% "+ moonPhaseString);
+            views.setTextViewText(R.id.widgetZodiacTV, "The moon is in " + moonZodiac);
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
@@ -188,6 +184,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         // the layout from our package).
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
 
+
         // Moon Age fo the widget construction.
         final Calendar c = Calendar.getInstance();
         final int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -205,11 +202,16 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         final String moonAgeString = String.valueOf(moonPhaseData2);
         final String moonPhaseString = moonPhase1.getPhaseIndexString(moonPhase1.getPhaseIndex());
         moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
+        moonZodiac=moonPhase1.getMoonZodiac();
 
         int moonPhaseIllum = ((int) moonPhase1.getPhase());
         text = moonDayString;
         views.setTextViewText(R.id.appwidget_text, text);
         views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + "% " + moonPhaseString);
+        views.setTextViewText(R.id.widgetZodiacTV, "The moon is in " + moonZodiac);
+
+        views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
+        views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
 
 
 
@@ -261,8 +263,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    protected PendingIntent getPendingSelfIntent(Context context, String action) {
-        Intent intent = new Intent(context, getClass());
+    protected static PendingIntent getPendingSelfIntent(Context context, String action) {
+        Intent intent = new Intent(context, ExampleAppWidgetProvider.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_MUTABLE);
     }
