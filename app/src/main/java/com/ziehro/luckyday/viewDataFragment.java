@@ -36,6 +36,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -236,12 +239,12 @@ public class viewDataFragment extends Fragment {
                     if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 7;}}
                 if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
                     if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 8;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 9;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 10;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 11;}}
+                if(moonDay20.moneyIn!=0.0 &&moonDay20.moneyOut!=0.0) {moonDaylist.add("20" + "  " +moonDay20.getPercent());
+                    if(moonDay20.moneyOut/moonDay20.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay20.moneyOut/moonDay20.moneyIn;luckyMoonDay = 20;}}
+                if(moonDay21.moneyIn!=0.0 &&moonDay21.moneyOut!=0.0) {moonDaylist.add("21" + "  " +moonDay21.getPercent());
+                    if(moonDay21.moneyOut/moonDay21.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay21.moneyOut/moonDay21.moneyIn;luckyMoonDay = 21;}}
+                if(moonDay22.moneyIn!=0.0 &&moonDay22.moneyOut!=0.0) {moonDaylist.add("22" + "  " +moonDay22.getPercent());
+                    if(moonDay22.moneyOut/moonDay22.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay22.moneyOut/moonDay22.moneyIn;luckyMoonDay = 22;}}
                 if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) {moonDaylist.add("23" + "  " +moonDay23.getPercent());
                     if(moonDay23.moneyOut/moonDay23.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay23.moneyOut/moonDay23.moneyIn;luckyMoonDay = 23;}}
                 if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) {moonDaylist.add("24" + "  " +moonDay24.getPercent());
@@ -267,6 +270,17 @@ public class viewDataFragment extends Fragment {
 
             }
         });
+
+        GraphView graph = (GraphView)getView().findViewById(R.id.graph);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
 
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {

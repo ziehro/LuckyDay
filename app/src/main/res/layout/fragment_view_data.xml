@@ -6,7 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".viewDataFragment">
 
-     <TextView
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_second"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/greenLightsText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,11 +88,13 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="257dp"
-        android:layout_height="407dp"
-        android:background="#3C1111"
-        app:layout_constraintBottom_toTopOf="@+id/button_second"
+        android:layout_width="250dp"
+        android:layout_height="174dp"
+        android:layout_marginStart="4dp"
 
+        android:layout_marginBottom="16dp"
+        android:background="#3C1111"
+        app:layout_constraintBottom_toTopOf="@+id/graph"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -129,11 +141,12 @@
 
     <ListView
         android:id="@+id/moonDayList"
-        android:layout_width="145dp"
-        android:layout_height="407dp"
-        android:layout_marginEnd="4dp"
+        android:layout_width="130dp"
+        android:layout_height="206dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
         android:background="#081147"
-        app:layout_constraintBottom_toTopOf="@+id/button_second"
+        app:layout_constraintBottom_toTopOf="@+id/graph"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
