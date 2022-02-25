@@ -223,22 +223,22 @@ public class viewDataFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
                 }
 
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay1.getPercent());
-                     if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 1;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("2" + "  " +moonDay2.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 2;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("3" + "  " +moonDay3.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 3;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("4" + "  " +moonDay4.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 4;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("5" + "  " +moonDay5.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 5;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("6" + "  " +moonDay6.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 6;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 7;}}
-                if(moonDay1.moneyIn!=0.0 &&moonDay1.moneyOut!=0.0) {moonDaylist.add("1" + "  " +moonDay23.getPercent());
-                    if(moonDay1.moneyOut/moonDay1.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay1.moneyOut/moonDay1.moneyIn;luckyMoonDay = 8;}}
+                if(moonDay12.moneyIn!=0.0 &&moonDay12.moneyOut!=0.0) {moonDaylist.add("12" + "  " +moonDay12.getPercent());
+                     if(moonDay12.moneyOut/moonDay12.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay12.moneyOut/moonDay12.moneyIn;luckyMoonDay = 12;}}
+                if(moonDay13.moneyIn!=0.0 &&moonDay13.moneyOut!=0.0) {moonDaylist.add("13" + "  " +moonDay13.getPercent());
+                    if(moonDay13.moneyOut/moonDay13.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay13.moneyOut/moonDay13.moneyIn;luckyMoonDay = 13;}}
+                if(moonDay14.moneyIn!=0.0 &&moonDay14.moneyOut!=0.0) {moonDaylist.add("14" + "  " +moonDay14.getPercent());
+                    if(moonDay14.moneyOut/moonDay14.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay14.moneyOut/moonDay14.moneyIn;luckyMoonDay = 14;}}
+                if(moonDay15.moneyIn!=0.0 &&moonDay15.moneyOut!=0.0) {moonDaylist.add("15" + "  " +moonDay15.getPercent());
+                    if(moonDay15.moneyOut/moonDay15.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay15.moneyOut/moonDay15.moneyIn;luckyMoonDay = 15;}}
+                if(moonDay16.moneyIn!=0.0 &&moonDay16.moneyOut!=0.0) {moonDaylist.add("16" + "  " +moonDay16.getPercent());
+                    if(moonDay16.moneyOut/moonDay16.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay16.moneyOut/moonDay16.moneyIn;luckyMoonDay = 16;}}
+                if(moonDay17.moneyIn!=0.0 &&moonDay17.moneyOut!=0.0) {moonDaylist.add("17" + "  " +moonDay17.getPercent());
+                    if(moonDay17.moneyOut/moonDay17.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay17.moneyOut/moonDay17.moneyIn;luckyMoonDay = 17;}}
+                if(moonDay18.moneyIn!=0.0 &&moonDay18.moneyOut!=0.0) {moonDaylist.add("18" + "  " +moonDay18.getPercent());
+                    if(moonDay18.moneyOut/moonDay18.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay18.moneyOut/moonDay18.moneyIn;luckyMoonDay = 18;}}
+                if(moonDay19.moneyIn!=0.0 &&moonDay19.moneyOut!=0.0) {moonDaylist.add("19" + "  " +moonDay19.getPercent());
+                    if(moonDay19.moneyOut/moonDay19.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay19.moneyOut/moonDay19.moneyIn;luckyMoonDay = 19;}}
                 if(moonDay20.moneyIn!=0.0 &&moonDay20.moneyOut!=0.0) {moonDaylist.add("20" + "  " +moonDay20.getPercent());
                     if(moonDay20.moneyOut/moonDay20.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay20.moneyOut/moonDay20.moneyIn;luckyMoonDay = 20;}}
                 if(moonDay21.moneyIn!=0.0 &&moonDay21.moneyOut!=0.0) {moonDaylist.add("21" + "  " +moonDay21.getPercent());
@@ -272,14 +272,10 @@ public class viewDataFragment extends Fragment {
         });
 
         GraphView graph = (GraphView)getView().findViewById(R.id.graph);
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMaxX(20);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
+        viewDataFunctions.makeGraph(user, moonDayString, series);
         graph.addSeries(series);
 
 
