@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 import static com.ziehro.luckyday.whatDayIsIt.letterDay;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,16 +25,24 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
@@ -48,6 +57,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class viewDataFragment extends Fragment {
 
@@ -124,7 +134,6 @@ public class viewDataFragment extends Fragment {
         final Calendar c = Calendar.getInstance();
         MoonPhase moonPhase1 = new MoonPhase(c);
         String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
-
 
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -271,19 +280,92 @@ public class viewDataFragment extends Fragment {
             }
         });
 
-        GraphView graph = (GraphView)getView().findViewById(R.id.graph);
+
+        /*GraphView graph = (GraphView)getView().findViewById(R.id.graph);
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMaxX(20);
+        graph.getViewport().setMaxX(29);*/
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
-        viewDataFunctions.makeGraph(user, moonDayString, series);
-        graph.addSeries(series);
+        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+        ArrayList<BarEntry> yVals2 = new ArrayList<>();
+        //graph.addSeries(series);
+        //Toast.makeText(getContext(), "Make Graph", Toast.LENGTH_LONG ).show();
+        BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
+        for (int i = (int) 0; i < 29 + 1; i++) {
+            float val = (float) (Math.random());
+            yVals1.add(new BarEntry(i, 0));
+        }
+
+        for (int i = (int) 0; i < 10 + 1; i++) {
+            float val = (float) (Math.random());
+            yVals2.add(new BarEntry(i, 5));
+        }
+        makeChart(user, series,yVals1);
+        //Toast.makeText(getContext(), "Before" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+        /*try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        //Toast.makeText(getContext(), "After" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+        Log.d("YOOOOOOOOOOOOOOOOOOO", "HeeeeeeeeeeeeeeeeeeeeeRRRe" + yVals1);
+       /* BarDataSet set1;
+        set1 = new BarDataSet(yVals1, "The year 2017");
+        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        dataSets.add(set1);
+        BarData data = new BarData(dataSets);
+        data.setValueTextSize(10f);
+        data.setBarWidth(0.9f);
+        bchart.setTouchEnabled(false);
+        bchart.setData(data);
+        Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+        set1 = new BarDataSet(yVals1, "The year 2017");
+        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSets.add(set1);
+        //BarData data = new BarData(dataSets);
+        data.setValueTextSize(10f);
+        data.setBarWidth(0.9f);
+        bchart.setTouchEnabled(false);
+        bchart.setData(data);
+        bchart.notifyDataSetChanged();
+        bchart.invalidate();*/
+
 
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(viewDataFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                BarDataSet set1,set2;
+                set1 = new BarDataSet(yVals1, "The year 2017");
+                set2 = new BarDataSet(yVals2, "The year 2017");
+                set1.setColors(ColorTemplate.MATERIAL_COLORS);
+                set2.setColors(ColorTemplate.JOYFUL_COLORS);
+
+                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+                dataSets.add(set1);
+                ArrayList<IBarDataSet> dataSets2 = new ArrayList<IBarDataSet>();
+                dataSets.add(set2);
+                BarData data = new BarData(dataSets);
+
+                //Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+
+                dataSets.add(set1);
+                dataSets.add(set2);
+
+
+                dataSets.add(set1);
+                //BarData data = new BarData(dataSets);
+                data.setValueTextSize(10f);
+                data.setBarWidth(0.25f);
+                bchart.setTouchEnabled(false);
+                bchart.setData(data);
+                bchart.notifyDataSetChanged();
+                bchart.invalidate();
+
+                //Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+               // NavHostFragment.findNavController(viewDataFragment.this)
+               //         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
     }
@@ -482,4 +564,67 @@ public class viewDataFragment extends Fragment {
         return false;
     };
 
+    public static void showToastMethod(Context context) {
+        Toast.makeText(context, "mymessage ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1) {
+        LineGraphSeries<DataPoint> seriesHere = new LineGraphSeries<>(new DataPoint[] {});
+        final ArrayList<BarEntry> yValsHere = new ArrayList<>();
+        seriesHere = series;
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        String uid = "bob";
+        uid=user.getUid();
+        DataPoint[] dataPoints = new DataPoint[29];
+
+        String finalUid = uid;
+        CollectionReference reference = rootRef.collection("Human Metrics").document(finalUid).collection("Data");
+        rootRef.collection("Data").orderBy("MoonDay", Query.Direction.ASCENDING);
+        ArrayList<BarEntry> finalYVals = yVals1;
+        reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            //reference.orderBy("MoonDay", Query.Direction.ASCENDING);
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                reference.orderBy("MoonDay", Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            for (int i = 0; i<counter; i++){
+                                DataTotal = DataTotal + (Double.parseDouble(document.get("Emotions" + i).toString()));
+                            }
+                            average = DataTotal/counter;
+                            int id = Integer.valueOf(document.getId());
+                            //dataPoints[id] = new DataPoint(id, average); // not sure but I think the second argument should be of type double
+//                          //          Log.d(TAG, "Graph point! " + g + document.get("Emotions" + g));
+                            Double db = new Double(average);
+                            float avgFloat = db.floatValue();
+
+                            Log.d(TAG, "Logged " + id + "  counter = " + avgFloat + yValsHere);
+                            //series.appendData(dataPoints[id], false, 30, false);
+                            yVals1.add(new BarEntry(id, avgFloat));
+
+
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+
+                    }
+                    Log.d(TAG, "Done query checking" + "Hiii" + finalYVals);
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });
+
+    }
 }

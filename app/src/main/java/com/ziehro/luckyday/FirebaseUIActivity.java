@@ -28,13 +28,20 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.firebase.ui.auth.util.ExtraConstants;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.jjoe64.graphview.series.DataPoint;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
@@ -42,13 +49,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseUIActivity extends AppCompatActivity {
 
-    private FirebaseFirestore mFirestore;
+    FirebaseFirestore mFirestore;
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
@@ -114,7 +124,6 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 Intent n=new Intent(getBaseContext(), MainActivity.class);
                 startActivity(n);
 
-
             }
         });
 
@@ -139,6 +148,9 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 .setAvailableProviders(providers)
                 .build();
         signInLauncher.launch(signInIntent);
+
+        //Trial
+
         // [END auth_fui_create_intent]
     }
 
@@ -151,10 +163,20 @@ public class FirebaseUIActivity extends AppCompatActivity {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             Toast.makeText(FirebaseUIActivity.this,"User good", Toast.LENGTH_LONG).show();
-
+            FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
             ImageView profilePic = findViewById(R.id.profilePic);
             statusText.setText(user.getDisplayName());
             Picasso.get().load(user.getPhotoUrl()).into(profilePic);
+            Toast.makeText(FirebaseUIActivity.this,"Before For", Toast.LENGTH_LONG).show();
+            Map<String, Object> docData = new HashMap<>();
+            //docData.put("Counter", 1);
+            for (int i=0; i<29; i++){
+                docData.put("MoonDay", i);
+                docData.put("Emotions0", i);
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).update(docData);
+                //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
+            }
+
 
             // ...
         } else {
