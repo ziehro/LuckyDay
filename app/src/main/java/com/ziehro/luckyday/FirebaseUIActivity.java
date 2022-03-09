@@ -182,7 +182,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                     if (task.isSuccessful()) {
-
+//
                     } else{
                         for (int i=0; i<30; i++){
                             docData.put("MoonDay", i);

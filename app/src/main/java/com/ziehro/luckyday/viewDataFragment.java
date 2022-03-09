@@ -354,17 +354,19 @@ public class viewDataFragment extends Fragment {
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
                     lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
+                    lineSetStress = new LineDataSet(lineDataStress, "Stress");
                     lineSet1.setDrawIcons(false);
                     lineSet1.enableDashedLine(10f, 5f, 0f);
                     lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
                     lineSet1.setColor(Color.BLUE);
                     lineSetEnergy.setColor(Color.RED);
+                    lineSetStress.setColor(Color.GREEN);
                     lineSet1.setCircleColor(Color.WHITE);
                     lineSet1.setLineWidth(1f);
                     lineSet1.setCircleRadius(3f);
                     lineSet1.setDrawCircleHole(false);
                     lineSet1.setValueTextSize(9f);
-                    lineSet1.setDrawFilled(true);
+                    lineSet1.setDrawFilled(false);
                     lineSet1.setFormLineWidth(1f);
                     lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
                     lineSet1.setFormSize(15.f);
@@ -372,11 +374,12 @@ public class viewDataFragment extends Fragment {
                         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
                         //lineSet1.setFillDrawable(drawable);
                     } else {
-                        lineSet1.setFillColor(Color.DKGRAY);
+                        //lineSet1.setFillColor(Color.DKGRAY);
                     }
                     ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
                     lineDataSets.add(lineSet1);
                     lineDataSets.add(lineSetEnergy);
+                    lineDataSets.add(lineSetStress);
                     LineData lineData = new LineData(lineDataSets);
                     mChart.setData(lineData);
                     mChart.notifyDataSetChanged();
@@ -674,6 +677,46 @@ public class viewDataFragment extends Fragment {
                             float avgFloat = db.floatValue();
                             int id = Integer.valueOf(document.getId());
                             lineDataEnergy.add(new Entry (id, avgFloat));
+                            //yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });
+
+        CollectionReference referenceStress = rootRef.collection("Human Metrics").document(finalUid).collection("Stress");
+        moonDayOrder = referenceStress.orderBy("MoonDay");
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                referenceStress.orderBy("MoonDay", Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            for (int i = 0; i<counter; i++){
+                                DataTotal = DataTotal + (Double.parseDouble(document.get("Stress" + i).toString()));
+                            }
+                            if (counter != 0.0) average = DataTotal/counter;
+                            else average = 3.5;
+                            Double db = new Double(average);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataStress.add(new Entry (id, avgFloat));
                             //yVals1.add(new BarEntry(id, avgFloat));
                         }
                         else{
