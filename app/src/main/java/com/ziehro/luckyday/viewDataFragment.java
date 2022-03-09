@@ -159,7 +159,7 @@ public class viewDataFragment extends Fragment {
                             public void onSuccess(@NonNull Object o) {
                                 redLightsDisplay.setText(document.get("RedLights").toString());
                                 greenLightsDisplay.setText(document.get("GreenLights").toString());
-                                Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -350,7 +350,7 @@ public class viewDataFragment extends Fragment {
                     mChart.getData().notifyDataChanged();
                     mChart.notifyDataSetChanged();
                     mChart.invalidate();
-                    Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
+                    //Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
                     lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");

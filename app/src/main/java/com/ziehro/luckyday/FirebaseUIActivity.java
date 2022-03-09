@@ -138,7 +138,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                //new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 //new AuthUI.IdpConfig.FacebookBuilder().build(),
                 new AuthUI.IdpConfig.TwitterBuilder().build());
@@ -168,7 +168,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
             ImageView profilePic = findViewById(R.id.profilePic);
             statusText.setText(user.getDisplayName());
             Picasso.get().load(user.getPhotoUrl()).into(profilePic);
-            Toast.makeText(FirebaseUIActivity.this,"Before For", Toast.LENGTH_LONG).show();
+            //Toast.makeText(FirebaseUIActivity.this,"Before For", Toast.LENGTH_LONG).show();
             Map<String, Object> docData = new HashMap<>();
             //docData.put("Counter", 1);
 

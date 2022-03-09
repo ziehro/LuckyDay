@@ -188,7 +188,7 @@ public class addDataFragment extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(addDataFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
-                Toast.makeText(getContext(), "clicked!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "clicked!", Toast.LENGTH_SHORT).show();
 
 
             }
