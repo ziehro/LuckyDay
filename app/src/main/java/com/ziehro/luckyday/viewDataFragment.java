@@ -7,6 +7,8 @@ import static com.ziehro.luckyday.whatDayIsIt.letterDay;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,15 +24,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -280,92 +289,111 @@ public class viewDataFragment extends Fragment {
             }
         });
 
-
-        /*GraphView graph = (GraphView)getView().findViewById(R.id.graph);
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMaxX(29);*/
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
-        //graph.addSeries(series);
-        //Toast.makeText(getContext(), "Make Graph", Toast.LENGTH_LONG ).show();
+        ArrayList<Entry> lineData = new ArrayList<>();
         BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
         for (int i = (int) 0; i < 29 + 1; i++) {
             float val = (float) (Math.random());
-            yVals1.add(new BarEntry(i, 0));
+            //yVals1.add(new BarEntry(i, 0));
+            //lineData.add(new Entry(i,1+i));
         }
 
         for (int i = (int) 0; i < 10 + 1; i++) {
             float val = (float) (Math.random());
-            yVals2.add(new BarEntry(i, 5));
+            //yVals2.add(new BarEntry(i, 11-i));
         }
-        makeChart(user, series,yVals1);
-        //Toast.makeText(getContext(), "Before" + yVals1.toString(), Toast.LENGTH_LONG ).show();
-        /*try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //Toast.makeText(getContext(), "After" + yVals1.toString(), Toast.LENGTH_LONG ).show();
+        makeChart(user, series,yVals1, lineData);
         Log.d("YOOOOOOOOOOOOOOOOOOO", "HeeeeeeeeeeeeeeeeeeeeeRRRe" + yVals1);
-       /* BarDataSet set1;
-        set1 = new BarDataSet(yVals1, "The year 2017");
-        set1.setColors(ColorTemplate.MATERIAL_COLORS);
-
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(set1);
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setBarWidth(0.9f);
-        bchart.setTouchEnabled(false);
-        bchart.setData(data);
-        Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
-        set1 = new BarDataSet(yVals1, "The year 2017");
-        set1.setColors(ColorTemplate.MATERIAL_COLORS);
-        dataSets.add(set1);
-        //BarData data = new BarData(dataSets);
-        data.setValueTextSize(10f);
-        data.setBarWidth(0.9f);
-        bchart.setTouchEnabled(false);
-        bchart.setData(data);
-        bchart.notifyDataSetChanged();
-        bchart.invalidate();*/
 
 
-
-        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.chartButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BarDataSet set1,set2;
+                Log.d(TAG, "Inside Button" + "Hiii" + yVals1);
+                Log.d(TAG, "Inside Button" + "Hiii" + lineData);
+           /*    BarDataSet set1,set2;
                 set1 = new BarDataSet(yVals1, "The year 2017");
                 set2 = new BarDataSet(yVals2, "The year 2017");
                 set1.setColors(ColorTemplate.MATERIAL_COLORS);
                 set2.setColors(ColorTemplate.JOYFUL_COLORS);
-
                 ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
                 dataSets.add(set1);
                 ArrayList<IBarDataSet> dataSets2 = new ArrayList<IBarDataSet>();
                 dataSets.add(set2);
                 BarData data = new BarData(dataSets);
-
-                //Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
-
                 dataSets.add(set1);
                 dataSets.add(set2);
-
-
                 dataSets.add(set1);
-                //BarData data = new BarData(dataSets);
                 data.setValueTextSize(10f);
                 data.setBarWidth(0.25f);
                 bchart.setTouchEnabled(false);
                 bchart.setData(data);
                 bchart.notifyDataSetChanged();
-                bchart.invalidate();
+                bchart.invalidate();*/
+                Log.d(TAG, "Inside Button" + "ggg" + yVals1);
+                Log.d(TAG, "Inside Button" + "ggg" + lineData);
 
+    //////////////////////  Line Graphing Section  /////////////////
+                LineChart mChart;
+                mChart = (LineChart) getView().findViewById(R.id.lineChart);
+                mChart.setTouchEnabled(true);
+                mChart.setPinchZoom(true);
+                LineDataSet lineSet1;
+                if (mChart.getData() != null &&
+                        mChart.getData().getDataSetCount() > 0) {
+                    lineSet1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
+                    lineSet1.setValues(lineData);
+                    mChart.getData().notifyDataChanged();
+                    mChart.notifyDataSetChanged();
+                    mChart.invalidate();
+                    Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
+                } else {
+                    lineSet1 = new LineDataSet(lineData, "Emotions");
+                    lineSet1.setDrawIcons(false);
+                    lineSet1.enableDashedLine(10f, 5f, 0f);
+                    lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
+                    lineSet1.setColor(Color.BLUE);
+                    lineSet1.setCircleColor(Color.WHITE);
+                    lineSet1.setLineWidth(1f);
+                    lineSet1.setCircleRadius(3f);
+                    lineSet1.setDrawCircleHole(false);
+                    lineSet1.setValueTextSize(9f);
+                    lineSet1.setDrawFilled(true);
+                    lineSet1.setFormLineWidth(1f);
+                    lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                    lineSet1.setFormSize(15.f);
+                    if (Utils.getSDKInt() >= 18) {
+                        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
+                        lineSet1.setFillDrawable(drawable);
+                    } else {
+                        lineSet1.setFillColor(Color.DKGRAY);
+                    }
+                    ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
+                    lineDataSets.add(lineSet1);
+                    LineData lineData = new LineData(lineDataSets);
+                    mChart.setData(lineData);
+                    mChart.notifyDataSetChanged();
+                    mChart.invalidate();
+                    //Toast.makeText(getContext(), "End" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
+               }
+                Log.d(TAG, "Outside Button" + "ggg" + yVals1);
+                Log.d(TAG, "Outside Button" + "ggg" + lineData);
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+            }
+        });
+        view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 //Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
-               // NavHostFragment.findNavController(viewDataFragment.this)
-               //         .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                 NavHostFragment.findNavController(viewDataFragment.this)
+                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
     }
@@ -568,20 +596,21 @@ public class viewDataFragment extends Fragment {
         Toast.makeText(context, "mymessage ", Toast.LENGTH_SHORT).show();
     }
 
-    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1) {
-        LineGraphSeries<DataPoint> seriesHere = new LineGraphSeries<>(new DataPoint[] {});
-        final ArrayList<BarEntry> yValsHere = new ArrayList<>();
-        seriesHere = series;
+    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineData) {
+        //LineGraphSeries<DataPoint> seriesHere = new LineGraphSeries<>(new DataPoint[] {});
+        //final ArrayList<BarEntry> yValsHere = new ArrayList<>();
+        //seriesHere = series;
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         String uid = "bob";
         uid=user.getUid();
-        DataPoint[] dataPoints = new DataPoint[29];
+        //DataPoint[] dataPoints = new DataPoint[29];
 
         String finalUid = uid;
         CollectionReference reference = rootRef.collection("Human Metrics").document(finalUid).collection("Data");
-        rootRef.collection("Data").orderBy("MoonDay", Query.Direction.ASCENDING);
-        ArrayList<BarEntry> finalYVals = yVals1;
-        reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        //ArrayList<BarEntry> finalYVals = yVals1;
+        Query moonDayOrder = reference.orderBy("MoonDay");
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             //reference.orderBy("MoonDay", Query.Direction.ASCENDING);
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -599,25 +628,21 @@ public class viewDataFragment extends Fragment {
                             for (int i = 0; i<counter; i++){
                                 DataTotal = DataTotal + (Double.parseDouble(document.get("Emotions" + i).toString()));
                             }
-                            average = DataTotal/counter;
-                            int id = Integer.valueOf(document.getId());
-                            //dataPoints[id] = new DataPoint(id, average); // not sure but I think the second argument should be of type double
-//                          //          Log.d(TAG, "Graph point! " + g + document.get("Emotions" + g));
+                            if (counter != 0.0) average = DataTotal/counter;
+                            else average = 0.0;
                             Double db = new Double(average);
                             float avgFloat = db.floatValue();
-
-                            Log.d(TAG, "Logged " + id + "  counter = " + avgFloat + yValsHere);
-                            //series.appendData(dataPoints[id], false, 30, false);
+                            int id = Integer.valueOf(document.getId());
+                            lineData.add(new Entry (id, avgFloat));
                             yVals1.add(new BarEntry(id, avgFloat));
-
-
                         }
                         else{
                             Log.d(TAG, "Document does not exist" + document);
                         }
 
                     }
-                    Log.d(TAG, "Done query checking" + "Hiii" + finalYVals);
+                    Log.d(TAG, "Done query checking" + "Hiii" + yVals1);
+                    Log.d(TAG, "Done query checking" + "Hiii" + lineData);
 
                 } else{
                     Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");

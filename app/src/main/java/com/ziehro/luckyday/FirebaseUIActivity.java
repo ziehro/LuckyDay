@@ -170,10 +170,10 @@ public class FirebaseUIActivity extends AppCompatActivity {
             Toast.makeText(FirebaseUIActivity.this,"Before For", Toast.LENGTH_LONG).show();
             Map<String, Object> docData = new HashMap<>();
             //docData.put("Counter", 1);
-            for (int i=0; i<29; i++){
+            for (int i=0; i<30; i++){
                 docData.put("MoonDay", i);
-                docData.put("Emotions0", i);
-                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).update(docData);
+                docData.put("Counter", 0);
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
                 //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
             }
 
