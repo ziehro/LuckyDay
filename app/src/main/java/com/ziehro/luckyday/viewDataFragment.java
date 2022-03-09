@@ -293,6 +293,8 @@ public class viewDataFragment extends Fragment {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<Entry> lineData = new ArrayList<>();
+        ArrayList<Entry> lineDataEnergy = new ArrayList<>();
+        ArrayList<Entry> lineDataStress = new ArrayList<>();
         BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
         for (int i = (int) 0; i < 29 + 1; i++) {
             float val = (float) (Math.random());
@@ -304,7 +306,7 @@ public class viewDataFragment extends Fragment {
             float val = (float) (Math.random());
             //yVals2.add(new BarEntry(i, 11-i));
         }
-        makeChart(user, series,yVals1, lineData);
+        makeChart(user, series,yVals1, lineData, lineDataEnergy, lineDataStress);
         Log.d("YOOOOOOOOOOOOOOOOOOO", "HeeeeeeeeeeeeeeeeeeeeeRRRe" + yVals1);
 
 
@@ -340,7 +342,7 @@ public class viewDataFragment extends Fragment {
                 mChart = (LineChart) getView().findViewById(R.id.lineChart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-                LineDataSet lineSet1;
+                LineDataSet lineSet1, lineSetEnergy, lineSetStress;
                 if (mChart.getData() != null &&
                         mChart.getData().getDataSetCount() > 0) {
                     lineSet1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
@@ -351,10 +353,12 @@ public class viewDataFragment extends Fragment {
                     Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
+                    lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
                     lineSet1.setDrawIcons(false);
                     lineSet1.enableDashedLine(10f, 5f, 0f);
                     lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
                     lineSet1.setColor(Color.BLUE);
+                    lineSetEnergy.setColor(Color.RED);
                     lineSet1.setCircleColor(Color.WHITE);
                     lineSet1.setLineWidth(1f);
                     lineSet1.setCircleRadius(3f);
@@ -366,19 +370,20 @@ public class viewDataFragment extends Fragment {
                     lineSet1.setFormSize(15.f);
                     if (Utils.getSDKInt() >= 18) {
                         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
-                        lineSet1.setFillDrawable(drawable);
+                        //lineSet1.setFillDrawable(drawable);
                     } else {
                         lineSet1.setFillColor(Color.DKGRAY);
                     }
                     ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
                     lineDataSets.add(lineSet1);
+                    lineDataSets.add(lineSetEnergy);
                     LineData lineData = new LineData(lineDataSets);
                     mChart.setData(lineData);
                     mChart.notifyDataSetChanged();
                     mChart.invalidate();
                     //Toast.makeText(getContext(), "End" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
                }
-                Log.d(TAG, "Outside Button" + "ggg" + yVals1);
+                Log.d(TAG, "Outside Button" + "ggg" + lineDataEnergy);
                 Log.d(TAG, "Outside Button" + "ggg" + lineData);
 
 
@@ -596,22 +601,16 @@ public class viewDataFragment extends Fragment {
         Toast.makeText(context, "mymessage ", Toast.LENGTH_SHORT).show();
     }
 
-    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineData) {
-        //LineGraphSeries<DataPoint> seriesHere = new LineGraphSeries<>(new DataPoint[] {});
-        //final ArrayList<BarEntry> yValsHere = new ArrayList<>();
-        //seriesHere = series;
+    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineData,ArrayList<Entry> lineDataEnergy,ArrayList<Entry> lineDataStress) {
+
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         String uid = "bob";
         uid=user.getUid();
-        //DataPoint[] dataPoints = new DataPoint[29];
-
         String finalUid = uid;
-        CollectionReference reference = rootRef.collection("Human Metrics").document(finalUid).collection("Data");
 
-        //ArrayList<BarEntry> finalYVals = yVals1;
+        CollectionReference reference = rootRef.collection("Human Metrics").document(finalUid).collection("Data");
         Query moonDayOrder = reference.orderBy("MoonDay");
         moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            //reference.orderBy("MoonDay", Query.Direction.ASCENDING);
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 reference.orderBy("MoonDay", Query.Direction.DESCENDING);
@@ -629,7 +628,7 @@ public class viewDataFragment extends Fragment {
                                 DataTotal = DataTotal + (Double.parseDouble(document.get("Emotions" + i).toString()));
                             }
                             if (counter != 0.0) average = DataTotal/counter;
-                            else average = 0.0;
+                            else average = 3.5;
                             Double db = new Double(average);
                             float avgFloat = db.floatValue();
                             int id = Integer.valueOf(document.getId());
@@ -641,8 +640,6 @@ public class viewDataFragment extends Fragment {
                         }
 
                     }
-                    Log.d(TAG, "Done query checking" + "Hiii" + yVals1);
-                    Log.d(TAG, "Done query checking" + "Hiii" + lineData);
 
                 } else{
                     Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
@@ -650,6 +647,47 @@ public class viewDataFragment extends Fragment {
             }
 
         });
+        ////////////////////////////////////
 
+        CollectionReference referenceEnergy = rootRef.collection("Human Metrics").document(finalUid).collection("Energy");
+        moonDayOrder = referenceEnergy.orderBy("MoonDay");
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                referenceEnergy.orderBy("MoonDay", Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            for (int i = 0; i<counter; i++){
+                                DataTotal = DataTotal + (Double.parseDouble(document.get("Stress" + i).toString()));
+                            }
+                            if (counter != 0.0) average = DataTotal/counter;
+                            else average = 3.5;
+                            Double db = new Double(average);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataEnergy.add(new Entry (id, avgFloat));
+                            //yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });
+/////////////////////////////////////
     }
 }

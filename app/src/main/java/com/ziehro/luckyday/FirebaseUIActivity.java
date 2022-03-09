@@ -173,7 +173,9 @@ public class FirebaseUIActivity extends AppCompatActivity {
             for (int i=0; i<30; i++){
                 docData.put("MoonDay", i);
                 docData.put("Counter", 0);
-                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
+                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
+                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData);
+                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData);
                 //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
             }
 
