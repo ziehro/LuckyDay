@@ -194,12 +194,14 @@ public class addDataFragment extends Fragment {
             }
         });
 
+
+
         SeekBar emotions= (SeekBar) view.findViewById(R.id.emotionsSeekbar);
         emotions.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                postEmotions(finalUid1, moonDayString, emotions.getProgress());
-                Toast.makeText(getContext(), "Emotions Logged", Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getContext(), "Emotions Logged", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -217,8 +219,8 @@ public class addDataFragment extends Fragment {
         stress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                addDataFunctions.postStress(finalUid1, moonDayString, stress.getProgress());
-                Toast.makeText(getContext(), "Stress Logged", Toast.LENGTH_SHORT).show();
+                //addDataFunctions.postStress(finalUid1, moonDayString, stress.getProgress());
+                //Toast.makeText(getContext(), "Stress Logged", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -236,8 +238,8 @@ public class addDataFragment extends Fragment {
         energy.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                addDataFunctions.postEnergy(finalUid1, moonDayString, energy.getProgress());
-                Toast.makeText(getContext(), "Energy Logged", Toast.LENGTH_SHORT).show();
+                //addDataFunctions.postEnergy(finalUid1, moonDayString, energy.getProgress());
+                //Toast.makeText(getContext(), "Energy Logged", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -250,6 +252,20 @@ public class addDataFragment extends Fragment {
 
             }
         });
+        Button sliderSubmit = (Button)view.findViewById(R.id.slider_submit_button);
+        sliderSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* SeekBar emotions= (SeekBar) view.findViewById(R.id.emotionsSeekbar);
+                SeekBar stress= (SeekBar) view.findViewById(R.id.stressSeekbar);
+                SeekBar energy= (SeekBar) view.findViewById(R.id.energySeekbar);*/
+                postSliders(finalUid1, moonDayString, emotions.getProgress(), stress.getProgress(), energy.getProgress());
+                Toast.makeText(getContext(), "Sliders Logged!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
     }
 
     public static void postRedLight(String uid, String moonDayString) {
@@ -378,59 +394,126 @@ public class addDataFragment extends Fragment {
             }
         });
     }
-    public void postEmotions(String uid, String moonDayString, int progress) {
+    public void postSliders(String uid, String moonDayString, int progressEmotions, int progressStress, int progressEnergy) {
 
         mFirestore = FirebaseFirestore.getInstance();
 
         Map<String, Integer> emotions = new HashMap<>();
-        //emotions.put("Emotions", progress);
-        //emotions.put("Counter", 1);
-
-
-
+        Map<String, Integer> stress = new HashMap<>();
+        Map<String, Integer> energy = new HashMap<>();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         DocumentReference docIdRef = rootRef.collection("Human Metrics").document(uid).collection("Data").document(moonDayString);
+        DocumentReference docIdRefStress = rootRef.collection("Human Metrics").document(uid).collection("Stress").document(moonDayString);
+        DocumentReference docIdRefEnergy = rootRef.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         Log.d(TAG, "Document exists!");
-
                         double counter;
-
                         counter = document.getDouble("Counter");
                         String CounterUpper = "Emotions"+(int)counter;
-                        emotions.put(CounterUpper, progress);
+                        emotions.put(CounterUpper, progressEmotions);
                         emotions.put("Counter", (int)counter);
-
-                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update(CounterUpper, progress).addOnSuccessListener(new OnSuccessListener() {
+                        mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update(CounterUpper, progressEmotions).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(@NonNull Object o) {
-                                //Toast.makeText(addDataFragment.this.getActivity(), progress, Toast.LENGTH_LONG);
-
+                                //Toast.makeText(addDataFragment.this.getActivity(), progressEmotions, Toast.LENGTH_LONG);
                             }
-
-
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
                             }
                         });
                         mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
                         //mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
                     } else {
                         Log.d(TAG, "Document does not exist!");
-
                         double counter = 0;
-                        emotions.put("Emotions"+(int)counter, progress);
+                        emotions.put("Emotions"+(int)counter, progressEmotions);
                         emotions.put("Counter",(int)counter);
-
                         mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).set(emotions);
                         mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+        docIdRefStress.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        double counter;
+                        counter = document.getDouble("Counter");
+                        String CounterUpper = "Stress"+(int)counter;
+                        stress.put(CounterUpper, progressStress);
+                        stress.put("Counter", (int)counter);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Stress").document(moonDayString).update(CounterUpper, progressStress).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), progressEmotions, Toast.LENGTH_LONG);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        mFirestore.collection("Human Metrics").document(uid).collection("Stress").document(moonDayString).update("Counter", FieldValue.increment(1));
+                        //mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        double counter = 0;
+                        emotions.put("Stress"+(int)counter, progressStress);
+                        emotions.put("Counter",(int)counter);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Stress").document(moonDayString).set(emotions);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Stress").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+        docIdRefEnergy.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        double counter;
+                        counter = document.getDouble("Counter");
+          //change this line below
+                        String CounterUpper = "Stress"+(int)counter;
+                        energy.put(CounterUpper, progressEnergy);
+                        energy.put("Counter", (int)counter);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).update(CounterUpper, progressEnergy).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), progressEmotions, Toast.LENGTH_LONG);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).update("Counter", FieldValue.increment(1));
+                        //mFirestore.collection("Human Metrics").document(uid).collection("Data").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        double counter = 0;
+                        emotions.put("Emotions"+(int)counter, progressEmotions);
+                        emotions.put("Counter",(int)counter);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).set(energy);
+                        mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).update("Counter", FieldValue.increment(1));
                     }
                 } else {
                     Log.d(TAG, "Failed with: ", task.getException());

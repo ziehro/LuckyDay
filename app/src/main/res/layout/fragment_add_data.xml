@@ -197,4 +197,15 @@
         app:layout_constraintBottom_toTopOf="@+id/energySeekbar"
         app:layout_constraintStart_toStartOf="@+id/energySeekbar" />
 
+    <Button
+        android:id="@+id/slider_submit_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="@+id/energySeekbar"
+        app:layout_constraintTop_toBottomOf="@+id/energySeekbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.firebase.ui.auth.util.ExtraConstants;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -170,14 +171,57 @@ public class FirebaseUIActivity extends AppCompatActivity {
             Toast.makeText(FirebaseUIActivity.this,"Before For", Toast.LENGTH_LONG).show();
             Map<String, Object> docData = new HashMap<>();
             //docData.put("Counter", 1);
-            for (int i=0; i<30; i++){
+
+      //////////////////////////////////////////////////////replacing for statement with query if document doesnt exist, set
+            FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+            CollectionReference reference = rootRef.collection("Human Metrics").document(user.getUid()).collection("Data");
+            Query moonDayOrder = reference.orderBy("MoonDay");
+            moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+
+                    } else{
+                        for (int i=0; i<30; i++){
+                            docData.put("MoonDay", i);
+                            docData.put("Counter", 0);
+
+                            //////////////////////////////
+
+
+
+                            //////////////////////////////
+                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
+                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData);
+                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData);
+                            //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
+                        }
+
+                        Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                    }
+                }
+
+            });
+
+
+      ////////////////////////////////////////////////////////
+
+         /*   for (int i=0; i<30; i++){
                 docData.put("MoonDay", i);
                 docData.put("Counter", 0);
-                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
-                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData);
-                //mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData);
+
+                //////////////////////////////
+
+
+
+                //////////////////////////////
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData);
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData);
                 //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
-            }
+            }*/
 
 
             // ...
