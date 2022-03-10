@@ -356,11 +356,11 @@ public class viewDataFragment extends Fragment {
                     lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
                     lineSetStress = new LineDataSet(lineDataStress, "Stress");
                     lineSet1.setDrawIcons(false);
-                    lineSet1.enableDashedLine(10f, 5f, 0f);
-                    lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
-                    lineSet1.setColor(Color.BLUE);
-                    lineSetEnergy.setColor(Color.RED);
-                    lineSetStress.setColor(Color.GREEN);
+                    //lineSet1.enableDashedLine(10f, 5f, 0f);
+                    //lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
+                    lineSet1.setColor(Color.GREEN);
+                    lineSetEnergy.setColor(Color.BLUE);
+                    lineSetStress.setColor(Color.RED);
                     lineSet1.setCircleColor(Color.WHITE);
                     lineSet1.setLineWidth(1f);
                     lineSet1.setCircleRadius(3f);
@@ -368,8 +368,10 @@ public class viewDataFragment extends Fragment {
                     lineSet1.setValueTextSize(9f);
                     lineSet1.setDrawFilled(false);
                     lineSet1.setFormLineWidth(1f);
-                    lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                    //lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
                     lineSet1.setFormSize(15.f);
+                    lineSetEnergy.setFormSize(15.f);
+                    lineSetStress.setFormSize(15.f);
                     if (Utils.getSDKInt() >= 18) {
                         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
                         //lineSet1.setFillDrawable(drawable);

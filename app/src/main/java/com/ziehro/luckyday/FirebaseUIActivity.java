@@ -187,7 +187,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
                         for (int i=0; i<30; i++) {
                             docData.put("MoonDay", i);
                             docData.put("Counter", 0);
@@ -225,7 +225,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
                         for (int i=0; i<30; i++) {
                             docData.put("MoonDay", i);
                             docData.put("Counter", 0);
@@ -265,7 +265,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
                         for (int i=0; i<30; i++) {
                             docData.put("MoonDay", i);
                             docData.put("Counter", 0);
