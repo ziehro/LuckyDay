@@ -37,11 +37,14 @@ import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.jjoe64.graphview.series.DataPoint;
 import com.squareup.picasso.Picasso;
 
@@ -176,36 +179,137 @@ public class FirebaseUIActivity extends AppCompatActivity {
             FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
             CollectionReference reference = rootRef.collection("Human Metrics").document(user.getUid()).collection("Data");
+            CollectionReference referenceEnergy = rootRef.collection("Human Metrics").document(user.getUid()).collection("Energy");
+            CollectionReference referenceStress = rootRef.collection("Human Metrics").document(user.getUid()).collection("Stress");
             Query moonDayOrder = reference.orderBy("MoonDay");
             moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                     if (task.isSuccessful()) {
-//
-                    } else{
-                        for (int i=0; i<30; i++){
+                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        for (int i=0; i<30; i++) {
                             docData.put("MoonDay", i);
                             docData.put("Counter", 0);
 
-                            //////////////////////////////
+                            int finalI = i;
+                            reference.document(String.valueOf(i)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
 
-
-
-                            //////////////////////////////
-                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(i)).set(docData);
-                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData);
-                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData);
-                            //Toast.makeText(FirebaseUIActivity.this,i, Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
                         }
-
-                        Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                    }
+                    else{
+                        Log.d(TAG, "Sign in Query Snapshot failed!!");
+                        Toast.makeText(FirebaseUIActivity.this,"Sign in Failed", Toast.LENGTH_LONG).show();
                     }
                 }
+            });
 
+            Query moonDayOrderEnergy = referenceEnergy.orderBy("MoonDay");
+            moonDayOrderEnergy.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        for (int i=0; i<30; i++) {
+                            docData.put("MoonDay", i);
+                            docData.put("Counter", 0);
+
+                            int finalI = i;
+                            referenceEnergy.document(String.valueOf(i)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
+
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else{
+                        Log.d(TAG, "Sign in Query Snapshot failed!!");
+                        Toast.makeText(FirebaseUIActivity.this,"Sign in Failed", Toast.LENGTH_LONG).show();
+                    }
+                }
             });
 
 
+            //DocumentReference docRefStress = rootRef.collection("Human Metrics").document(user.getUid()).collection("Data");.
+            Query moonDayOrderStress = referenceStress.orderBy("MoonDay");
+            moonDayOrderStress.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(FirebaseUIActivity.this,"Data Success", Toast.LENGTH_LONG).show();
+                        for (int i=0; i<30; i++) {
+                            docData.put("MoonDay", i);
+                            docData.put("Counter", 0);
+
+                                int finalI = i;
+                                referenceStress.document(String.valueOf(i)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
+
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    else{
+                        Log.d(TAG, "Sign in Query Snapshot failed!!");
+                        Toast.makeText(FirebaseUIActivity.this,"Sign in Failed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+
+
+
+//////////////////////////////////////////////////////////
+         /*   if (Integer.valueOf(referenceEnergy.document(String.valueOf(i)).getId()) == i) {
+                //Toast.makeText(FirebaseUIActivity.this,"Doc " + i + " exists", Toast.LENGTH_LONG).show();
+            } else
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(i)).set(docData, SetOptions.merge());
+            if (Integer.valueOf(referenceStress.document(String.valueOf(i)).getId()) == i) {
+                //Toast.makeText(FirebaseUIActivity.this,"Doc " + i + " exists", Toast.LENGTH_LONG).show();
+            } else
+                mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(i)).set(docData, SetOptions.merge());
+*/
       ////////////////////////////////////////////////////////
 
          /*   for (int i=0; i<30; i++){
