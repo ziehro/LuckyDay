@@ -200,6 +200,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(finalI)).update("MoonDay", Double.valueOf(finalI));
                                         } else {
                                             Log.d(TAG, "No such document");
                                             mFirestore.collection("Human Metrics").document(user.getUid()).collection("Data").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
@@ -238,6 +239,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(finalI)).update("MoonDay", Double.valueOf(finalI));
                                         } else {
                                             Log.d(TAG, "No such document");
                                             mFirestore.collection("Human Metrics").document(user.getUid()).collection("Energy").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
@@ -278,6 +280,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(finalI)).update("MoonDay", Double.valueOf(finalI));
                                         } else {
                                             Log.d(TAG, "No such document");
                                             mFirestore.collection("Human Metrics").document(user.getUid()).collection("Stress").document(String.valueOf(finalI)).set(docData, SetOptions.merge());
