@@ -349,7 +349,8 @@ public class viewDataFragment extends Fragment {
                     lineSet1.setValues(lineData);
                     mChart.getData().notifyDataChanged();
                     mChart.notifyDataSetChanged();
-                    mChart.invalidate();
+                    mChart.animateY(3000);
+                    //mChart.invalidate();
                     //Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
@@ -365,7 +366,7 @@ public class viewDataFragment extends Fragment {
                     lineSet1.setLineWidth(1f);
                     lineSet1.setCircleRadius(3f);
                     lineSet1.setDrawCircleHole(false);
-                    lineSet1.setValueTextSize(9f);
+                    lineSet1.setValueTextSize(3f);
                     lineSet1.setDrawFilled(false);
                     lineSet1.setFormLineWidth(1f);
                     //lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -385,7 +386,8 @@ public class viewDataFragment extends Fragment {
                     LineData lineData = new LineData(lineDataSets);
                     mChart.setData(lineData);
                     mChart.notifyDataSetChanged();
-                    mChart.invalidate();
+                    mChart.animateY(3000);
+                    //mChart.invalidate();
                     //Toast.makeText(getContext(), "End" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
                }
                 Log.d(TAG, "Outside Button" + "ggg" + lineDataEnergy);

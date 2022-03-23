@@ -21,15 +21,15 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
-        android:layout_width="412dp"
-        android:layout_height="292dp"
+        android:layout_width="410dp"
+        android:layout_height="221dp"
         android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView"
-        app:layout_constraintVertical_bias="0.586">
+        app:layout_constraintVertical_bias="0.173">
 
     </com.github.mikephil.charting.charts.LineChart>
 
