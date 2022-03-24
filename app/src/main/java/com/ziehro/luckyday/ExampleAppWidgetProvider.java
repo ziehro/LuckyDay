@@ -70,6 +70,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     private static final String MyOnClickZodiac = "Button OnClick";
 
 
+
     // Moon Age fo the widget construction.
     final Calendar c = Calendar.getInstance();
     final int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -280,6 +281,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         } else
         if (MyOnClickZodiac.equals(intent.getAction())) {
 
+            int moonZodiacInt = 1;
             RemoteViews remoteViews;
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             remoteViews.setTextViewText(R.id.widgetIllumDisplayText, "Green");
@@ -287,12 +289,47 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             //addDataFragment.postRedLight(uid, moonDayString);
             //moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
             moonZodiac = moonPhase1.getMoonZodiac();
+            switch(moonZodiac){
+                case "Aries":
+                    moonZodiacInt = 1;
+                    break;
+                case "Taurus":
+                    moonZodiacInt = 2;
+                    break;
+                case"Gemini":
+                    moonZodiacInt = 3;
+                    break;
+                case "Cancer":
+                    moonZodiacInt = 4;
+                    break;
+                case "Leo":
+                    moonZodiacInt = 5;
+                    break;
+                case "Virgo":
+                    moonZodiacInt = 6;
+                case "Libra":
+                    moonZodiacInt = 7;
+                    break;
+                case"Scorpio":
+                    moonZodiacInt = 8;
+                    break;
+                case "Sagittarius":
+                    moonZodiacInt = 9;
+                    break;
+                case "Capricorn":
+                    moonZodiacInt = 10;
+                case "Aquarius":
+                    moonZodiacInt = 11;
+                    break;
+                case "Pisces":
+                    moonZodiacInt = 12;
+                    break;
+            }
+
             Intent n=new Intent(context, ScreenSlidePagerActivity.class);
+            n.putExtra("EXTRA_SESSION_ID", moonZodiacInt-1);
             n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
             context.startActivity(n);
-
-
-
 
         }
     }

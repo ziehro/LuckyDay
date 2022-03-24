@@ -1,5 +1,6 @@
 package com.ziehro.luckyday;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,10 +17,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
      */
     private static final int NUM_PAGES = 3;
 
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
+    public int ZodiacPositionInt;
     private ViewPager2 viewPager;
 
     /**
@@ -32,10 +30,18 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide);
 
+
+            int ZodiacPositionInt = getIntent().getIntExtra("EXTRA_SESSION_ID",0);
+
+
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(this);
+        //Toast.makeText(this, ZodiacPositionInt, Toast.LENGTH_SHORT).show();
+
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(ZodiacPositionInt);
+
     }
 
     @Override

@@ -9,6 +9,7 @@ public class BaseActivity extends Activity {
     //String uid = "bob";
     String uid = "bob";
 
+
     public String getUidVar() {
         return uid;
     }
