@@ -352,6 +352,7 @@ public class viewDataFragment extends Fragment {
                     mChart.animateY(3000);
                     //mChart.invalidate();
                     //Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
+
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
                     lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
@@ -396,10 +397,14 @@ public class viewDataFragment extends Fragment {
 
 
 
+
+
 ///////////////////////////////////////////////////////////////////////////
 
             }
         });
+
+
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

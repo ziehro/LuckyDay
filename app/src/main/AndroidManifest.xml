@@ -28,6 +28,7 @@
         <activity android:name=".addLottery" />
         <activity android:name=".FirebaseUIActivity" />
         <activity android:name=".OnBoardingActivity" />
+        <activity android:name=".ScreenSlidePagerActivity" />
 
 
         <receiver android:name="ExampleAppWidgetProvider"

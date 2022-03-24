@@ -8,6 +8,8 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.RemoteViews;
 
 /*
@@ -30,6 +32,7 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
@@ -64,6 +67,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     private static final String MyOnClickRed = "myOnClickTag";
     private static final String MyOnClickGreen = "myOnClickTag1";
     public static String moonZodiac = "Hoot";
+    private static final String MyOnClickZodiac = "Button OnClick";
 
 
     // Moon Age fo the widget construction.
@@ -86,7 +90,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
 
 
-    @Override
+
+
+
+        @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
         // For each widget that needs an update, get the text that we should display:
@@ -94,6 +101,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         //   - Set the text in the RemoteViews object
         //   - Tell the AppWidgetManager to show that views object for the widget.
         final int N = appWidgetIds.length;
+
+
 
         ComponentName thisWidget = new ComponentName(context, ExampleAppWidgetProvider.class);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
@@ -103,6 +112,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
+            views.setOnClickPendingIntent(R.id.widgetZodiacTV, getPendingSelfIntent(context, MyOnClickZodiac));
 
             // Moon Age fo the widget construction.
             final Calendar c = Calendar.getInstance();
@@ -112,7 +122,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             final int date = c.get(Calendar.DATE);
             final int month = c.get(Calendar.MONTH);
             String time;
-            final String monthname=(String)android.text.format.DateFormat.format("MMMM", new Date());
+            final String monthname=(String) DateFormat.format("MMMM", new Date());
             String moonDayString = "1";
             MoonPhase moonPhase1 = new MoonPhase(c);
             final double moonPhaseData = MoonPhase.phase(MoonPhase.calendarToJD(c));
@@ -123,16 +133,22 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             moonDayString = moonPhase1.getMoonAgeAsDaysOnly();
             moonZodiac=moonPhase1.getMoonZodiac();
 
+
             String text = moonDayString;
             int moonPhaseIllum = ((int) moonPhase1.getPhase());
             views.setTextViewText(R.id.appwidget_text, text);
             views.setTextViewText(R.id.widgetIllumDisplayText, moonPhaseIllum + "% "+ moonPhaseString);
             views.setTextViewText(R.id.widgetZodiacTV, "The moon is in " + moonZodiac);
 
+            //////////////////     Zodiac Page Buttons
+
+
             appWidgetManager.updateAppWidget(widgetId, views);
         }
 
     }
+
+
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
@@ -212,6 +228,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
 
         views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
         views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
+        views.setOnClickPendingIntent(R.id.widgetZodiacTV, getPendingSelfIntent(context, MyOnClickZodiac));
 
 
 
@@ -257,6 +274,23 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             //addDataFragment.postRedLight(uid, moonDayString);
             moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
             postGreenLight(uid,moonDayString);
+
+
+
+        } else
+        if (MyOnClickZodiac.equals(intent.getAction())) {
+
+            RemoteViews remoteViews;
+            remoteViews = new RemoteViews(context.getPackageName(), R.layout.example_appwidget_layout);
+            remoteViews.setTextViewText(R.id.widgetIllumDisplayText, "Green");
+            Toast.makeText(context, "Zodiac", Toast.LENGTH_SHORT).show();
+            //addDataFragment.postRedLight(uid, moonDayString);
+            //moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+            moonZodiac = moonPhase1.getMoonZodiac();
+            Intent n=new Intent(context, ScreenSlidePagerActivity.class);
+            n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+            context.startActivity(n);
+
 
 
 
