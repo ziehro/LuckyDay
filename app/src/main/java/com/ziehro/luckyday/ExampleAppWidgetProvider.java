@@ -36,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 // Need the following import to get access to the app resources, since this
 // class is in a sub-package.
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -68,6 +70,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
     private static final String MyOnClickGreen = "myOnClickTag1";
     public static String moonZodiac = "Hoot";
     private static final String MyOnClickZodiac = "Button OnClick";
+    private static final String MyOnClickLeftSide = "Chaza";
+    private static final String MyOnClickRightSide = "MyohMy";
 
 
 
@@ -114,6 +118,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
             views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
             views.setOnClickPendingIntent(R.id.widgetZodiacTV, getPendingSelfIntent(context, MyOnClickZodiac));
+            views.setOnClickPendingIntent(R.id.appwidget_text, getPendingSelfIntent(context, MyOnClickLeftSide));
+            views.setOnClickPendingIntent(R.id.widgetIllumDisplayText, getPendingSelfIntent(context, MyOnClickRightSide));
 
             // Moon Age fo the widget construction.
             final Calendar c = Calendar.getInstance();
@@ -230,6 +236,8 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.widget_red_button, getPendingSelfIntent(context, MyOnClickRed));
         views.setOnClickPendingIntent(R.id.widget_green_button, getPendingSelfIntent(context, MyOnClickGreen));
         views.setOnClickPendingIntent(R.id.widgetZodiacTV, getPendingSelfIntent(context, MyOnClickZodiac));
+        views.setOnClickPendingIntent(R.id.appwidget_text, getPendingSelfIntent(context, MyOnClickLeftSide));
+        views.setOnClickPendingIntent(R.id.widgetIllumDisplayText, getPendingSelfIntent(context, MyOnClickRightSide));
 
 
 
@@ -330,6 +338,26 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
             n.putExtra("EXTRA_SESSION_ID", moonZodiacInt-1);
             n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
             context.startActivity(n);
+
+        }
+        else
+        if (MyOnClickLeftSide.equals(intent.getAction())) {
+
+            Intent configIntent = new Intent(context, viewDataFragment.class);
+            //configIntent.putExtra("key", 1);
+            //configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Toast.makeText(context, "Left", Toast.LENGTH_SHORT).show();
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_IMMUTABLE);
+            context.startActivity(configIntent);
+        }
+        else
+        if (MyOnClickRightSide.equals(intent.getAction())) {
+
+            Intent configIntent = new Intent(context, viewDataFragment.class);
+            //configIntent.putExtra("key", 1);
+            //configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show();
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_IMMUTABLE);
 
         }
     }
