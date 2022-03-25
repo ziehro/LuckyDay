@@ -5,11 +5,13 @@ public class Zodiac {
     private String fullName;
     private String email;
     private String position;
+    private String description;
 
-    public Zodiac(String fullName, String email, String position) {
+    public Zodiac(String fullName, String email, String position, String description) {
         this.fullName = fullName;
         this.email = email;
         this.position = position;
+        this.description = description;
     }
 
     public String getFullName() {
@@ -34,6 +36,14 @@ public class Zodiac {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

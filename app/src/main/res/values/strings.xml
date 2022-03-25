@@ -21,4 +21,5 @@
     <string name="example_appwidget_description">Lucky as Fuck</string>
     <string name="appwidget_prefix_default">LuckyDay widget confirmation</string>
     <string name="appwidget_text_format"><xliff:g id="prefix">%1$s</xliff:g>: <xliff:g id="time">%2$s</xliff:g></string>
+
 </resources>

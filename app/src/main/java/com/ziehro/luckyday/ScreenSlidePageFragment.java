@@ -21,6 +21,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private TextView textViewEmail;
     private TextView textViewPosition;
     private TextView textViewFullName;
+    private TextView textViewDescription;
 
     private static int counter = 0;
 
@@ -56,6 +57,7 @@ public class ScreenSlidePageFragment extends Fragment {
         this.textViewFullName = view.findViewById(R.id.textview_fullname);
         this.textViewPosition = view.findViewById(R.id.textView_position);
         this.textViewEmail = view.findViewById(R.id.textView_email);
+        this.textViewDescription = view.findViewById(R.id.descriptionTV);
 
         return view;
     }
@@ -95,6 +97,7 @@ public class ScreenSlidePageFragment extends Fragment {
         this.textViewFullName.setText(employee.getFullName());
         this.textViewPosition.setText(employee.getPosition());
         this.textViewEmail.setText(employee.getEmail());
+        this.textViewDescription.setText(employee.getDescription());
     }
 
     private Bundle employeeToBundle(Zodiac employee)  {
@@ -102,6 +105,7 @@ public class ScreenSlidePageFragment extends Fragment {
         bundle.putString("fullName", employee.getFullName());
         bundle.putString("position", employee.getPosition());
         bundle.putString("email", employee.getEmail());
+        bundle.putString("description", employee.getDescription());
 
         return bundle;
     }
@@ -110,6 +114,7 @@ public class ScreenSlidePageFragment extends Fragment {
         String fullName = savedInstanceState.getString("fullName");
         String position = savedInstanceState.getString("position");
         String email = savedInstanceState.getString("email");
-        return new Zodiac(fullName, email, position);
+        String description = savedInstanceState.getString("description");
+        return new Zodiac(fullName, email, position, description);
     }
 }

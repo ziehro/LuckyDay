@@ -68,18 +68,18 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         }
 
         private List<Zodiac> intDatas()  {
-            Zodiac emp1 = new Zodiac("Aries", "Mar 21 - Apr 19", "\u2648");
-            Zodiac emp2 = new Zodiac("Taurus", "Apr 20 - May 20", "\u2649");
-            Zodiac emp3 = new Zodiac("Gemini", "May 21 - Jun 20", "\u264A");
-            Zodiac emp4 = new Zodiac("Cancer", "Jun 21 - Jul 22", "\u264B");
-            Zodiac emp5 = new Zodiac("Leo", "Jul 23 - Aug 22", "\u264C");
-            Zodiac emp6 = new Zodiac("Virgo", "Aug 23 - Sep 22", "\u264D");
-            Zodiac emp7 = new Zodiac("Libra", "Sep 23 - Oct 22", "\u264E");
-            Zodiac emp8 = new Zodiac("Scorpio", "Oct 23 - Nov 21", "\u264F");
-            Zodiac emp9 = new Zodiac("Sagittarius", "Nov 22 - Dec 21", "\u2650");
-            Zodiac emp10 = new Zodiac("Capricorn", "Dec 22 - Jan 19", "\u2651");
-            Zodiac emp11 = new Zodiac("Aquarius", "Jan 20 - Feb 18", "\u2652");
-            Zodiac emp12 = new Zodiac("Pisces", "Feb 19 - Mar 20", "\u2653");
+            Zodiac emp1 = new Zodiac("Aries", "Mar 21 - Apr 19", "\u2648", getBaseContext().getString(R.string.Aries));
+            Zodiac emp2 = new Zodiac("Taurus", "Apr 20 - May 20", "\u2649", getBaseContext().getString(R.string.Aries));
+            Zodiac emp3 = new Zodiac("Gemini", "May 21 - Jun 20", "\u264A", getBaseContext().getString(R.string.Aries));
+            Zodiac emp4 = new Zodiac("Cancer", "Jun 21 - Jul 22", "\u264B", getBaseContext().getString(R.string.Aries));
+            Zodiac emp5 = new Zodiac("Leo", "Jul 23 - Aug 22", "\u264C",getBaseContext().getString(R.string.Aries ));
+            Zodiac emp6 = new Zodiac("Virgo", "Aug 23 - Sep 22", "\u264D", getBaseContext().getString(R.string.Aries));
+            Zodiac emp7 = new Zodiac("Libra", "Sep 23 - Oct 22", "\u264E", getBaseContext().getString(R.string.Aries));
+            Zodiac emp8 = new Zodiac("Scorpio", "Oct 23 - Nov 21", "\u264F", getBaseContext().getString(R.string.Aries));
+            Zodiac emp9 = new Zodiac("Sagittarius", "Nov 22 - Dec 21", "\u2650", getBaseContext().getString(R.string.Sagittarius));
+            Zodiac emp10 = new Zodiac("Capricorn", "Dec 22 - Jan 19", "\u2651", getBaseContext().getString(R.string.Aries));
+            Zodiac emp11 = new Zodiac("Aquarius", "Jan 20 - Feb 18", "\u2652", getBaseContext().getString(R.string.Aries));
+            Zodiac emp12 = new Zodiac("Pisces", "Feb 19 - Mar 20", "\u2653", getBaseContext().getString(R.string.Aries));
 
             List<Zodiac> list = new ArrayList<Zodiac>();
             list.add(emp1);
