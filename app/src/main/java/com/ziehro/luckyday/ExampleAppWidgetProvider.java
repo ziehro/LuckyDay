@@ -343,9 +343,9 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         else
         if (MyOnClickLeftSide.equals(intent.getAction())) {
 
-            Intent configIntent = new Intent(context, viewDataFragment.class);
+            Intent configIntent = new Intent(context, MainActivity.class);
             //configIntent.putExtra("key", 1);
-            //configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Toast.makeText(context, "Left", Toast.LENGTH_SHORT).show();
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_IMMUTABLE);
             context.startActivity(configIntent);
@@ -353,11 +353,12 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         else
         if (MyOnClickRightSide.equals(intent.getAction())) {
 
-            Intent configIntent = new Intent(context, viewDataFragment.class);
+            Intent configIntent = new Intent(context, MainActivity.class);
             //configIntent.putExtra("key", 1);
-            //configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show();
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_IMMUTABLE);
+            context.startActivity(configIntent);
 
         }
     }
