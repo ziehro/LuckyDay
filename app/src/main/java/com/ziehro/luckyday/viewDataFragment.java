@@ -160,6 +160,7 @@ public class viewDataFragment extends Fragment {
                                 redLightsDisplay.setText(document.get("RedLights").toString());
                                 greenLightsDisplay.setText(document.get("GreenLights").toString());
                                 //Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
+                                view.findViewById(R.id.chartButton).callOnClick();
 
                             }
 
