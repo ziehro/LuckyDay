@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".addMajors">
+
+
+    <TextView
+        android:id="@+id/moonDayMajorTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="132dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInput" />
+
+    <EditText
+        android:id="@+id/descriptionInput"
+        android:layout_width="289dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentDate" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
+        android:text="Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <TextView
+        android:id="@+id/currentTime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="312dp"
+        android:text="Current Time"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="52dp"
+        android:inputType="number"
+        android:text="Moon Day"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <Button
+        android:id="@+id/submitLotteryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="132dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:inputType="number"
+        android:text="Description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:onClick="getDate"
+        android:text="Calculate"
+        app:layout_constraintStart_toEndOf="@+id/moonDayMajorTV"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInput" />
+
+    <DatePicker
+        android:id="@+id/dpDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/timeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="132dp"
+        android:text="Pick Time"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/currentTime2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="32dp"
+        android:text="Current Date"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/currentTime2" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="312dp"
+        android:text="Time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Moon Phase"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/moonPhaseMajorTV"
+        android:layout_width="145dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

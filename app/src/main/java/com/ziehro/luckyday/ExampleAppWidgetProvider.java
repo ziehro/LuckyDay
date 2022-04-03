@@ -315,6 +315,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
                     break;
                 case "Virgo":
                     moonZodiacInt = 6;
+                    break;
                 case "Libra":
                     moonZodiacInt = 7;
                     break;
@@ -326,6 +327,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
                     break;
                 case "Capricorn":
                     moonZodiacInt = 10;
+                    break;
                 case "Aquarius":
                     moonZodiacInt = 11;
                     break;

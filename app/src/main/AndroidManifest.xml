@@ -29,6 +29,7 @@
         <activity android:name=".FirebaseUIActivity" />
         <activity android:name=".OnBoardingActivity" />
         <activity android:name=".ScreenSlidePagerActivity" />
+        <activity android:name=".addMajors" />
 
 
 

@@ -17,16 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
@@ -62,8 +59,8 @@ public class addLottery extends AppCompatActivity implements TimePickerDialog.On
         timeIs.setText(time);
 
 
-        final EditText moneyIn = (EditText)findViewById(R.id.moneyIn);
-        final EditText moneyOut = (EditText)findViewById(R.id.moneyOut);
+        final EditText moneyIn = (EditText)findViewById(R.id.descriptionInput);
+        final EditText moneyOut = (EditText)findViewById(R.id.moonDayMajorTV);
         //final EditText cribSold = (EditText)findViewById(R.id.cribSoldInput);
 
         final Editable moneyInValue = moneyIn.getText();

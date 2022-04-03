@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
     <EditText
-        android:id="@+id/moneyIn"
+        android:id="@+id/descriptionInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -39,14 +39,14 @@
         app:layout_constraintTop_toBottomOf="@+id/timeBtn" />
 
     <EditText
-        android:id="@+id/moneyOut"
+        android:id="@+id/moonDayMajorTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moneyIn" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInput" />
 
     <TextView
         android:id="@+id/textView23"

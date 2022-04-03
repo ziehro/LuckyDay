@@ -134,6 +134,23 @@ public class addDataFragment extends Fragment {
             }
         });
 
+        Button addMajors=(Button)view.findViewById(R.id.addMajors);
+        addMajors.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //Intent n=new Intent(getContext(), addLottery.class);
+                //startActivity(n);
+                Toast.makeText(getContext(), "Majors" + "", Toast.LENGTH_SHORT).show();
+                Intent n=new Intent(getContext(), addMajors.class);
+                startActivity(n);
+
+
+            }
+        });
+
         Button signInPage=(Button)view.findViewById(R.id.sign_in_page_button);
         signInPage.setOnClickListener(new View.OnClickListener() {
 
@@ -179,6 +196,17 @@ public class addDataFragment extends Fragment {
             public void onClick(View v) {
                 postImBleeding(finalUid1,moonDayString);
                 Toast.makeText(getContext(), "Clean it up!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button imCrazy=(Button)view.findViewById(R.id.imCrazyButton);
+        //String finalUid1 = uid;
+        imCrazy.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                postImCrazy(finalUid1,moonDayString);
+                Toast.makeText(getContext(), "Nuttier than a squirrel turd!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -514,6 +542,48 @@ public class addDataFragment extends Fragment {
                         emotions.put("Counter",(int)counter);
                         mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).set(energy);
                         mFirestore.collection("Human Metrics").document(uid).collection("Energy").document(moonDayString).update("Counter", FieldValue.increment(1));
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public static void postImCrazy(String uid, String moonDayString) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> imCrazy = new HashMap<>();
+        imCrazy.put("ImCrazy", 1);
+        //greenlights.put("RedLights", 0);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("ImCrazy").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("ImCrazy").document(uid).collection("Data").document(moonDayString).update("ImCrazy", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), "u", Toast.LENGTH_LONG);
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        mFirestore.collection("ImCrazy").document(uid).collection("Data").document(moonDayString).set(imCrazy);
                     }
                 } else {
                     Log.d(TAG, "Failed with: ", task.getException());
