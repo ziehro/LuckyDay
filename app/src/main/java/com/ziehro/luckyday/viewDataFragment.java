@@ -338,6 +338,8 @@ public class viewDataFragment extends Fragment {
                 Log.d(TAG, "Inside Button" + "ggg" + yVals1);
                 Log.d(TAG, "Inside Button" + "ggg" + lineData);
 
+
+
     //////////////////////  Line Graphing Section  /////////////////
                 LineChart mChart;
                 mChart = (LineChart) getView().findViewById(R.id.lineChart);
@@ -349,6 +351,7 @@ public class viewDataFragment extends Fragment {
                     lineSet1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
                     lineSet1.setValues(lineData);
                     mChart.getData().notifyDataChanged();
+                    mChart.getData().setHighlightEnabled(true);
                     mChart.notifyDataSetChanged();
                     mChart.animateY(3000);
                     //mChart.invalidate();
@@ -387,6 +390,10 @@ public class viewDataFragment extends Fragment {
                     lineDataSets.add(lineSetStress);
                     LineData lineData = new LineData(lineDataSets);
                     mChart.setData(lineData);
+                    //mChart.getData().setHighlightEnabled(true);
+                    mChart.setDrawMarkerViews(true);
+                    customMarkerView customMarkerView = new customMarkerView(getContext(), R.layout.custom_marker_view);
+                    mChart.setMarkerView(customMarkerView);
                     mChart.notifyDataSetChanged();
                     mChart.animateY(3000);
                     //mChart.invalidate();

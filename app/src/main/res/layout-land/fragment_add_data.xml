@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/phoenix3"
+    >
+
+    <Button
+        android:id="@+id/imBleedingButton"
+        style="@style/FirebaseUI.Button"
+        android:layout_width="85dp"
+        android:layout_height="111dp"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="24dp"
+        android:background="?android:attr/textSelectHandle"
+        android:backgroundTint="#950D0D"
+        android:text="I'm Bleeding"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/button_first"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="148dp"
+        android:text="Moon Day"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/moonDayTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+    <Button
+        android:id="@+id/addLottery"
+        style="@android:style/Widget.Material.Button.Inset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#3F51B5"
+        android:paddingHorizontal="15dp"
+        android:text="Add Lottery"
+        android:textColor="#C5CAE9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="20dp"
+        android:text="Stats"
+        app:iconTint="#FB0D0D"
+        app:layout_constraintBottom_toTopOf="@+id/addLottery"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/redLightButton"
+        android:layout_width="56dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/roundedbutton"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        />
+
+    <Button
+        android:id="@+id/greenLightButton"
+        android:layout_width="58dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/roundedbuttongreen"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sign_in_page_button"
+        android:layout_width="79dp"
+        android:layout_height="79dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="68dp"
+        android:background="@android:color/transparent"
+
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/profilePicAddData"
+        android:layout_width="83dp"
+        android:layout_height="86dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/signed_out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="92dp"
+        android:layout_height="102dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/balloonframeblack" />
+
+    <SeekBar
+        android:id="@+id/emotionsSeekbar"
+        style="@android:style/Widget.Material.SeekBar"
+        android:layout_width="259dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="9dp"
+        android:max="7"
+        android:progress="1"
+        android:thumb="@drawable/roundedbutton"
+        app:layout_constraintBottom_toTopOf="@+id/stressTextbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintStart_toEndOf="@+id/imBleedingButton" />
+
+    <SeekBar
+        android:id="@+id/stressSeekbar"
+        style="@android:style/Widget.Material.SeekBar"
+        android:layout_width="259dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="28dp"
+        android:max="7"
+        android:progress="1"
+        android:thumb="@drawable/roundedbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toEndOf="@+id/imBleedingButton"
+        app:layout_constraintTop_toBottomOf="@+id/emotionsSeekbar" />
+
+    <SeekBar
+        android:id="@+id/energySeekbar"
+        style="@android:style/Widget.Material.SeekBar"
+        android:layout_width="259dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="28dp"
+        android:max="7"
+        android:progress="1"
+        android:thumb="@drawable/roundedbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toEndOf="@+id/imBleedingButton"
+        app:layout_constraintTop_toBottomOf="@+id/stressSeekbar" />
+
+    <TextView
+        android:id="@+id/emotionsTextbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Mood"
+        app:layout_constraintBottom_toTopOf="@+id/emotionsSeekbar"
+        app:layout_constraintStart_toStartOf="@+id/emotionsSeekbar" />
+
+    <TextView
+        android:id="@+id/stressTextbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Stress"
+        app:layout_constraintBottom_toTopOf="@+id/stressSeekbar"
+        app:layout_constraintStart_toStartOf="@+id/stressSeekbar" />
+
+    <TextView
+        android:id="@+id/energyTextbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Energy"
+        app:layout_constraintBottom_toTopOf="@+id/energySeekbar"
+        app:layout_constraintStart_toStartOf="@+id/energySeekbar" />
+
+    <Button
+        android:id="@+id/slider_submit_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/energySeekbar"
+        app:layout_constraintTop_toBottomOf="@+id/energySeekbar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/imCrazyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/black"
+        android:text="I'm Crazy"
+        app:layout_constraintBottom_toTopOf="@+id/imBleedingButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/addMajors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#009688"
+        android:drawableTint="#F30707"
+        android:fontFamily="serif-monospace"
+        android:foregroundTint="#F44336"
+        android:shadowColor="#FFFFFF"
+        android:text="MAJORS"
+        android:textColor="@color/purple_700"
+        app:layout_constraintStart_toStartOf="@+id/addLottery"
+        app:layout_constraintTop_toBottomOf="@+id/addLottery" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
