@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.MPPointF;
 
 public class customMarkerView extends MarkerView {
 
@@ -19,19 +20,12 @@ public class customMarkerView extends MarkerView {
     }
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        tvContent.setText("Energy " + e.getY());
+        tvContent.setText("Red " + e.getY());
         super.refreshContent(e, highlight);
     }
 
-    //@Override
-    public int getXOffset(float xpos) {
-        // this will center the marker-view horizontally
-        return -(getWidth() / 2);
-    }
-
-    //@Override
-    public int getYOffset(float ypos) {
-        // this will cause the marker-view to be above the selected value
-        return -getHeight();
+    @Override
+    public MPPointF getOffset() {
+        return new MPPointF(-(getWidth()/2), -getHeight());
     }
 }

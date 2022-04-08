@@ -385,12 +385,14 @@ public class viewDataFragment extends Fragment {
                         //lineSet1.setFillColor(Color.DKGRAY);
                     }
                     ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
+                    lineSet1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineSetEnergy.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineSetStress.setMode(LineDataSet.Mode.CUBIC_BEZIER);
                     lineDataSets.add(lineSet1);
                     lineDataSets.add(lineSetEnergy);
                     lineDataSets.add(lineSetStress);
                     LineData lineData = new LineData(lineDataSets);
                     mChart.setData(lineData);
-                    //mChart.getData().setHighlightEnabled(true);
                     mChart.setDrawMarkerViews(true);
                     customMarkerView customMarkerView = new customMarkerView(getContext(), R.layout.custom_marker_view);
                     mChart.setMarkerView(customMarkerView);
