@@ -210,6 +210,17 @@ public class addDataFragment extends Fragment {
             }
         });
 
+        Button perfectButton=(Button)view.findViewById(R.id.perfectButton);
+        //String finalUid1 = uid;
+        perfectButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                postPerfect(finalUid1,moonDayString);
+                Toast.makeText(getContext(), "Ahhhh beauty!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Button stats = (Button)view.findViewById(R.id.button_first);
         stats.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -591,4 +602,47 @@ public class addDataFragment extends Fragment {
             }
         });
     }
+
+    public static void postPerfect(String uid, String moonDayString) {
+
+        mFirestore = FirebaseFirestore.getInstance();
+
+        Map<String, Integer> Perfect = new HashMap<>();
+        Perfect.put("Perfect", 1);
+        //greenlights.put("RedLights", 0);
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = rootRef.collection("Perfect").document(uid).collection("Data").document(moonDayString);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Document exists!");
+                        mFirestore.collection("Perfect").document(uid).collection("Data").document(moonDayString).update("Perfect", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(@NonNull Object o) {
+                                //Toast.makeText(addDataFragment.this.getActivity(), "u", Toast.LENGTH_LONG);
+
+                            }
+
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Document does not exist!");
+                        mFirestore.collection("Perfect").document(uid).collection("Data").document(moonDayString).set(Perfect);
+                    }
+                } else {
+                    Log.d(TAG, "Failed with: ", task.getException());
+                }
+            }
+        });
+    }
+
 }
