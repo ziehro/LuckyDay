@@ -6,6 +6,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 import static com.ziehro.luckyday.whatDayIsIt.letterDay;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
@@ -30,16 +32,23 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,45 +79,10 @@ import java.util.concurrent.TimeUnit;
 
 public class viewDataFragment extends Fragment {
 
-
-    private ArrayAdapter<String> adapter;
-
-
-    public moonAgeInDays moonDay0 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay1 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay2 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay3 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay4 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay5 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay6 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay7 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay8 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay9 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay10 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay11 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay12 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay13 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay14 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay15 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay16 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay17 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay18 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay19 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay20 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay21 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay22 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay23 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay24 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay25 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay26 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay27 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay28 = new moonAgeInDays(0.0, 0.0);
-    public moonAgeInDays moonDay29 = new moonAgeInDays(0.0, 0.0);
-    Integer luckyMoonDay = 0;
-    Double luckyDayWinPercent= 0.0;
     String greenLightCounter;
     String redLightCounter;
     public String uid = "boob";
+    AdView mAdView;
 
     @Override
     public View onCreateView(
@@ -122,10 +96,19 @@ public class viewDataFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView textView = (TextView) view.findViewById(R.id.textView);
-        TextView totalSpentTV = (TextView) view.findViewById(R.id.totalSpentTV);
-        TextView totalWonTV = (TextView) view.findViewById(R.id.totalWonTV);
-        TextView luckyDay = (TextView) view.findViewById(R.id.luckyDayTV);
+
+        MobileAds.initialize(view.getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        ImageView greenLightIndicator = (ImageView) view.findViewById(R.id.greenLightIndicator);
+        ImageView redLightIndicator = (ImageView) view.findViewById(R.id.redLightIndicator);
+        ImageView moonPicture = (ImageView)view.findViewById(R.id.moonPicture);
         TextView redLightsDisplay = (TextView)view.findViewById(R.id.redLightsTV);
         TextView greenLightsDisplay = (TextView)view.findViewById(R.id.greenLightsTV);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -144,6 +127,8 @@ public class viewDataFragment extends Fragment {
         MoonPhase moonPhase1 = new MoonPhase(c);
         String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
 
+        greenLightsDisplay.setText(greenLightCounter);
+        redLightsDisplay.setText(redLightCounter);
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
@@ -161,6 +146,18 @@ public class viewDataFragment extends Fragment {
                                 greenLightsDisplay.setText(document.get("GreenLights").toString());
                                 //Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
                                 view.findViewById(R.id.chartButton).callOnClick();
+                                int redLights = Integer.valueOf(document.get("RedLights").toString());
+                                int greenLights = Integer.valueOf(document.get("GreenLights").toString());
+                                int diff = 0;
+                                if (redLights>greenLights) diff = redLights - greenLights;
+                                if (greenLights>redLights) diff = greenLights-redLights;
+                                if (diff<70){
+                                    redLightIndicator.getLayoutParams().height=redLights*20;
+                                    greenLightIndicator.getLayoutParams().height=greenLights*20;
+                                    redLightIndicator.getLayoutParams().width=redLights*20;
+                                    greenLightIndicator.getLayoutParams().width=greenLights*20;
+                                }
+
 
                             }
 
@@ -185,110 +182,8 @@ public class viewDataFragment extends Fragment {
 
 
 
-        ListView mainListView = (ListView)view.findViewById(R.id.listView);
-        ListView moonDayListView = (ListView)view.findViewById(R.id.moonDayList);
-        List<String> list = new ArrayList<>();
-        List<String> moonDaylist = new ArrayList<>();
-
-        mFirestore.collection("Lottery").document(uid).collection("Data").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    Double moneyIn;
-                    Double moneyOut;
-                    Double percentWin = 0.0;
-                    Double totalSpent = 0.0;
-                    Double totalWin = 0.0;
 
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        moneyIn = Double.valueOf(document.getString("moneyIn"));
-                        moneyOut = Double.valueOf(document.getString("moneyOut"));
-                        if (moneyIn >0 && moneyOut >0) {
-                            percentWin = moneyOut / moneyIn;
-                        }
-                        else percentWin = 0.0;
-                        totalSpent=totalSpent+moneyIn;
-                        totalWin = totalWin+moneyOut;
-
-                        String moonDayLetter = whatDayIsIt.letterDay(document.getString("moonDay"));
-
-                        addMoneyInToMoonDay(document.getString("moonDay"),moneyIn);
-                        addMoneyOutToMoonDay(document.getString("moonDay"),moneyOut);
-                        Integer place = (int)Math.round(percentWin)*100;
-
-                        String entryString = document.getString("moonDay") + moonDayLetter +"  " + document.getString("moonPhase") + "  " + place.toString() + " % Win";
-                        list.add(entryString);
-
-                    }
-                    totalSpentTV.setText(totalSpent.toString());
-                    totalWonTV.setText(totalWin.toString());
-                    mainListView.setAdapter(adapter);
-                    Log.d(TAG, list.toString());
-
-                    greenLightsDisplay.setText(greenLightCounter);
-                    redLightsDisplay.setText(redLightCounter);
-
-
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                            getContext(),
-                            android.R.layout.simple_spinner_dropdown_item,
-                            list );
-
-                    mainListView.setAdapter(arrayAdapter);
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                    Toast.makeText(view.getContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
-                }
-
-                if(moonDay12.moneyIn!=0.0 &&moonDay12.moneyOut!=0.0) {moonDaylist.add("12" + "  " +moonDay12.getPercent());
-                     if(moonDay12.moneyOut/moonDay12.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay12.moneyOut/moonDay12.moneyIn;luckyMoonDay = 12;}}
-                if(moonDay13.moneyIn!=0.0 &&moonDay13.moneyOut!=0.0) {moonDaylist.add("13" + "  " +moonDay13.getPercent());
-                    if(moonDay13.moneyOut/moonDay13.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay13.moneyOut/moonDay13.moneyIn;luckyMoonDay = 13;}}
-                if(moonDay14.moneyIn!=0.0 &&moonDay14.moneyOut!=0.0) {moonDaylist.add("14" + "  " +moonDay14.getPercent());
-                    if(moonDay14.moneyOut/moonDay14.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay14.moneyOut/moonDay14.moneyIn;luckyMoonDay = 14;}}
-                if(moonDay15.moneyIn!=0.0 &&moonDay15.moneyOut!=0.0) {moonDaylist.add("15" + "  " +moonDay15.getPercent());
-                    if(moonDay15.moneyOut/moonDay15.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay15.moneyOut/moonDay15.moneyIn;luckyMoonDay = 15;}}
-                if(moonDay16.moneyIn!=0.0 &&moonDay16.moneyOut!=0.0) {moonDaylist.add("16" + "  " +moonDay16.getPercent());
-                    if(moonDay16.moneyOut/moonDay16.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay16.moneyOut/moonDay16.moneyIn;luckyMoonDay = 16;}}
-                if(moonDay17.moneyIn!=0.0 &&moonDay17.moneyOut!=0.0) {moonDaylist.add("17" + "  " +moonDay17.getPercent());
-                    if(moonDay17.moneyOut/moonDay17.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay17.moneyOut/moonDay17.moneyIn;luckyMoonDay = 17;}}
-                if(moonDay18.moneyIn!=0.0 &&moonDay18.moneyOut!=0.0) {moonDaylist.add("18" + "  " +moonDay18.getPercent());
-                    if(moonDay18.moneyOut/moonDay18.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay18.moneyOut/moonDay18.moneyIn;luckyMoonDay = 18;}}
-                if(moonDay19.moneyIn!=0.0 &&moonDay19.moneyOut!=0.0) {moonDaylist.add("19" + "  " +moonDay19.getPercent());
-                    if(moonDay19.moneyOut/moonDay19.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay19.moneyOut/moonDay19.moneyIn;luckyMoonDay = 19;}}
-                if(moonDay20.moneyIn!=0.0 &&moonDay20.moneyOut!=0.0) {moonDaylist.add("20" + "  " +moonDay20.getPercent());
-                    if(moonDay20.moneyOut/moonDay20.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay20.moneyOut/moonDay20.moneyIn;luckyMoonDay = 20;}}
-                if(moonDay21.moneyIn!=0.0 &&moonDay21.moneyOut!=0.0) {moonDaylist.add("21" + "  " +moonDay21.getPercent());
-                    if(moonDay21.moneyOut/moonDay21.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay21.moneyOut/moonDay21.moneyIn;luckyMoonDay = 21;}}
-                if(moonDay22.moneyIn!=0.0 &&moonDay22.moneyOut!=0.0) {moonDaylist.add("22" + "  " +moonDay22.getPercent());
-                    if(moonDay22.moneyOut/moonDay22.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay22.moneyOut/moonDay22.moneyIn;luckyMoonDay = 22;}}
-                if(moonDay23.moneyIn!=0.0 &&moonDay23.moneyOut!=0.0) {moonDaylist.add("23" + "  " +moonDay23.getPercent());
-                    if(moonDay23.moneyOut/moonDay23.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay23.moneyOut/moonDay23.moneyIn;luckyMoonDay = 23;}}
-                if(moonDay24.moneyIn!=0.0 &&moonDay24.moneyOut!=0.0) {moonDaylist.add("24" + "  " +moonDay24.getPercent());
-                    if(moonDay24.moneyOut/moonDay24.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay24.moneyOut/moonDay24.moneyIn;luckyMoonDay = 24;}}
-                if(moonDay25.moneyIn!=0.0 &&moonDay25.moneyOut!=0.0) {moonDaylist.add("25" + "  " +moonDay25.getPercent());
-                    if(moonDay25.moneyOut/moonDay25.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay25.moneyOut/moonDay25.moneyIn;luckyMoonDay = 25;}}
-                if(moonDay26.moneyIn!=0.0 &&moonDay26.moneyOut!=0.0) {moonDaylist.add("26" + "  " +moonDay26.getPercent());
-                    if(moonDay26.moneyOut/moonDay26.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay26.moneyOut/moonDay26.moneyIn;luckyMoonDay = 26;}}
-                if(moonDay27.moneyIn!=0.0 &&moonDay27.moneyOut!=0.0) {moonDaylist.add("27" + "  " +moonDay27.getPercent());
-                    if(moonDay27.moneyOut/moonDay27.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay27.moneyOut/moonDay27.moneyIn;luckyMoonDay = 27;}}
-                if(moonDay28.moneyIn!=0.0 &&moonDay28.moneyOut!=0.0) {moonDaylist.add("28" + "  " +moonDay28.getPercent());
-                    if(moonDay28.moneyOut/moonDay28.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay28.moneyOut/moonDay28.moneyIn;luckyMoonDay = 28;}}
-                if(moonDay29.moneyIn!=0.0 &&moonDay29.moneyOut!=0.0) {moonDaylist.add("29" + "  " +moonDay29.getPercent());
-                    if(moonDay29.moneyOut/moonDay29.moneyIn > luckyDayWinPercent) {luckyDayWinPercent= moonDay29.moneyOut/moonDay29.moneyIn;luckyMoonDay = 29;}}
-
-                ArrayAdapter<String> moonDayArrayAdapter = new ArrayAdapter<String>(
-                        getContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        moonDaylist );
-
-                moonDayListView.setAdapter(moonDayArrayAdapter);
-                luckyDay.setText(luckyMoonDay.toString());
-
-            }
-        });
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
@@ -354,8 +249,7 @@ public class viewDataFragment extends Fragment {
                     mChart.getData().setHighlightEnabled(true);
                     mChart.notifyDataSetChanged();
                     mChart.animateY(3000);
-                    //mChart.invalidate();
-                    //Toast.makeText(getContext(), "Inside" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
+
 
                 } else {
                     lineSet1 = new LineDataSet(lineData, "Emotions");
@@ -363,18 +257,23 @@ public class viewDataFragment extends Fragment {
                     lineSetStress = new LineDataSet(lineDataStress, "Stress");
                     lineSet1.setDrawIcons(false);
                     //lineSet1.enableDashedLine(10f, 5f, 0f);
-                    //lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
-                    lineSet1.setColor(Color.GREEN);
+                    lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
+                    lineSet1.setColor(R.color.dkGreen);
                     lineSetEnergy.setColor(Color.BLUE);
                     lineSetStress.setColor(Color.RED);
                     lineSet1.setCircleColor(Color.WHITE);
-                    lineSet1.setLineWidth(1f);
-                    lineSet1.setCircleRadius(3f);
+                    lineSet1.setLineWidth(3f);
+                    lineSetEnergy.setLineWidth(3f);
+                    lineSetStress.setLineWidth(3f);
+                    lineSet1.setCircleRadius(1f);
                     lineSet1.setDrawCircleHole(false);
                     lineSet1.setValueTextSize(3f);
                     lineSet1.setDrawFilled(false);
+                    lineSet1.setHighlightEnabled(true);
                     lineSet1.setFormLineWidth(1f);
-                    //lineSet1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                    lineSet1.setDrawCircles(false);
+                    lineSetEnergy.setDrawCircles(false);
+                    lineSetStress.setDrawCircles(false);
                     lineSet1.setFormSize(15.f);
                     lineSetEnergy.setFormSize(15.f);
                     lineSetStress.setFormSize(15.f);
@@ -392,24 +291,41 @@ public class viewDataFragment extends Fragment {
                     lineDataSets.add(lineSetEnergy);
                     lineDataSets.add(lineSetStress);
                     LineData lineData = new LineData(lineDataSets);
+                    lineData.setDrawValues(false);
+                    LimitLine ll = new LimitLine(Integer.valueOf(moonDayString), "Today");
+                     ll.setLineColor(Color.WHITE);
+                     ll.setLineWidth(4f);
+                     ll.setTextColor(Color.BLACK);
+                     ll.setTextSize(12f);
+                    mChart.getXAxis().addLimitLine(ll);
                     mChart.setData(lineData);
                     mChart.setDrawMarkerViews(true);
                     customMarkerView customMarkerView = new customMarkerView(getContext(), R.layout.custom_marker_view);
                     mChart.setMarkerView(customMarkerView);
                     mChart.notifyDataSetChanged();
                     mChart.animateY(3000);
-                    //mChart.invalidate();
-                    //Toast.makeText(getContext(), "End" + lineSet1.toString(), Toast.LENGTH_LONG ).show();
-               }
-                Log.d(TAG, "Outside Button" + "ggg" + lineDataEnergy);
-                Log.d(TAG, "Outside Button" + "ggg" + lineData);
+
+                    moonPicture.getLayoutParams().width = mChart.getWidth()-40;
+
+                }
+                ///////////////////////////////////////////////////////////////////////////
+
+            }
+        });
+
+        Button lotteryWinsButton=(Button)view.findViewById(R.id.lotteryPageButton);
+        lotteryWinsButton.setOnClickListener(new View.OnClickListener() {
 
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //Intent n=new Intent(getContext(), addLottery.class);
+                //startActivity(n);
+                Toast.makeText(getContext(), "Lottery Page" + "", Toast.LENGTH_SHORT).show();
+                Intent n=new Intent(getContext(), LotteryWinsPage.class);
+                startActivity(n);
 
-
-
-
-///////////////////////////////////////////////////////////////////////////
 
             }
         });
@@ -425,199 +341,6 @@ public class viewDataFragment extends Fragment {
         });
     }
 
-    boolean addMoneyInToMoonDay(String moonDay, Double moneyInVar){
-        switch (moonDay){
-            case "1":
-                moonDay1.moneyIn +=moneyInVar;
-                break;
-            case "2":
-                moonDay2.moneyIn +=moneyInVar;
-                break;
-            case "3":
-                moonDay3.moneyIn +=moneyInVar;
-                break;
-            case "4":
-                moonDay4.moneyIn +=moneyInVar;
-                break;
-            case "5":
-                moonDay5.moneyIn +=moneyInVar;
-                break;
-            case "6":
-                moonDay6.moneyIn +=moneyInVar;
-                break;
-            case "7":
-                moonDay7.moneyIn +=moneyInVar;
-                break;
-            case "8":
-                moonDay8.moneyIn +=moneyInVar;
-                break;
-            case "9":
-                moonDay9.moneyIn +=moneyInVar;
-                break;
-            case "10":
-                moonDay10.moneyIn +=moneyInVar;
-                break;
-            case "11":
-                moonDay11.moneyIn +=moneyInVar;
-                break;
-            case "12":
-                moonDay12.moneyIn +=moneyInVar;
-                break;
-            case "13":
-                moonDay13.moneyIn +=moneyInVar;
-                break;
-            case "14":
-                moonDay14.moneyIn +=moneyInVar;
-                break;
-            case "15":
-                moonDay15.moneyIn +=moneyInVar;
-                break;
-            case "16":
-                moonDay16.moneyIn +=moneyInVar;
-                break;
-            case "17":
-                moonDay17.moneyIn +=moneyInVar;
-                break;
-            case "18":
-                moonDay18.moneyIn +=moneyInVar;
-                break;
-            case "19":
-                moonDay19.moneyIn +=moneyInVar;
-                break;
-            case "20":
-                moonDay20.moneyIn +=moneyInVar;
-                break;
-            case "21":
-                moonDay21.moneyIn +=moneyInVar;
-                break;
-            case "22":
-                moonDay22.moneyIn +=moneyInVar;
-                break;
-            case "23":
-                moonDay23.moneyIn +=moneyInVar;
-                break;
-            case "24":
-                moonDay24.moneyIn +=moneyInVar;
-                break;
-            case "25":
-                moonDay25.moneyIn +=moneyInVar;
-                break;
-            case "26":
-                moonDay26.moneyIn +=moneyInVar;
-                break;
-            case "27":
-                moonDay27.moneyIn +=moneyInVar;
-                break;
-            case "28":
-                moonDay28.moneyIn +=moneyInVar;
-                break;
-            case "29":
-                moonDay29.moneyIn +=moneyInVar;
-                break;
-            case "0":
-                moonDay0.moneyIn +=moneyInVar;
-                break;
-
-        }
-
-
-        return false;
-    };
-
-    boolean addMoneyOutToMoonDay(String moonDay, Double moneyOutVar){
-        switch (moonDay){
-            case "1":
-                moonDay1.moneyOut +=moneyOutVar;
-                break;
-            case "2":
-                moonDay2.moneyOut +=moneyOutVar;
-                break;
-            case "3":
-                moonDay3.moneyOut +=moneyOutVar;
-                break;
-            case "4":
-                moonDay4.moneyOut +=moneyOutVar;
-                break;
-            case "5":
-                moonDay5.moneyOut +=moneyOutVar;
-                break;
-            case "6":
-                moonDay6.moneyOut +=moneyOutVar;
-                break;
-            case "7":
-                moonDay7.moneyOut +=moneyOutVar;
-                break;
-            case "8":
-                moonDay8.moneyOut +=moneyOutVar;
-                break;
-            case "9":
-                moonDay9.moneyOut +=moneyOutVar;
-                break;
-            case "10":
-                moonDay10.moneyOut +=moneyOutVar;
-                break;
-            case "11":
-                moonDay11.moneyOut +=moneyOutVar;
-                break;
-            case "12":
-                moonDay12.moneyOut +=moneyOutVar;
-                break;
-            case "13":
-                moonDay13.moneyOut +=moneyOutVar;
-                break;
-            case "14":
-                moonDay14.moneyOut +=moneyOutVar;
-                break;
-            case "15":
-                moonDay15.moneyOut +=moneyOutVar;
-                break;
-            case "16":
-                moonDay16.moneyOut +=moneyOutVar;
-                break;
-            case "17":
-                moonDay17.moneyOut +=moneyOutVar;
-                break;
-            case "18":
-                moonDay18.moneyOut +=moneyOutVar;
-                break;
-            case "19":
-                moonDay19.moneyOut +=moneyOutVar;
-                break;
-            case "20":
-                moonDay20.moneyOut +=moneyOutVar;
-                break;
-            case "21":
-                moonDay21.moneyOut +=moneyOutVar;
-                break;
-            case "22":
-                moonDay22.moneyOut +=moneyOutVar;
-                break;
-            case "23":
-                moonDay23.moneyOut +=moneyOutVar;
-                break;
-            case "24":
-                moonDay24.moneyOut +=moneyOutVar;
-                break;
-            case "25":
-                moonDay25.moneyOut +=moneyOutVar;
-                break;
-            case "26":
-                moonDay26.moneyOut +=moneyOutVar;
-                break;
-            case "27":
-                moonDay27.moneyOut +=moneyOutVar;
-                break;
-            case "28":
-                moonDay28.moneyOut +=moneyOutVar;
-                break;
-            case "29":
-                moonDay29.moneyOut +=moneyOutVar;
-                break;
-        }
-
-
-        return false;
-    };
 
     public static void showToastMethod(Context context) {
         Toast.makeText(context, "mymessage ", Toast.LENGTH_SHORT).show();

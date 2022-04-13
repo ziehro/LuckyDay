@@ -18,6 +18,7 @@ public class customMarkerView extends MarkerView {
         // this markerview only displays a textview
         tvContent = (TextView) findViewById(R.id.tvContent);
     }
+
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         tvContent.setText("Red " + e.getY());

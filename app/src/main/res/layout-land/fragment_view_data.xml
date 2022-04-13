@@ -23,7 +23,7 @@
         android:id="@+id/lineChart"
         android:layout_width="412dp"
         android:layout_height="292dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintBottom_toTopOf="@+id/moonPicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent">
@@ -192,7 +192,7 @@
         app:layout_constraintStart_toEndOf="@+id/button_second" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/moonPicture"
         android:layout_width="426dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"

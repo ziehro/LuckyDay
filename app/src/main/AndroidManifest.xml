@@ -30,6 +30,7 @@
         <activity android:name=".OnBoardingActivity" />
         <activity android:name=".ScreenSlidePagerActivity" />
         <activity android:name=".addMajors" />
+        <activity android:name=".LotteryWinsPage" />
 
 
 
@@ -41,6 +42,10 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget" />
         </receiver>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3170667552847591~6486945124"/>
 
         <activity
             android:name=".onBoardingFragment"
