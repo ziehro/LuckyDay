@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/phoenix3"
-    >
+    android:background="@mipmap/phoenix3">
 
     <Button
         android:id="@+id/perfectButton"
@@ -76,18 +75,26 @@
         android:layout_marginStart="28dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#3F51B5"
+        android:gravity="center"
         android:paddingHorizontal="15dp"
         android:text="Add Lottery"
+        android:textAlignment="center"
         android:textColor="#C5CAE9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@android:style/Widget.Material.Button.Inset"
+        android:layout_width="85dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="12dp"
+        android:background="@drawable/gradient_sunrise_button"
+        android:paddingHorizontal="15dp"
+        android:scaleX="0.95"
+        android:scaleY="0.95"
         android:text="Stats"
+        android:textColor="#000000"
         app:iconTint="#FB0D0D"
         app:layout_constraintBottom_toTopOf="@+id/addMajors"
         app:layout_constraintStart_toStartOf="@+id/addMajors" />
@@ -233,9 +240,13 @@
         android:drawableTint="#F30707"
         android:fontFamily="serif-monospace"
         android:foregroundTint="#F44336"
-        android:shadowColor="#FFFFFF"
+        android:shadowColor="#FBFAFA"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1"
         android:text="MAJORS"
-        android:textColor="@color/purple_700"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/addLottery"
         app:layout_constraintStart_toStartOf="@+id/addLottery" />
 

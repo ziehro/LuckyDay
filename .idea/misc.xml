@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable-v24/gradient_sunrise_button.xml" value="0.2875" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable-v24/greenlightIndicator.xml" value="0.3515" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.286" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable-v24/roundedbutton.xml" value="0.286" />
@@ -19,11 +20,11 @@
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable/selected_dot.xml" value="0.2965" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/drawable/tab_selector.xml" value="0.2965" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout-land/fragment_add_data.xml" value="0.32760141093474426" />
-        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout-land/fragment_view_data.xml" value="0.32760141093474426" />
+        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout-land/fragment_view_data.xml" value="0.5" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_add_lottery.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_add_majors.xml" value="0.18" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_firebase_ui.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_lottery_wins_page.xml" value="0.25" />
+        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_lottery_wins_page.xml" value="0.5" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_onboarding.xml" value="0.29270833333333335" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/activity_screen_slide.xml" value="0.18" />
@@ -35,7 +36,7 @@
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/custom_marker_view.xml" value="0.67" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/example_appwidget_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/example_loading_appwidget.xml" value="0.2557291666666667" />
-        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/fragment_add_data.xml" value="0.33" />
+        <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/fragment_add_data.xml" value="0.5" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/fragment_view_data.xml" value="0.33" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/fragment_zodiac_page.xml" value="0.25" />
         <entry key="..\:/Users/MFZ/Desktop/LuckyDay/app/src/main/res/layout/on_boarding_fragment.xml" value="0.32083333333333336" />

@@ -9,16 +9,17 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
         android:text="LuckyDay"
-        app:layout_constraintStart_toStartOf="@+id/listView"
+        app:layout_constraintEnd_toEndOf="@+id/listView"
         app:layout_constraintTop_toBottomOf="@+id/listView" />
 
     <TextView
         android:id="@+id/luckyDayTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
+        android:layout_marginStart="12dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toTopOf="@+id/textView13" />
@@ -36,7 +37,7 @@
         android:id="@+id/totalSpentTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="32dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toTopOf="@+id/textView12" />
@@ -54,7 +55,7 @@
         android:id="@+id/totalWonTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="24dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -73,8 +74,8 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="341dp"
-        android:layout_height="318dp"
-        android:layout_marginTop="44dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="16dp"
         android:background="#CFDC7F"
         android:numColumns="2"
         app:layout_constraintEnd_toEndOf="parent"
