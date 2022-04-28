@@ -3,7 +3,9 @@ package com.ziehro.luckyday;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +81,8 @@ public class addDataFragment extends Fragment {
 
 
 
+
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -94,6 +98,8 @@ public class addDataFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView moonDayDisplay = (TextView)view.findViewById(R.id.moonDayTV);
+        SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String flag = preferences2.getString("Flag", "");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -106,6 +112,12 @@ public class addDataFragment extends Fragment {
             uid = "bob";
             ImageView profilePic = (ImageView) view.findViewById(R.id.profilePicAddData);
             profilePic.setImageDrawable(getResources().getDrawable(R.drawable.signed_out));
+        }
+
+        if(flag == "1")
+        {
+            NavHostFragment.findNavController(addDataFragment.this)
+                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
         }
 
         moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();

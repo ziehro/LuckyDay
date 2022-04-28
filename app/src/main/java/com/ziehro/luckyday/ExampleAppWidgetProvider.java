@@ -1,13 +1,17 @@
 package com.ziehro.luckyday;
 
+import static android.os.ParcelFileDescriptor.MODE_WORLD_READABLE;
 import static com.ziehro.luckyday.addDataFragment.postGreenLight;
 import static com.ziehro.luckyday.addDataFragment.postRedLight;
 
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -345,6 +349,10 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         else
         if (MyOnClickLeftSide.equals(intent.getAction())) {
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("Flag","0");
+            editor.apply();
             Intent configIntent = new Intent(context, MainActivity.class);
             //configIntent.putExtra("key", 1);
             configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -355,13 +363,16 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider {
         else
         if (MyOnClickRightSide.equals(intent.getAction())) {
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("Flag","1");
+            editor.apply();
             Intent configIntent = new Intent(context, MainActivity.class);
-            //configIntent.putExtra("key", 1);
+            configIntent.putExtra("frgToLoad", 1);
             configIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show();
-            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_IMMUTABLE);
+            //PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
             context.startActivity(configIntent);
-
         }
     }
 

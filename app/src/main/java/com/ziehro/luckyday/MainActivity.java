@@ -88,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+
+/*
+        int intentFragment = getIntent().getExtras().getInt("frgToLoad");
+
+        switch (intentFragment){
+            case 1:
+                NavHostFragment.findNavController()
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                break;
+
+        }*/
+
         //Firebase Init
 
         FirebaseApp.initializeApp(this);

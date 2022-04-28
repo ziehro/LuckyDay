@@ -13,5 +13,6 @@ public class BaseActivity extends Activity {
     public String getUidVar() {
         return uid;
     }
+    int fragmentChoice = 0;
 
 }
