@@ -14,6 +14,7 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
         <action
             android:id="@+id/action_onBoardingFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
@@ -27,6 +28,23 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_SecondFragment_to_ThirdFragment"
+            app:destination="@id/ThirdFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ThirdFragment"
+        android:name="com.ziehro.luckyday.moreGraphs"
+        android:label="More Graphs"
+        tools:layout="@layout/more_graphs">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_ThirdFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
     </fragment>
 
     <fragment

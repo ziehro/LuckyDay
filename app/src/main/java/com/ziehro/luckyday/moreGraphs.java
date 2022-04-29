@@ -1,83 +1,85 @@
+
+
 package com.ziehro.luckyday;
 
-import static android.content.ContentValues.TAG;
+        import static android.content.ContentValues.TAG;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-import static com.ziehro.luckyday.whatDayIsIt.letterDay;
+        import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+        import static com.ziehro.luckyday.whatDayIsIt.letterDay;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextClock;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.graphics.DashPathEffect;
+        import android.graphics.drawable.Drawable;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.ListView;
+        import android.widget.TableLayout;
+        import android.widget.TableRow;
+        import android.widget.TextClock;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+        import androidx.annotation.NonNull;
+        import androidx.core.content.ContextCompat;
+        import androidx.fragment.app.Fragment;
+        import androidx.navigation.fragment.NavHostFragment;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Utils;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.squareup.picasso.Picasso;
+        import com.github.mikephil.charting.charts.BarChart;
+        import com.github.mikephil.charting.charts.LineChart;
+        import com.github.mikephil.charting.components.LimitLine;
+        import com.github.mikephil.charting.data.BarData;
+        import com.github.mikephil.charting.data.BarDataSet;
+        import com.github.mikephil.charting.data.BarEntry;
+        import com.github.mikephil.charting.data.Entry;
+        import com.github.mikephil.charting.data.LineData;
+        import com.github.mikephil.charting.data.LineDataSet;
+        import com.github.mikephil.charting.highlight.Highlight;
+        import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+        import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+        import com.github.mikephil.charting.utils.ColorTemplate;
+        import com.github.mikephil.charting.utils.Utils;
+        import com.google.android.gms.ads.AdRequest;
+        import com.google.android.gms.ads.AdView;
+        import com.google.android.gms.ads.MobileAds;
+        import com.google.android.gms.ads.initialization.InitializationStatus;
+        import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnFailureListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.firestore.CollectionReference;
+        import com.google.firebase.firestore.DocumentReference;
+        import com.google.firebase.firestore.DocumentSnapshot;
+        import com.google.firebase.firestore.FieldValue;
+        import com.google.firebase.firestore.FirebaseFirestore;
+        import com.google.firebase.firestore.Query;
+        import com.google.firebase.firestore.QueryDocumentSnapshot;
+        import com.google.firebase.firestore.QuerySnapshot;
+        import com.jjoe64.graphview.GraphView;
+        import com.jjoe64.graphview.series.DataPoint;
+        import com.jjoe64.graphview.series.LineGraphSeries;
+        import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+        import java.util.ArrayList;
+        import java.util.Calendar;
+        import java.util.Collections;
+        import java.util.Comparator;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.concurrent.TimeUnit;
 
-public class viewDataFragment extends Fragment {
+public class moreGraphs extends Fragment {
 
     String greenLightCounter;
     String redLightCounter;
@@ -90,7 +92,7 @@ public class viewDataFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_data, container, false);
+        return inflater.inflate(R.layout.more_graphs, container, false);
 
     }
 
@@ -127,9 +129,6 @@ public class viewDataFragment extends Fragment {
         MoonPhase moonPhase1 = new MoonPhase(c);
         String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
 
-        greenLightsDisplay.setText(greenLightCounter);
-        redLightsDisplay.setText(redLightCounter);
-
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -142,23 +141,21 @@ public class viewDataFragment extends Fragment {
                         mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).get().addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(@NonNull Object o) {
-                                if (document.get("RedLights")!=null) redLightsDisplay.setText(document.get("RedLights").toString());
-                                if (document.get("GreenLights") != null) greenLightsDisplay.setText(document.get("GreenLights").toString());
+                                //if (document.get("RedLights")!=null) redLightsDisplay.setText(document.get("RedLights").toString());
+                                //if (document.get("GreenLights") != null) greenLightsDisplay.setText(document.get("GreenLights").toString());
                                 //Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
-                                view.findViewById(R.id.chartButton).callOnClick();
+                                //view.findViewById(R.id.chartButton).callOnClick();
                                 int redLights = Integer.valueOf(document.get("RedLights").toString());
                                 int greenLights = Integer.valueOf(document.get("GreenLights").toString());
                                 int diff = 0;
                                 if (redLights>greenLights) diff = redLights - greenLights;
                                 if (greenLights>redLights) diff = greenLights-redLights;
                                 if (diff<70){
-                                    redLightIndicator.getLayoutParams().height=redLights*20+1;
-                                    greenLightIndicator.getLayoutParams().height=greenLights*20+1;
-                                    redLightIndicator.getLayoutParams().width=redLights*20+1;
-                                    greenLightIndicator.getLayoutParams().width=greenLights*20+1;
+                                    //redLightIndicator.getLayoutParams().height=redLights*20+1;
+                                    //greenLightIndicator.getLayoutParams().height=greenLights*20+1;
+                                    //redLightIndicator.getLayoutParams().width=redLights*20+1;
+                                    //greenLightIndicator.getLayoutParams().width=greenLights*20+1;
                                 }
-
-
                             }
 
 
@@ -235,7 +232,7 @@ public class viewDataFragment extends Fragment {
 
 
 
-    //////////////////////  Line Graphing Section  /////////////////
+                //////////////////////  Line Graphing Section  /////////////////
                 LineChart mChart;
                 mChart = (LineChart) getView().findViewById(R.id.lineChart);
                 mChart.setTouchEnabled(true);
@@ -293,10 +290,10 @@ public class viewDataFragment extends Fragment {
                     LineData lineData = new LineData(lineDataSets);
                     lineData.setDrawValues(false);
                     LimitLine ll = new LimitLine(Integer.valueOf(moonDayString), "Today");
-                     ll.setLineColor(Color.WHITE);
-                     ll.setLineWidth(4f);
-                     ll.setTextColor(Color.BLACK);
-                     ll.setTextSize(12f);
+                    ll.setLineColor(Color.WHITE);
+                    ll.setLineWidth(4f);
+                    ll.setTextColor(Color.BLACK);
+                    ll.setTextSize(12f);
                     mChart.getXAxis().addLimitLine(ll);
                     mChart.setData(lineData);
                     mChart.setDrawMarkerViews(true);
@@ -330,30 +327,15 @@ public class viewDataFragment extends Fragment {
             }
         });
 
-        Button moreChartsButton=(Button)view.findViewById(R.id.moreChartsButton);
-        moreChartsButton.setOnClickListener(new View.OnClickListener() {
 
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //Intent n=new Intent(getContext(), addLottery.class);
-                //startActivity(n);
-                Toast.makeText(getContext(), "More Charts" + "", Toast.LENGTH_SHORT).show();
-                NavHostFragment.findNavController(viewDataFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_ThirdFragment);
-
-
-            }
-        });
 
 
         view.findViewById(R.id.button_second).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(getContext(), "End" + yVals1.toString(), Toast.LENGTH_LONG ).show();
-                 NavHostFragment.findNavController(viewDataFragment.this)
-                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                NavHostFragment.findNavController(moreGraphs.this)
+                        .navigate(R.id.action_ThirdFragment_to_SecondFragment);
             }
         });
     }
