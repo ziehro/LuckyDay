@@ -11,9 +11,10 @@
         android:id="@+id/redGreenChart"
         android:layout_width="408dp"
         android:layout_height="192dp"
+        android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toTopOf="@+id/majorsChart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent">
 
     </com.github.mikephil.charting.charts.LineChart>
@@ -63,21 +64,21 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/checkBoxEmotions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Emotions" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxStress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Stress" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxEnergy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

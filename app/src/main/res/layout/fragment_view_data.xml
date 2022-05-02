@@ -112,24 +112,27 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/checkBoxEmotions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="true"
             android:text="Emotions" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxStress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="true"
             android:text="Stress" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBoxEnergy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="true"
             android:text="Energy" />
 
         <Button
@@ -170,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/previous" />
+            android:text="Main Page" />
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView

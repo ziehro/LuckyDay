@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
@@ -183,7 +185,9 @@ public class viewDataFragment extends Fragment {
 
 
 
-
+        CheckBox checkEmotions = view.findViewById(R.id.checkBoxEmotions);
+        CheckBox checkEnergy = view.findViewById(R.id.checkBoxEnergy);
+        CheckBox checkStress = view.findViewById(R.id.checkBoxStress);
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
@@ -241,7 +245,7 @@ public class viewDataFragment extends Fragment {
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
                 LineDataSet lineSet1, lineSetEnergy, lineSetStress;
-                if (mChart.getData() != null &&
+               /* if (mChart.getData() != null &&
                         mChart.getData().getDataSetCount() > 0) {
                     lineSet1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
                     lineSet1.setValues(lineData);
@@ -251,7 +255,7 @@ public class viewDataFragment extends Fragment {
                     mChart.animateY(3000);
 
 
-                } else {
+                } else {*/
                     lineSet1 = new LineDataSet(lineData, "Emotions");
                     lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
                     lineSetStress = new LineDataSet(lineDataStress, "Stress");
@@ -307,11 +311,77 @@ public class viewDataFragment extends Fragment {
 
                     moonPicture.getLayoutParams().width = mChart.getWidth()-40;
 
+                checkEmotions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSet1);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSet1);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkEnergy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetEnergy);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetEnergy);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkStress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetStress);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetStress);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
                 }
                 ///////////////////////////////////////////////////////////////////////////
 
-            }
+           // }
         });
+
+
+
 
         Button lotteryWinsButton=(Button)view.findViewById(R.id.lotteryPageButton);
         lotteryWinsButton.setOnClickListener(new View.OnClickListener() {
@@ -491,5 +561,48 @@ public class viewDataFragment extends Fragment {
 
         });
 /////////////////////////////////////
+
+     /*   CollectionReference referenceAll = rootRef.collection("Human Metrics").document(finalUid).collection("Stress");
+        moonDayOrder = referenceAll.orderBy("MoonDay");
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                referenceAll.orderBy("MoonDay", Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            for (int i = 0; i<counter; i++){
+                                DataTotal = DataTotal + (Double.parseDouble(document.get("Stress" + i).toString()));
+                            }
+                            if (counter != 0.0) average = DataTotal/counter;
+                            else average = 3.5;
+                            Double db = new Double(average);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataStress.add(new Entry (id, avgFloat));
+                            //yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });*/
+
+ /////////////////////////////////////
+
     }
 }

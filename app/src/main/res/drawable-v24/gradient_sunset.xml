@@ -7,7 +7,7 @@
             android:startColor="@color/black"
             android:centerColor="@color/fui_bgFacebook"
             android:endColor="#e8375d"
-            android:angle="29" />
+            android:angle="-45" />
     </shape>
 
 

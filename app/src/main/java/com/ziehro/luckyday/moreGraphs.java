@@ -60,6 +60,7 @@ package com.ziehro.luckyday;
         import com.google.firebase.firestore.CollectionReference;
         import com.google.firebase.firestore.DocumentReference;
         import com.google.firebase.firestore.DocumentSnapshot;
+        import com.google.firebase.firestore.FieldPath;
         import com.google.firebase.firestore.FieldValue;
         import com.google.firebase.firestore.FirebaseFirestore;
         import com.google.firebase.firestore.Query;
@@ -123,157 +124,71 @@ public class moreGraphs extends Fragment {
             uid = "bob";
 
         }
-        //uid = user.getUid();
 
         final Calendar c = Calendar.getInstance();
         MoonPhase moonPhase1 = new MoonPhase(c);
         String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        DocumentReference docIdRef = rootRef.collection("RedGreen").document(uid).collection("Data").document(moonDayString);
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "Document exists!");
-                        mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).get().addOnSuccessListener(new OnSuccessListener() {
-                            @Override
-                            public void onSuccess(@NonNull Object o) {
-                                //if (document.get("RedLights")!=null) redLightsDisplay.setText(document.get("RedLights").toString());
-                                //if (document.get("GreenLights") != null) greenLightsDisplay.setText(document.get("GreenLights").toString());
-                                //Toast.makeText(getContext(), "Got lights!", Toast.LENGTH_SHORT).show();
-                                //view.findViewById(R.id.chartButton).callOnClick();
-                                int redLights = Integer.valueOf(document.get("RedLights").toString());
-                                int greenLights = Integer.valueOf(document.get("GreenLights").toString());
-                                int diff = 0;
-                                if (redLights>greenLights) diff = redLights - greenLights;
-                                if (greenLights>redLights) diff = greenLights-redLights;
-                                if (diff<70){
-                                    //redLightIndicator.getLayoutParams().height=redLights*20+1;
-                                    //greenLightIndicator.getLayoutParams().height=greenLights*20+1;
-                                    //redLightIndicator.getLayoutParams().width=redLights*20+1;
-                                    //greenLightIndicator.getLayoutParams().width=greenLights*20+1;
-                                }
-                            }
-
-
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        Log.d(TAG, "Document does not exist!");
-                        //mFirestore.collection("RedGreen").document(uid).collection("Data").document(moonDayString).set(greenlights);
-                    }
-                } else {
-                    Log.d(TAG, "Failed with: ", task.getException());
-                }
-            }
-        });
-
-
-
-
-
-
-
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
-        ArrayList<Entry> lineData = new ArrayList<>();
-        ArrayList<Entry> lineDataEnergy = new ArrayList<>();
-        ArrayList<Entry> lineDataStress = new ArrayList<>();
+        ArrayList<Entry> lineDataGreen = new ArrayList<>();
+        ArrayList<Entry> lineDataRed = new ArrayList<>();
+
         BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
         for (int i = (int) 0; i < 29 + 1; i++) {
             float val = (float) (Math.random());
-            //yVals1.add(new BarEntry(i, 0));
-            //lineData.add(new Entry(i,1+i));
         }
 
         for (int i = (int) 0; i < 10 + 1; i++) {
             float val = (float) (Math.random());
-            //yVals2.add(new BarEntry(i, 11-i));
+
         }
-        makeChart(user, series,yVals1, lineData, lineDataEnergy, lineDataStress);
+        makeRedGreenChart(user, series,yVals1, lineDataGreen, lineDataRed);
         Log.d("YOOOOOOOOOOOOOOOOOOO", "HeeeeeeeeeeeeeeeeeeeeeRRRe" + yVals1);
 
 
         view.findViewById(R.id.chartButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Inside Button" + "Hiii" + yVals1);
-                Log.d(TAG, "Inside Button" + "Hiii" + lineData);
-           /*    BarDataSet set1,set2;
-                set1 = new BarDataSet(yVals1, "The year 2017");
-                set2 = new BarDataSet(yVals2, "The year 2017");
-                set1.setColors(ColorTemplate.MATERIAL_COLORS);
-                set2.setColors(ColorTemplate.JOYFUL_COLORS);
-                ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-                dataSets.add(set1);
-                ArrayList<IBarDataSet> dataSets2 = new ArrayList<IBarDataSet>();
-                dataSets.add(set2);
-                BarData data = new BarData(dataSets);
-                dataSets.add(set1);
-                dataSets.add(set2);
-                dataSets.add(set1);
-                data.setValueTextSize(10f);
-                data.setBarWidth(0.25f);
-                bchart.setTouchEnabled(false);
-                bchart.setData(data);
-                bchart.notifyDataSetChanged();
-                bchart.invalidate();*/
-                Log.d(TAG, "Inside Button" + "ggg" + yVals1);
-                Log.d(TAG, "Inside Button" + "ggg" + lineData);
-
-
 
                 //////////////////////  Line Graphing Section  /////////////////
                 LineChart mChart;
-                mChart = (LineChart) getView().findViewById(R.id.lineChart);
+                mChart = (LineChart) getView().findViewById(R.id.redGreenChart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-                LineDataSet lineSet1, lineSetEnergy, lineSetStress;
-                if (mChart.getData() != null &&
-                        mChart.getData().getDataSetCount() > 0) {
-                    lineSet1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-                    lineSet1.setValues(lineData);
-                    mChart.getData().notifyDataChanged();
-                    mChart.getData().setHighlightEnabled(true);
-                    mChart.notifyDataSetChanged();
-                    mChart.animateY(3000);
+                LineDataSet lineSetGreen, lineSetRed;
 
+                    lineSetGreen = new LineDataSet(lineDataGreen, "Green");
+                    lineSetRed = new LineDataSet(lineDataRed, "Red");
 
-                } else {
-                    lineSet1 = new LineDataSet(lineData, "Emotions");
-                    lineSetEnergy = new LineDataSet(lineDataEnergy, "Energy");
-                    lineSetStress = new LineDataSet(lineDataStress, "Stress");
-                    lineSet1.setDrawIcons(false);
-                    //lineSet1.enableDashedLine(10f, 5f, 0f);
-                    lineSet1.enableDashedHighlightLine(10f, 5f, 0f);
-                    lineSet1.setColor(R.color.dkGreen);
-                    lineSetEnergy.setColor(Color.BLUE);
-                    lineSetStress.setColor(Color.RED);
-                    lineSet1.setCircleColor(Color.WHITE);
-                    lineSet1.setLineWidth(3f);
-                    lineSetEnergy.setLineWidth(3f);
-                    lineSetStress.setLineWidth(3f);
-                    lineSet1.setCircleRadius(1f);
-                    lineSet1.setDrawCircleHole(false);
-                    lineSet1.setValueTextSize(3f);
-                    lineSet1.setDrawFilled(false);
-                    lineSet1.setHighlightEnabled(true);
-                    lineSet1.setFormLineWidth(1f);
-                    lineSet1.setDrawCircles(false);
-                    lineSetEnergy.setDrawCircles(false);
-                    lineSetStress.setDrawCircles(false);
-                    lineSet1.setFormSize(15.f);
-                    lineSetEnergy.setFormSize(15.f);
-                    lineSetStress.setFormSize(15.f);
+                    lineSetGreen.setDrawIcons(false);
+                    lineSetGreen.enableDashedLine(0, 1, 0);
+                    lineSetRed.enableDashedLine(0, 1, 0);
+                    lineSetGreen.enableDashedHighlightLine(10f, 5f, 0f);
+                    lineSetGreen.setColor(R.color.dkGreen);
+                    lineSetRed.setColor(R.color.fui_transparent);
+
+                    lineSetGreen.setCircleColor(Color.GREEN);
+                    lineSetRed.setCircleColor(Color.RED);
+                    lineSetGreen.setLineWidth(0f);
+                    lineSetRed.setLineWidth(0f);
+
+                    lineSetGreen.setCircleRadius(7f);
+                    lineSetRed.setCircleRadius(7f);
+                    lineSetGreen.setDrawCircleHole(true);
+                    lineSetGreen.setValueTextSize(3f);
+                    lineSetGreen.setDrawFilled(false);
+                    lineSetGreen.setHighlightEnabled(true);
+                    lineSetGreen.setFormLineWidth(1f);
+                    lineSetGreen.setDrawCircles(true);
+                    lineSetRed.setDrawCircles(true);
+
+                    lineSetGreen.setFormSize(15.f);
+                    lineSetRed.setFormSize(15.f);
+
                     if (Utils.getSDKInt() >= 18) {
                         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
                         //lineSet1.setFillDrawable(drawable);
@@ -281,12 +196,11 @@ public class moreGraphs extends Fragment {
                         //lineSet1.setFillColor(Color.DKGRAY);
                     }
                     ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
-                    lineSet1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                    lineSetEnergy.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                    lineSetStress.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                    lineDataSets.add(lineSet1);
-                    lineDataSets.add(lineSetEnergy);
-                    lineDataSets.add(lineSetStress);
+                    lineSetGreen.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineSetRed.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineDataSets.add(lineSetGreen);
+                    lineDataSets.add(lineSetRed);
+
                     LineData lineData = new LineData(lineDataSets);
                     lineData.setDrawValues(false);
                     LimitLine ll = new LimitLine(Integer.valueOf(moonDayString), "Today");
@@ -306,8 +220,6 @@ public class moreGraphs extends Fragment {
 
                 }
                 ///////////////////////////////////////////////////////////////////////////
-
-            }
         });
 
         Button lotteryWinsButton=(Button)view.findViewById(R.id.lotteryPageButton);
@@ -345,38 +257,37 @@ public class moreGraphs extends Fragment {
         Toast.makeText(context, "mymessage ", Toast.LENGTH_SHORT).show();
     }
 
-    public void makeChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineData,ArrayList<Entry> lineDataEnergy,ArrayList<Entry> lineDataStress) {
+    public void makeRedGreenChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineDataGreen,ArrayList<Entry> lineDataRed) {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         String uid = "bob";
         uid=user.getUid();
         String finalUid = uid;
 
-        CollectionReference reference = rootRef.collection("Human Metrics").document(finalUid).collection("Data");
-        Query moonDayOrder = reference.orderBy("MoonDay");
+        CollectionReference referenceGreen = rootRef.collection("RedGreen").document(finalUid).collection("Data");
+        Query moonDayOrder = referenceGreen.orderBy(FieldPath.documentId());
         moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                reference.orderBy("MoonDay", Query.Direction.DESCENDING);
+                referenceGreen.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
                 if (task.isSuccessful()) {
                     Double DataTotal = 0.0;
                     Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         DataTotal = 0.0;
-                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
                         if (document.exists()) {
                             Double average = 0.0;
                             Log.d(TAG, "Graph point! " + document + DataTotal);
-                            for (int i = 0; i<counter; i++){
-                                DataTotal = DataTotal + (Double.parseDouble(document.get("Emotions" + i).toString()));
-                            }
-                            if (counter != 0.0) average = DataTotal/counter;
-                            else average = 3.5;
-                            Double db = new Double(average);
+                            //if document.exists();
+                            DataTotal = (Double.parseDouble(document.get("GreenLights").toString()));
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+                            Double db = new Double(DataTotal);
                             float avgFloat = db.floatValue();
                             int id = Integer.valueOf(document.getId());
-                            lineData.add(new Entry (id, avgFloat));
+                            lineDataGreen.add(new Entry (id, avgFloat));
                             yVals1.add(new BarEntry(id, avgFloat));
                         }
                         else{
@@ -393,32 +304,30 @@ public class moreGraphs extends Fragment {
         });
         ////////////////////////////////////
 
-        CollectionReference referenceEnergy = rootRef.collection("Human Metrics").document(finalUid).collection("Energy");
-        moonDayOrder = referenceEnergy.orderBy("MoonDay");
+        CollectionReference referenceRed = rootRef.collection("RedGreen").document(finalUid).collection("Data");
+        moonDayOrder = referenceRed.orderBy(FieldPath.documentId());
         moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                referenceEnergy.orderBy("MoonDay", Query.Direction.DESCENDING);
+                referenceRed.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
                 if (task.isSuccessful()) {
                     Double DataTotal = 0.0;
                     Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         DataTotal = 0.0;
-                        Double counter = Double.parseDouble(document.get("Counter").toString());
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
                         if (document.exists()) {
                             Double average = 0.0;
                             Log.d(TAG, "Graph point! " + document + DataTotal);
-                            for (int i = 0; i<counter; i++){
-                                DataTotal = DataTotal + (Double.parseDouble(document.get("Stress" + i).toString()));
-                            }
-                            if (counter != 0.0) average = DataTotal/counter;
-                            else average = 3.5;
-                            Double db = new Double(average);
+                            DataTotal = (Double.parseDouble(document.get("RedLights").toString()));
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+                            Double db = new Double(DataTotal);
                             float avgFloat = db.floatValue();
                             int id = Integer.valueOf(document.getId());
-                            lineDataEnergy.add(new Entry (id, avgFloat));
-                            //yVals1.add(new BarEntry(id, avgFloat));
+                            lineDataRed.add(new Entry (id, avgFloat));
+                            yVals1.add(new BarEntry(id, avgFloat));
                         }
                         else{
                             Log.d(TAG, "Document does not exist" + document);
@@ -433,45 +342,7 @@ public class moreGraphs extends Fragment {
 
         });
 
-        CollectionReference referenceStress = rootRef.collection("Human Metrics").document(finalUid).collection("Stress");
-        moonDayOrder = referenceStress.orderBy("MoonDay");
-        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                referenceStress.orderBy("MoonDay", Query.Direction.DESCENDING);
-                if (task.isSuccessful()) {
-                    Double DataTotal = 0.0;
-                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
-                    for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        DataTotal = 0.0;
-                        Double counter = Double.parseDouble(document.get("Counter").toString());
-                        if (document.exists()) {
-                            Double average = 0.0;
-                            Log.d(TAG, "Graph point! " + document + DataTotal);
-                            for (int i = 0; i<counter; i++){
-                                DataTotal = DataTotal + (Double.parseDouble(document.get("Stress" + i).toString()));
-                            }
-                            if (counter != 0.0) average = DataTotal/counter;
-                            else average = 3.5;
-                            Double db = new Double(average);
-                            float avgFloat = db.floatValue();
-                            int id = Integer.valueOf(document.getId());
-                            lineDataStress.add(new Entry (id, avgFloat));
-                            //yVals1.add(new BarEntry(id, avgFloat));
-                        }
-                        else{
-                            Log.d(TAG, "Document does not exist" + document);
-                        }
-
-                    }
-
-                } else{
-                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
-                }
-            }
-
-        });
 /////////////////////////////////////
     }
 }
