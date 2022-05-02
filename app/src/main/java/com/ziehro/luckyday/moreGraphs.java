@@ -19,6 +19,8 @@ package com.ziehro.luckyday;
         import android.view.ViewGroup;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.CheckBox;
+        import android.widget.CompoundButton;
         import android.widget.ImageView;
         import android.widget.ListView;
         import android.widget.TableLayout;
@@ -131,6 +133,9 @@ public class moreGraphs extends Fragment {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
+        CheckBox checkGreen = view.findViewById(R.id.checkBoxGreen);
+        CheckBox checkRed = view.findViewById(R.id.checkBoxRed);
+
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
@@ -217,6 +222,48 @@ public class moreGraphs extends Fragment {
                     mChart.animateY(3000);
 
                     moonPicture.getLayoutParams().width = mChart.getWidth()-40;
+
+                checkGreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetGreen);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetGreen);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkRed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetRed);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetRed);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
 
                 }
                 ///////////////////////////////////////////////////////////////////////////
