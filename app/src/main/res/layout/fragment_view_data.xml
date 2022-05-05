@@ -120,20 +120,20 @@
             android:text="Emotions" />
 
         <CheckBox
-            android:id="@+id/checkBoxStress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="Stress" />
-
-        <CheckBox
             android:id="@+id/checkBoxEnergy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
             android:text="Energy" />
+
+        <CheckBox
+            android:id="@+id/checkBoxStress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Stress" />
 
         <Button
             android:id="@+id/chartButton"

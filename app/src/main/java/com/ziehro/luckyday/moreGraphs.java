@@ -135,14 +135,19 @@ public class moreGraphs extends Fragment {
 
         CheckBox checkGreen = view.findViewById(R.id.checkBoxGreen);
         CheckBox checkRed = view.findViewById(R.id.checkBoxRed);
+        CheckBox checkMajors = view.findViewById(R.id.checkBoxGreen);
+        CheckBox checkRedAlerts = view.findViewById(R.id.checkBoxRed);
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<Entry> lineDataGreen = new ArrayList<>();
         ArrayList<Entry> lineDataRed = new ArrayList<>();
+        ArrayList<Entry> lineDataMajors = new ArrayList<>();
+        ArrayList<Entry> lineDataRedAlerts = new ArrayList<>();
 
-        BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
+
+ /*       BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
         for (int i = (int) 0; i < 29 + 1; i++) {
             float val = (float) (Math.random());
         }
@@ -150,10 +155,8 @@ public class moreGraphs extends Fragment {
         for (int i = (int) 0; i < 10 + 1; i++) {
             float val = (float) (Math.random());
 
-        }
+        }*/
         makeRedGreenChart(user, series,yVals1, lineDataGreen, lineDataRed);
-        Log.d("YOOOOOOOOOOOOOOOOOOO", "HeeeeeeeeeeeeeeeeeeeeeRRRe" + yVals1);
-
 
         view.findViewById(R.id.chartButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,6 +272,122 @@ public class moreGraphs extends Fragment {
                 ///////////////////////////////////////////////////////////////////////////
         });
 
+        makeMajorsChart(user, series,yVals1, lineDataMajors, lineDataRedAlerts);
+
+        view.findViewById(R.id.MajorsChartButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //////////////////////  Line Graphing Section  /////////////////
+                LineChart nChart;
+                nChart = (LineChart) getView().findViewById(R.id.majorsChart);
+                nChart.setTouchEnabled(true);
+                nChart.setPinchZoom(true);
+                LineDataSet lineSetMajors, lineSetRedAlerts;
+
+                lineSetMajors = new LineDataSet(lineDataMajors, "Majors");
+                lineSetRedAlerts = new LineDataSet(lineDataRedAlerts, "Red Alerts");
+
+                lineSetMajors.setDrawIcons(false);
+                lineSetMajors.enableDashedLine(0, 1, 0);
+                lineSetRedAlerts.enableDashedLine(0, 1, 0);
+                lineSetMajors.enableDashedHighlightLine(10f, 5f, 0f);
+                //lineSetGreen.setColor(R.color.dkGreen);
+                //lineSetRed.setColor(R.color.fui_transparent);
+
+                lineSetMajors.setCircleColor(Color.GREEN);
+                lineSetRedAlerts.setCircleColor(Color.RED);
+                lineSetMajors.setLineWidth(0f);
+                lineSetRedAlerts.setLineWidth(0f);
+
+                lineSetMajors.setCircleRadius(7f);
+                lineSetRedAlerts.setCircleRadius(7f);
+                lineSetMajors.setDrawCircleHole(true);
+                lineSetMajors.setValueTextSize(3f);
+                lineSetMajors.setDrawFilled(false);
+                lineSetMajors.setHighlightEnabled(true);
+                lineSetMajors.setFormLineWidth(1f);
+                lineSetMajors.setDrawCircles(true);
+                lineSetRedAlerts.setDrawCircles(true);
+
+                lineSetMajors.setFormSize(15.f);
+                lineSetRedAlerts.setFormSize(15.f);
+
+                if (Utils.getSDKInt() >= 18) {
+                    Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
+                    //lineSet1.setFillDrawable(drawable);
+                } else {
+                    //lineSet1.setFillColor(Color.DKGRAY);
+                }
+                ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
+                lineSetMajors.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                lineSetRedAlerts.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                lineDataSets.add(lineSetMajors);
+                lineDataSets.add(lineSetRedAlerts);
+
+                LineData lineData = new LineData(lineDataSets);
+                lineData.setDrawValues(false);
+                LimitLine ll = new LimitLine(Integer.valueOf(moonDayString), "Today");
+                ll.setLineColor(Color.WHITE);
+                ll.setLineWidth(4f);
+                ll.setTextColor(Color.BLACK);
+                ll.setTextSize(12f);
+                nChart.getXAxis().addLimitLine(ll);
+                nChart.setData(lineData);
+                nChart.setDrawMarkerViews(true);
+                customMarkerView customMarkerView = new customMarkerView(getContext(), R.layout.custom_marker_view);
+                nChart.setMarkerView(customMarkerView);
+                nChart.notifyDataSetChanged();
+                nChart.animateY(3000);
+
+                moonPicture.getLayoutParams().width = nChart.getWidth()-40;
+
+                checkMajors.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetMajors);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetMajors);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkRedAlerts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetRedAlerts);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetRedAlerts);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+            }
+            ///////////////////////////////////////////////////////////////////////////
+        });
+
         Button lotteryWinsButton=(Button)view.findViewById(R.id.lotteryPageButton);
         lotteryWinsButton.setOnClickListener(new View.OnClickListener() {
 
@@ -340,6 +459,7 @@ public class moreGraphs extends Fragment {
                         else{
                             Log.d(TAG, "Document does not exist" + document);
                         }
+                        getView().findViewById(R.id.chartButton).callOnClick();
 
                     }
 
@@ -379,6 +499,103 @@ public class moreGraphs extends Fragment {
                         else{
                             Log.d(TAG, "Document does not exist" + document);
                         }
+
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });
+
+
+/////////////////////////////////////
+    }
+
+    public void makeMajorsChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineDataMajors,ArrayList<Entry> lineDataRedAlerts) {
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        String uid = "bob";
+        uid=user.getUid();
+        String finalUid = uid;
+
+        CollectionReference referenceMajors = rootRef.collection("Majors").document(finalUid).collection("Data");
+        Query moonDayOrder = referenceMajors.orderBy(FieldPath.documentId());
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                referenceMajors.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "MajorsMAJORS");
+                    DataTotal = Double.parseDouble(String.valueOf(task.getResult().getQuery()));
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Toast.makeText(getContext(), DataTotal.toString(), Toast.LENGTH_SHORT).show();
+                        Double db = new Double(DataTotal);
+                        float avgFloat = db.floatValue();
+                        int id = Integer.valueOf(document.getId());
+                        lineDataMajors.add(new Entry (id, avgFloat));
+
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            //if document.exists();
+                            DataTotal = Double.parseDouble(String.valueOf(document.getData().size()));
+
+
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+
+                            yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                }
+            }
+
+        });
+        ////////////////////////////////////
+
+        CollectionReference referenceRedAlert = rootRef.collection("ImCrazy").document(finalUid).collection("Data");
+        moonDayOrder = referenceRedAlert.orderBy(FieldPath.documentId());
+        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                referenceRedAlert.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            DataTotal = (Double.parseDouble(document.get("ImCrazy").toString()));
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+                            Double db = new Double(DataTotal);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataRedAlerts.add(new Entry (id, avgFloat));
+                            yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+                        getView().findViewById(R.id.MajorsChartButton).callOnClick();
 
                     }
 

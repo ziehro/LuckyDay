@@ -319,7 +319,7 @@ public class viewDataFragment extends Fragment {
                             Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
                             lineDataSets.add(lineSet1);
                             mChart.notifyDataSetChanged();
-                            mChart.animateY(1000);
+                            mChart.animateX(1000);
                         }
                         if (isChecked == false){
                             Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
@@ -340,7 +340,7 @@ public class viewDataFragment extends Fragment {
                             Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
                             lineDataSets.add(lineSetEnergy);
                             mChart.notifyDataSetChanged();
-                            mChart.animateY(1000);
+                            mChart.animateX(1000);
                         }
                         if (isChecked == false){
                             Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
@@ -361,7 +361,7 @@ public class viewDataFragment extends Fragment {
                             Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
                             lineDataSets.add(lineSetStress);
                             mChart.notifyDataSetChanged();
-                            mChart.animateY(1000);
+                            mChart.animateX(1000);
                         }
                         if (isChecked == false){
                             Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
