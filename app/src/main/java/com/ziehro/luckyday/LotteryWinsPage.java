@@ -38,7 +38,6 @@ public class LotteryWinsPage extends AppCompatActivity {
     Integer luckyMoonDay = 0;
     Double luckyDayWinPercent = 0.0;
     //FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-
     public String uid = "boob";
 
     public moonAgeInDays moonDay0 = new moonAgeInDays(0.0, 0.0);
@@ -92,11 +91,9 @@ public class LotteryWinsPage extends AppCompatActivity {
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         if (user !=null) {
             uid = user.getUid();
-
         }
         else {
             uid = "bob";
-
         }
 
         ArrayAdapter<String> adapter;
@@ -141,11 +138,6 @@ public class LotteryWinsPage extends AppCompatActivity {
                     totalWonTV.setText(totalWin.toString());
                     //mainListView.setAdapter(adapter);
                     Log.d(TAG, list.toString());
-
-
-
-
-
 
                     mainListView.setAdapter(arrayAdapter);
 
@@ -231,7 +223,6 @@ public class LotteryWinsPage extends AppCompatActivity {
                         luckyMoonDay = 11;
                     }
                 }
-
                 if (moonDay12.moneyIn != 0.0 && moonDay12.moneyOut != 0.0) {
                     moonDaylist.add("12" + "  " + moonDay12.getPercent());
                     if (moonDay12.moneyOut / moonDay12.moneyIn > luckyDayWinPercent) {
@@ -368,15 +359,9 @@ public class LotteryWinsPage extends AppCompatActivity {
 
                 moonDayListView.setAdapter(moonDayArrayAdapter);
                 gridView.setAdapter(arrayAdapter);
-
                 luckyDay.setText(luckyMoonDay.toString());
 
-
-
-
             }
-
-
         });
     }
 
