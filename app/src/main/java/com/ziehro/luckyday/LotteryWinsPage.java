@@ -154,6 +154,83 @@ public class LotteryWinsPage extends AppCompatActivity {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                     Toast.makeText(getApplicationContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
                 }
+                if (moonDay1.moneyIn != 0.0 && moonDay1.moneyOut != 0.0) {
+                    moonDaylist.add("1" + "  " + moonDay1.getPercent());
+                    if (moonDay1.moneyOut / moonDay1.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay1.moneyOut / moonDay1.moneyIn;
+                        luckyMoonDay = 1;
+                    }
+                }
+                if (moonDay2.moneyIn != 0.0 && moonDay2.moneyOut != 0.0) {
+                    moonDaylist.add("2" + "  " + moonDay2.getPercent());
+                    if (moonDay2.moneyOut / moonDay2.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay2.moneyOut / moonDay2.moneyIn;
+                        luckyMoonDay = 2;
+                    }
+                }
+                if (moonDay3.moneyIn != 0.0 && moonDay3.moneyOut != 0.0) {
+                    moonDaylist.add("3" + "  " + moonDay3.getPercent());
+                    if (moonDay3.moneyOut / moonDay3.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay3.moneyOut / moonDay3.moneyIn;
+                        luckyMoonDay = 3;
+                    }
+                }
+                if (moonDay4.moneyIn != 0.0 && moonDay4.moneyOut != 0.0) {
+                    moonDaylist.add("4" + "  " + moonDay4.getPercent());
+                    if (moonDay4.moneyOut / moonDay4.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay4.moneyOut / moonDay4.moneyIn;
+                        luckyMoonDay = 4;
+                    }
+                }
+                if (moonDay5.moneyIn != 0.0 && moonDay5.moneyOut != 0.0) {
+                    moonDaylist.add("5" + "  " + moonDay5.getPercent());
+                    if (moonDay5.moneyOut / moonDay5.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay5.moneyOut / moonDay5.moneyIn;
+                        luckyMoonDay = 5;
+                    }
+                }
+                if (moonDay6.moneyIn != 0.0 && moonDay6.moneyOut != 0.0) {
+                    moonDaylist.add("6" + "  " + moonDay6.getPercent());
+                    if (moonDay6.moneyOut / moonDay6.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay6.moneyOut / moonDay6.moneyIn;
+                        luckyMoonDay = 6;
+                    }
+                }
+                if (moonDay7.moneyIn != 0.0 && moonDay7.moneyOut != 0.0) {
+                    moonDaylist.add("7" + "  " + moonDay7.getPercent());
+                    if (moonDay7.moneyOut / moonDay7.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay7.moneyOut / moonDay7.moneyIn;
+                        luckyMoonDay = 7;
+                    }
+                }
+                if (moonDay8.moneyIn != 0.0 && moonDay8.moneyOut != 0.0) {
+                    moonDaylist.add("8" + "  " + moonDay8.getPercent());
+                    if (moonDay8.moneyOut / moonDay8.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay8.moneyOut / moonDay8.moneyIn;
+                        luckyMoonDay = 8;
+                    }
+                }
+                if (moonDay9.moneyIn != 0.0 && moonDay9.moneyOut != 0.0) {
+                    moonDaylist.add("9" + "  " + moonDay9.getPercent());
+                    if (moonDay9.moneyOut / moonDay9.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay9.moneyOut / moonDay9.moneyIn;
+                        luckyMoonDay = 9;
+                    }
+                }
+                if (moonDay10.moneyIn != 0.0 && moonDay10.moneyOut != 0.0) {
+                    moonDaylist.add("10" + "  " + moonDay10.getPercent());
+                    if (moonDay10.moneyOut / moonDay10.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay10.moneyOut / moonDay10.moneyIn;
+                        luckyMoonDay = 10;
+                    }
+                }
+                if (moonDay11.moneyIn != 0.0 && moonDay11.moneyOut != 0.0) {
+                    moonDaylist.add("11" + "  " + moonDay11.getPercent());
+                    if (moonDay11.moneyOut / moonDay11.moneyIn > luckyDayWinPercent) {
+                        luckyDayWinPercent = moonDay11.moneyOut / moonDay11.moneyIn;
+                        luckyMoonDay = 11;
+                    }
+                }
 
                 if (moonDay12.moneyIn != 0.0 && moonDay12.moneyOut != 0.0) {
                     moonDaylist.add("12" + "  " + moonDay12.getPercent());
