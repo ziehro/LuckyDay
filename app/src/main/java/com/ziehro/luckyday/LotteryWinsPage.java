@@ -2,9 +2,13 @@ package com.ziehro.luckyday;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,7 +16,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +49,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,6 +92,8 @@ public class LotteryWinsPage extends AppCompatActivity {
     public moonAgeInDays moonDay28 = new moonAgeInDays(0.0, 0.0);
     public moonAgeInDays moonDay29 = new moonAgeInDays(0.0, 0.0);
 
+    AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +109,25 @@ public class LotteryWinsPage extends AppCompatActivity {
         GridView gridView = (GridView)findViewById(R.id.gridView);
         List<String> list = new ArrayList<>();
         List<String> moonDaylist = new ArrayList<>();
+
+        LineChart mChart;
+        mChart = (LineChart) this.findViewById(R.id.lotteryChart);
+        mChart.setTouchEnabled(true);
+        mChart.setPinchZoom(true);
+        LineDataSet lineSetLottery;
+        final Calendar c = Calendar.getInstance();
+        MoonPhase moonPhase1 = new MoonPhase(c);
+        String moonDayString = moonPhase1.getMoonAgeAsDaysOnlyInt();
+        ArrayList<Entry> lineDataLottery = new ArrayList<>();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
@@ -138,6 +180,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                     totalWonTV.setText(totalWin.toString());
                     //mainListView.setAdapter(adapter);
                     Log.d(TAG, list.toString());
+                    Collections.sort(list);
 
                     mainListView.setAdapter(arrayAdapter);
 
@@ -146,8 +189,11 @@ public class LotteryWinsPage extends AppCompatActivity {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                     Toast.makeText(getApplicationContext(), "Did not Retrieve", Toast.LENGTH_SHORT).show();
                 }
+
+
                 if (moonDay1.moneyIn != 0.0 && moonDay1.moneyOut != 0.0) {
                     moonDaylist.add("1" + "  " + moonDay1.getPercent());
+                    lineDataLottery.add(new Entry (1, moonDay1.getPercent()));
                     if (moonDay1.moneyOut / moonDay1.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay1.moneyOut / moonDay1.moneyIn;
                         luckyMoonDay = 1;
@@ -155,6 +201,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay2.moneyIn != 0.0 && moonDay2.moneyOut != 0.0) {
                     moonDaylist.add("2" + "  " + moonDay2.getPercent());
+                    lineDataLottery.add(new Entry (2, moonDay2.getPercent()));
                     if (moonDay2.moneyOut / moonDay2.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay2.moneyOut / moonDay2.moneyIn;
                         luckyMoonDay = 2;
@@ -162,6 +209,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay3.moneyIn != 0.0 && moonDay3.moneyOut != 0.0) {
                     moonDaylist.add("3" + "  " + moonDay3.getPercent());
+                    lineDataLottery.add(new Entry (3, moonDay3.getPercent()));
                     if (moonDay3.moneyOut / moonDay3.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay3.moneyOut / moonDay3.moneyIn;
                         luckyMoonDay = 3;
@@ -169,6 +217,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay4.moneyIn != 0.0 && moonDay4.moneyOut != 0.0) {
                     moonDaylist.add("4" + "  " + moonDay4.getPercent());
+                    lineDataLottery.add(new Entry (4, moonDay4.getPercent()));
                     if (moonDay4.moneyOut / moonDay4.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay4.moneyOut / moonDay4.moneyIn;
                         luckyMoonDay = 4;
@@ -176,6 +225,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay5.moneyIn != 0.0 && moonDay5.moneyOut != 0.0) {
                     moonDaylist.add("5" + "  " + moonDay5.getPercent());
+                    lineDataLottery.add(new Entry (5, moonDay5.getPercent()));
                     if (moonDay5.moneyOut / moonDay5.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay5.moneyOut / moonDay5.moneyIn;
                         luckyMoonDay = 5;
@@ -183,6 +233,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay6.moneyIn != 0.0 && moonDay6.moneyOut != 0.0) {
                     moonDaylist.add("6" + "  " + moonDay6.getPercent());
+                    lineDataLottery.add(new Entry (6, moonDay6.getPercent()));
                     if (moonDay6.moneyOut / moonDay6.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay6.moneyOut / moonDay6.moneyIn;
                         luckyMoonDay = 6;
@@ -190,6 +241,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay7.moneyIn != 0.0 && moonDay7.moneyOut != 0.0) {
                     moonDaylist.add("7" + "  " + moonDay7.getPercent());
+                    lineDataLottery.add(new Entry (7, moonDay7.getPercent()));
                     if (moonDay7.moneyOut / moonDay7.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay7.moneyOut / moonDay7.moneyIn;
                         luckyMoonDay = 7;
@@ -197,6 +249,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay8.moneyIn != 0.0 && moonDay8.moneyOut != 0.0) {
                     moonDaylist.add("8" + "  " + moonDay8.getPercent());
+                    lineDataLottery.add(new Entry (8, moonDay8.getPercent()));
                     if (moonDay8.moneyOut / moonDay8.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay8.moneyOut / moonDay8.moneyIn;
                         luckyMoonDay = 8;
@@ -204,6 +257,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay9.moneyIn != 0.0 && moonDay9.moneyOut != 0.0) {
                     moonDaylist.add("9" + "  " + moonDay9.getPercent());
+                    lineDataLottery.add(new Entry (9, moonDay9.getPercent()));
                     if (moonDay9.moneyOut / moonDay9.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay9.moneyOut / moonDay9.moneyIn;
                         luckyMoonDay = 9;
@@ -211,6 +265,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay10.moneyIn != 0.0 && moonDay10.moneyOut != 0.0) {
                     moonDaylist.add("10" + "  " + moonDay10.getPercent());
+                    lineDataLottery.add(new Entry (10, moonDay10.getPercent()));
                     if (moonDay10.moneyOut / moonDay10.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay10.moneyOut / moonDay10.moneyIn;
                         luckyMoonDay = 10;
@@ -218,6 +273,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay11.moneyIn != 0.0 && moonDay11.moneyOut != 0.0) {
                     moonDaylist.add("11" + "  " + moonDay11.getPercent());
+                    lineDataLottery.add(new Entry (11, moonDay11.getPercent()));
                     if (moonDay11.moneyOut / moonDay11.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay11.moneyOut / moonDay11.moneyIn;
                         luckyMoonDay = 11;
@@ -232,6 +288,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay13.moneyIn != 0.0 && moonDay13.moneyOut != 0.0) {
                     moonDaylist.add("13" + "  " + moonDay13.getPercent());
+                    lineDataLottery.add(new Entry (13, moonDay13.getPercent()));
                     if (moonDay13.moneyOut / moonDay13.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay13.moneyOut / moonDay13.moneyIn;
                         luckyMoonDay = 13;
@@ -239,6 +296,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay14.moneyIn != 0.0 && moonDay14.moneyOut != 0.0) {
                     moonDaylist.add("14" + "  " + moonDay14.getPercent());
+                    lineDataLottery.add(new Entry (14, moonDay14.getPercent()));
                     if (moonDay14.moneyOut / moonDay14.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay14.moneyOut / moonDay14.moneyIn;
                         luckyMoonDay = 14;
@@ -246,6 +304,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay15.moneyIn != 0.0 && moonDay15.moneyOut != 0.0) {
                     moonDaylist.add("15" + "  " + moonDay15.getPercent());
+                    lineDataLottery.add(new Entry (15, moonDay15.getPercent()));
                     if (moonDay15.moneyOut / moonDay15.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay15.moneyOut / moonDay15.moneyIn;
                         luckyMoonDay = 15;
@@ -253,6 +312,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay16.moneyIn != 0.0 && moonDay16.moneyOut != 0.0) {
                     moonDaylist.add("16" + "  " + moonDay16.getPercent());
+                    lineDataLottery.add(new Entry (16, moonDay16.getPercent()));
                     if (moonDay16.moneyOut / moonDay16.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay16.moneyOut / moonDay16.moneyIn;
                         luckyMoonDay = 16;
@@ -260,6 +320,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay17.moneyIn != 0.0 && moonDay17.moneyOut != 0.0) {
                     moonDaylist.add("17" + "  " + moonDay17.getPercent());
+                    lineDataLottery.add(new Entry (17, moonDay17.getPercent()));
                     if (moonDay17.moneyOut / moonDay17.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay17.moneyOut / moonDay17.moneyIn;
                         luckyMoonDay = 17;
@@ -267,6 +328,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay18.moneyIn != 0.0 && moonDay18.moneyOut != 0.0) {
                     moonDaylist.add("18" + "  " + moonDay18.getPercent());
+                    lineDataLottery.add(new Entry (18, moonDay18.getPercent()));
                     if (moonDay18.moneyOut / moonDay18.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay18.moneyOut / moonDay18.moneyIn;
                         luckyMoonDay = 18;
@@ -274,6 +336,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay19.moneyIn != 0.0 && moonDay19.moneyOut != 0.0) {
                     moonDaylist.add("19" + "  " + moonDay19.getPercent());
+                    lineDataLottery.add(new Entry (19, moonDay19.getPercent()));
                     if (moonDay19.moneyOut / moonDay19.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay19.moneyOut / moonDay19.moneyIn;
                         luckyMoonDay = 19;
@@ -281,6 +344,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay20.moneyIn != 0.0 && moonDay20.moneyOut != 0.0) {
                     moonDaylist.add("20" + "  " + moonDay20.getPercent());
+                    lineDataLottery.add(new Entry (20, moonDay20.getPercent()));
                     if (moonDay20.moneyOut / moonDay20.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay20.moneyOut / moonDay20.moneyIn;
                         luckyMoonDay = 20;
@@ -288,6 +352,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay21.moneyIn != 0.0 && moonDay21.moneyOut != 0.0) {
                     moonDaylist.add("21" + "  " + moonDay21.getPercent());
+                    lineDataLottery.add(new Entry (21, moonDay21.getPercent()));
                     if (moonDay21.moneyOut / moonDay21.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay21.moneyOut / moonDay21.moneyIn;
                         luckyMoonDay = 21;
@@ -295,6 +360,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay22.moneyIn != 0.0 && moonDay22.moneyOut != 0.0) {
                     moonDaylist.add("22" + "  " + moonDay22.getPercent());
+                    lineDataLottery.add(new Entry (22, moonDay22.getPercent()));
                     if (moonDay22.moneyOut / moonDay22.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay22.moneyOut / moonDay22.moneyIn;
                         luckyMoonDay = 22;
@@ -302,6 +368,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay23.moneyIn != 0.0 && moonDay23.moneyOut != 0.0) {
                     moonDaylist.add("23" + "  " + moonDay23.getPercent());
+                    lineDataLottery.add(new Entry (23, moonDay23.getPercent()));
                     if (moonDay23.moneyOut / moonDay23.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay23.moneyOut / moonDay23.moneyIn;
                         luckyMoonDay = 23;
@@ -309,6 +376,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay24.moneyIn != 0.0 && moonDay24.moneyOut != 0.0) {
                     moonDaylist.add("24" + "  " + moonDay24.getPercent());
+                    lineDataLottery.add(new Entry (24, moonDay24.getPercent()));
                     if (moonDay24.moneyOut / moonDay24.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay24.moneyOut / moonDay24.moneyIn;
                         luckyMoonDay = 24;
@@ -316,6 +384,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay25.moneyIn != 0.0 && moonDay25.moneyOut != 0.0) {
                     moonDaylist.add("25" + "  " + moonDay25.getPercent());
+                    lineDataLottery.add(new Entry (25, moonDay25.getPercent()));
                     if (moonDay25.moneyOut / moonDay25.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay25.moneyOut / moonDay25.moneyIn;
                         luckyMoonDay = 25;
@@ -323,6 +392,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay26.moneyIn != 0.0 && moonDay26.moneyOut != 0.0) {
                     moonDaylist.add("26" + "  " + moonDay26.getPercent());
+                    lineDataLottery.add(new Entry (26, moonDay26.getPercent()));
                     if (moonDay26.moneyOut / moonDay26.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay26.moneyOut / moonDay26.moneyIn;
                         luckyMoonDay = 26;
@@ -330,6 +400,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay27.moneyIn != 0.0 && moonDay27.moneyOut != 0.0) {
                     moonDaylist.add("27" + "  " + moonDay27.getPercent());
+                    lineDataLottery.add(new Entry (27, moonDay27.getPercent()));
                     if (moonDay27.moneyOut / moonDay27.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay27.moneyOut / moonDay27.moneyIn;
                         luckyMoonDay = 27;
@@ -337,6 +408,7 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay28.moneyIn != 0.0 && moonDay28.moneyOut != 0.0) {
                     moonDaylist.add("28" + "  " + moonDay28.getPercent());
+                    lineDataLottery.add(new Entry (28, moonDay28.getPercent()));
                     if (moonDay28.moneyOut / moonDay28.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay28.moneyOut / moonDay28.moneyIn;
                         luckyMoonDay = 28;
@@ -344,25 +416,133 @@ public class LotteryWinsPage extends AppCompatActivity {
                 }
                 if (moonDay29.moneyIn != 0.0 && moonDay29.moneyOut != 0.0) {
                     moonDaylist.add("29" + "  " + moonDay29.getPercent());
+                    lineDataLottery.add(new Entry (29, moonDay29.getPercent()));
                     if (moonDay29.moneyOut / moonDay29.moneyIn > luckyDayWinPercent) {
                         luckyDayWinPercent = moonDay29.moneyOut / moonDay29.moneyIn;
                         luckyMoonDay = 29;
                     }
                 }
-
+                Collections.sort(moonDaylist);
                 ArrayAdapter<String> moonDayArrayAdapter = new ArrayAdapter<String>(
                         getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item,
                         moonDaylist);
 
-                //moonDayListView.setAdapter(new ArrayAdapter<String>(LotteryWinsPage.this,android.R.layout.simple_spinner_dropdown_item, mylist));
 
                 moonDayListView.setAdapter(moonDayArrayAdapter);
-                gridView.setAdapter(arrayAdapter);
+                //gridView.setAdapter(arrayAdapter);
                 luckyDay.setText(luckyMoonDay.toString());
 
             }
         });
+
+        this.findViewById(R.id.lotteryChartButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //////////////////////  Line Graphing Section  /////////////////
+                LineChart mChart;
+                mChart = (LineChart)findViewById(R.id.lotteryChart);
+                mChart.setTouchEnabled(true);
+                mChart.setPinchZoom(true);
+                LineDataSet lineSetLottery;
+
+
+                lineSetLottery = new LineDataSet(lineDataLottery, "Lottery");
+                lineSetLottery.setDrawIcons(false);
+                lineSetLottery.enableDashedLine(0, 1, 0);
+                lineSetLottery.enableDashedHighlightLine(10f, 5f, 0f);
+                lineSetLottery.setColor(Color.GREEN);
+                lineSetLottery.setCircleColor(Color.GREEN);
+                lineSetLottery.setLineWidth(0f);
+                lineSetLottery.setCircleRadius(7f);
+                lineSetLottery.setDrawCircleHole(true);
+                lineSetLottery.setValueTextSize(3f);
+                lineSetLottery.setDrawFilled(false);
+                lineSetLottery.setHighlightEnabled(true);
+                lineSetLottery.setFormLineWidth(1f);
+                lineSetLottery.setDrawCircles(true);
+                lineSetLottery.setFormSize(15.f);
+
+
+                if (Utils.getSDKInt() >= 18) {
+                    Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_launcher_background);
+                    //lineSet1.setFillDrawable(drawable);
+                } else {
+                    //lineSet1.setFillColor(Color.DKGRAY);
+                }
+                ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
+                lineSetLottery.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                lineDataSets.add(lineSetLottery);
+
+                LineData lineData = new LineData(lineDataSets);
+                lineData.setDrawValues(false);
+                LimitLine ll = new LimitLine(Integer.valueOf(moonDayString), "Today");
+                ll.setLineColor(Color.YELLOW);
+                ll.setLineWidth(1f);
+                ll.setTextColor(Color.BLUE);
+                ll.setTextSize(8f);
+                mChart.getXAxis().addLimitLine(ll);
+                mChart.setData(lineData);
+                mChart.setDrawMarkerViews(true);
+                customMarkerView customMarkerView = new customMarkerView(getApplicationContext(), R.layout.custom_marker_view);
+                mChart.setMarkerView(customMarkerView);
+                mChart.getXAxis().setLabelCount(5, /*force: */true);
+                mChart.getXAxis().setAxisMinimum(0);
+                mChart.getXAxis().setAxisMaximum(29);
+                //mChart.setVisibleXRangeMinimum(0);
+                //mChart.setVisibleXRangeMaximum(29);
+                mChart.notifyDataSetChanged();
+                mChart.animateY(3000);
+
+                //moonPicture.getLayoutParams().width = mChart.getWidth()-40;
+
+                /*checkGreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetLottery);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetLottery);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkRed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetRed);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetRed);
+                            mChart.notifyDataSetChanged();
+                            mChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });*/
+
+            }
+            ///////////////////////////////////////////////////////////////////////////
+        });
+        this.findViewById(R.id.lotteryChartButton).callOnClick();
     }
 
     boolean addMoneyInToMoonDay(String moonDay, Double moneyInVar){
