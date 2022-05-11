@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="341dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="20dp"
+        android:background="#CFDC7F"
+        android:numColumns="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adView" />
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
@@ -95,16 +106,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="341dp"
-        android:layout_height="166dp"
-        android:background="#CFDC7F"
-        android:numColumns="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adView2" />
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="217dp"
@@ -112,7 +113,9 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listView" />
+        app:layout_constraintTop_toBottomOf="@+id/listView">
+
+    </GridView>
 
     <Button
         android:id="@+id/lotteryChartButton"
