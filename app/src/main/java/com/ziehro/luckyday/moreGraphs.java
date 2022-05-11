@@ -47,6 +47,7 @@ package com.ziehro.luckyday;
         import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
         import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
         import com.github.mikephil.charting.utils.ColorTemplate;
+        import com.github.mikephil.charting.utils.EntryXComparator;
         import com.github.mikephil.charting.utils.Utils;
         import com.google.android.gms.ads.AdRequest;
         import com.google.android.gms.ads.AdView;
@@ -135,8 +136,8 @@ public class moreGraphs extends Fragment {
 
         CheckBox checkGreen = view.findViewById(R.id.checkBoxGreen);
         CheckBox checkRed = view.findViewById(R.id.checkBoxRed);
-        CheckBox checkMajors = view.findViewById(R.id.checkBoxGreen);
-        CheckBox checkRedAlerts = view.findViewById(R.id.checkBoxRed);
+        CheckBox checkMajors = view.findViewById(R.id.checkBoxMajors);
+        CheckBox checkRedAlerts = view.findViewById(R.id.checkBoxRedAlerts);
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
@@ -146,16 +147,6 @@ public class moreGraphs extends Fragment {
         ArrayList<Entry> lineDataMajors = new ArrayList<>();
         ArrayList<Entry> lineDataRedAlerts = new ArrayList<>();
 
-
- /*       BarChart bchart = (BarChart)getView().findViewById(R.id.chart);
-        for (int i = (int) 0; i < 29 + 1; i++) {
-            float val = (float) (Math.random());
-        }
-
-        for (int i = (int) 0; i < 10 + 1; i++) {
-            float val = (float) (Math.random());
-
-        }*/
         makeRedGreenChart(user, series,yVals1, lineDataGreen, lineDataRed);
 
         view.findViewById(R.id.chartButton).setOnClickListener(new View.OnClickListener() {
@@ -176,8 +167,8 @@ public class moreGraphs extends Fragment {
                     lineSetGreen.enableDashedLine(0, 1, 0);
                     lineSetRed.enableDashedLine(0, 1, 0);
                     lineSetGreen.enableDashedHighlightLine(10f, 5f, 0f);
-                    lineSetGreen.setColor(R.color.dkGreen);
-                    lineSetRed.setColor(R.color.fui_transparent);
+                    lineSetGreen.setColor(Color.GREEN);
+                    lineSetRed.setColor(Color.RED);
 
                     lineSetGreen.setCircleColor(Color.GREEN);
                     lineSetRed.setCircleColor(Color.RED);
@@ -286,14 +277,14 @@ public class moreGraphs extends Fragment {
                 LineDataSet lineSetMajors, lineSetRedAlerts;
 
                 lineSetMajors = new LineDataSet(lineDataMajors, "Majors");
-                lineSetRedAlerts = new LineDataSet(lineDataRedAlerts, "Red Alerts");
+                lineSetRedAlerts = new LineDataSet(lineDataRedAlerts   , "Red Alerts");
 
                 lineSetMajors.setDrawIcons(false);
                 lineSetMajors.enableDashedLine(0, 1, 0);
                 lineSetRedAlerts.enableDashedLine(0, 1, 0);
                 lineSetMajors.enableDashedHighlightLine(10f, 5f, 0f);
-                //lineSetGreen.setColor(R.color.dkGreen);
-                //lineSetRed.setColor(R.color.fui_transparent);
+                lineSetMajors.setColor(Color.GREEN);
+                lineSetRedAlerts.setColor(Color.RED);
 
                 lineSetMajors.setCircleColor(Color.GREEN);
                 lineSetRedAlerts.setCircleColor(Color.RED);
@@ -431,11 +422,11 @@ public class moreGraphs extends Fragment {
         String finalUid = uid;
 
         CollectionReference referenceGreen = rootRef.collection("RedGreen").document(finalUid).collection("Data");
-        Query moonDayOrder = referenceGreen.orderBy(FieldPath.documentId());
+        Query moonDayOrder = referenceGreen;//.orderBy(FieldPath.documentId());
         moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                referenceGreen.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                //referenceGreen.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
                 if (task.isSuccessful()) {
                     Double DataTotal = 0.0;
                     Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
@@ -466,6 +457,7 @@ public class moreGraphs extends Fragment {
                 } else{
                     Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
                 }
+                Collections.sort(lineDataGreen, new EntryXComparator());
             }
 
         });
@@ -506,6 +498,7 @@ public class moreGraphs extends Fragment {
                 } else{
                     Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
                 }
+                Collections.sort(lineDataRed, new EntryXComparator());
             }
 
         });
@@ -520,68 +513,61 @@ public class moreGraphs extends Fragment {
         String uid = "bob";
         uid=user.getUid();
         String finalUid = uid;
+        Log.d(TAG, "Inside MakeMajors");
 
         CollectionReference referenceMajors = rootRef.collection("Majors").document(finalUid).collection("Data");
         Query moonDayOrder = referenceMajors.orderBy(FieldPath.documentId());
         moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                referenceMajors.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                moonDayOrder.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
                 if (task.isSuccessful()) {
                     Double DataTotal = 0.0;
-                    Log.d(TAG, "Graph point! " + "MajorsMAJORS");
-                    DataTotal = Double.parseDouble(String.valueOf(task.getResult().getQuery()));
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        Toast.makeText(getContext(), DataTotal.toString(), Toast.LENGTH_SHORT).show();
-                        Double db = new Double(DataTotal);
-                        float avgFloat = db.floatValue();
-                        int id = Integer.valueOf(document.getId());
-                        lineDataMajors.add(new Entry (id, avgFloat));
-
-                        //Double counter = Double.parseDouble(document.get("Counter").toString());
-                        if (document.exists()) {
-                            Double average = 0.0;
-                            Log.d(TAG, "Graph point! " + document + DataTotal);
-                            //if document.exists();
-                            DataTotal = Double.parseDouble(String.valueOf(document.getData().size()));
-
-
-                            //if (counter != 0.0) average = DataTotal/counter;
-                            //else average = 3.5;
-
-                            yVals1.add(new BarEntry(id, avgFloat));
-                        }
-                        else{
-                            Log.d(TAG, "Document does not exist" + document);
-                        }
-
-
-                    }
-
-                } else{
-                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
-                }
-            }
-
-        });
-        ////////////////////////////////////
-
-        CollectionReference referenceRedAlert = rootRef.collection("ImCrazy").document(finalUid).collection("Data");
-        moonDayOrder = referenceRedAlert.orderBy(FieldPath.documentId());
-        moonDayOrder.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                referenceRedAlert.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
-                if (task.isSuccessful()) {
-                    Double DataTotal = 0.0;
-                    Log.d(TAG, "Graph point! " + "Yaaaahhhhhhooooooooooo");
+                    Log.d(TAG, "Graph point! " + "Majors Yaaaahhhhhhooooooooooo");
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         DataTotal = 0.0;
                         //Double counter = Double.parseDouble(document.get("Counter").toString());
                         if (document.exists()) {
-                            Double average = 0.0;
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            DataTotal = (Double.parseDouble(document.get("Majors").toString()));
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+                            Double db = new Double(DataTotal);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataMajors.add(new Entry (id, avgFloat));
+                            yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+                        getView().findViewById(R.id.MajorsChartButton).callOnClick();
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "RED ALERTS  NONONONONONONONONOONONONONONONON");
+                }
+                Collections.sort(lineDataMajors, new EntryXComparator());
+            }
+
+        });
+        ////////////////////////////////////
+        CollectionReference referenceRedAlert = rootRef.collection("ImCrazy").document(finalUid).collection("Data");
+        Query moonDayOrder2 = referenceRedAlert.orderBy(FieldPath.documentId());
+        moonDayOrder2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                moonDayOrder2.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "RED ALERTS Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
                             Log.d(TAG, "Graph point! " + document + DataTotal);
                             DataTotal = (Double.parseDouble(document.get("ImCrazy").toString()));
                             //if (counter != 0.0) average = DataTotal/counter;
@@ -600,8 +586,9 @@ public class moreGraphs extends Fragment {
                     }
 
                 } else{
-                    Log.d(TAG, "Graph point! " + "NONONONONONONONONOONONONONONONON");
+                    Log.d(TAG, "Graph point! " + "RED ALERTS  NONONONONONONONONOONONONONONONON");
                 }
+                Collections.sort(lineDataRedAlerts, new EntryXComparator());
             }
 
         });

@@ -1,10 +1,13 @@
 package com.ziehro.luckyday;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,10 +24,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
@@ -103,6 +111,18 @@ public class addMajors extends AppCompatActivity implements TimePickerDialog.OnT
                 String value = descriptionString;
                 //int moneyInInt= Integer.parseInt(value);
 
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = "boob";
+                if (user !=null) {
+                    uid = user.getUid();
+
+                }
+                else {
+                    uid = "bob";
+
+                }
+
                 MoonPhase moonPhase1 = new MoonPhase(calendar);
 
                 final double moonPhaseData = MoonPhase.phase(MoonPhase.calendarToJD(calendar));
@@ -148,22 +168,23 @@ public class addMajors extends AppCompatActivity implements TimePickerDialog.OnT
                 };
 
                 //  Firestore Stuff
-
+                String majorDate = (dpDate.getMonth()+1) + " " + (dpDate.getDayOfMonth()) +" " + (dpDate.getYear());
+                //majorDate = "hi";
+                String majorTime = (calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
 
                 Map<String, String> params = new HashMap<>();
                 params.put("descriptionString", descriptionString);
                 params.put( "moonPhase", moonPhaseString);
                 //params.put( "moonDay", moonDayString);
                 params.put( "GoodBad", "bad");
+                params.put("Major Date", majorDate);
+                params.put("Major Time", majorTime);
 
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = user.getUid();
-                String majorDate = (dpDate.getMonth()+1) + " " + (dpDate.getDayOfMonth()) +" " + (dpDate.getYear());
-                //majorDate = "hi";
-                String majorTime = (calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
-                //majorTime = "there";
-                mFirestore.collection("Majors").document(uid).collection("Data").document(moonDayString).collection(majorDate).document(majorTime).set(params).addOnSuccessListener(new OnSuccessListener() {
+
+
+               /* //majorTime = "there";
+                mFirestore.collection("Majors").document(uid).collection("Data").document(moonDayString).set(params).addOnSuccessListener(new OnSuccessListener() {
                     @Override
                     public void onSuccess(@NonNull Object o) {
                         Toast.makeText(addMajors.this, "Added to FireStore",Toast.LENGTH_SHORT).show();
@@ -174,6 +195,41 @@ public class addMajors extends AppCompatActivity implements TimePickerDialog.OnT
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(addMajors.this,"FireStore Failed", Toast.LENGTH_LONG).show();
+                    }
+                });*/
+                Map<String, Integer> Majors = new HashMap<>();
+                Majors.put("Majors", 1);
+                FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+                DocumentReference docIdRef = rootRef.collection("Majors").document(uid).collection("Data").document(moonDayString);
+                String finalUid = uid;
+                docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "Document exists!");
+                                mFirestore.collection("Majors").document(finalUid).collection("Data").document(moonDayString).update("Majors", FieldValue.increment(1)).addOnSuccessListener(new OnSuccessListener() {
+                                    @Override
+                                    public void onSuccess(@NonNull Object o) {
+                                        //Toast.makeText(addDataFragment.this.getActivity(), "u", Toast.LENGTH_LONG);
+
+                                    }
+
+
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //Toast.makeText(getContext(), "FireStore Failed", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                Log.d(TAG, "Document does not exist!");
+                                mFirestore.collection("Majors").document(finalUid).collection("Data").document(moonDayString).set(Majors);
+                            }
+                        } else {
+                            Log.d(TAG, "Failed with: ", task.getException());
+                        }
                     }
                 });
 
