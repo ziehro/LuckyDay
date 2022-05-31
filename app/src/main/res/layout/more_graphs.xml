@@ -110,12 +110,13 @@
             android:checked="true"
             android:text="Majors" />
 
-        <Button
-            android:id="@+id/MajorsChartButton"
+        <CheckBox
+            android:id="@+id/checkBoxPerfects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Refresh M Chart" />
+            android:checked="true"
+            android:text="Perfects" />
 
         <CheckBox
             android:id="@+id/checkBoxRedAlerts"
@@ -166,6 +167,16 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></com.google.android.gms.ads.AdView>
+
+    <Button
+        android:id="@+id/MajorsChartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Refresh M Chart"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="parent"
+        tools:layout_editor_absoluteY="5dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

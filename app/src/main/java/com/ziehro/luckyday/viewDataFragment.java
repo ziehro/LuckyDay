@@ -409,7 +409,7 @@ public class viewDataFragment extends Fragment {
                 // TODO Auto-generated method stub
                 //Intent n=new Intent(getContext(), addLottery.class);
                 //startActivity(n);
-                Toast.makeText(getContext(), "More Charts" + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "More Charts" + "", Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(viewDataFragment.this)
                         .navigate(R.id.action_SecondFragment_to_ThirdFragment);
 

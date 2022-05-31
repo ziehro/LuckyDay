@@ -138,6 +138,7 @@ public class moreGraphs extends Fragment {
         CheckBox checkRed = view.findViewById(R.id.checkBoxRed);
         CheckBox checkMajors = view.findViewById(R.id.checkBoxMajors);
         CheckBox checkRedAlerts = view.findViewById(R.id.checkBoxRedAlerts);
+        CheckBox checkPerfects = view.findViewById(R.id.checkBoxPerfects);
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
@@ -146,6 +147,7 @@ public class moreGraphs extends Fragment {
         ArrayList<Entry> lineDataRed = new ArrayList<>();
         ArrayList<Entry> lineDataMajors = new ArrayList<>();
         ArrayList<Entry> lineDataRedAlerts = new ArrayList<>();
+        ArrayList<Entry> lineDataPerfects = new ArrayList<>();
 
         makeRedGreenChart(user, series,yVals1, lineDataGreen, lineDataRed);
 
@@ -263,7 +265,7 @@ public class moreGraphs extends Fragment {
                 ///////////////////////////////////////////////////////////////////////////
         });
 
-        makeMajorsChart(user, series,yVals1, lineDataMajors, lineDataRedAlerts);
+        makeMajorsChart(user, series,yVals1, lineDataMajors, lineDataRedAlerts, lineDataPerfects);
 
         view.findViewById(R.id.MajorsChartButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,25 +276,30 @@ public class moreGraphs extends Fragment {
                 nChart = (LineChart) getView().findViewById(R.id.majorsChart);
                 nChart.setTouchEnabled(true);
                 nChart.setPinchZoom(true);
-                LineDataSet lineSetMajors, lineSetRedAlerts;
+                LineDataSet lineSetMajors, lineSetRedAlerts, lineSetPerfects;
 
                 lineSetMajors = new LineDataSet(lineDataMajors, "Majors");
                 lineSetRedAlerts = new LineDataSet(lineDataRedAlerts   , "Red Alerts");
+                lineSetPerfects = new LineDataSet(lineDataPerfects   , "Perfect");
 
                 lineSetMajors.setDrawIcons(false);
                 lineSetMajors.enableDashedLine(0, 1, 0);
                 lineSetRedAlerts.enableDashedLine(0, 1, 0);
                 lineSetMajors.enableDashedHighlightLine(10f, 5f, 0f);
-                lineSetMajors.setColor(Color.GREEN);
+                lineSetMajors.setColor(Color.BLUE);
                 lineSetRedAlerts.setColor(Color.RED);
+                lineSetPerfects.setColor(Color.GREEN);
 
-                lineSetMajors.setCircleColor(Color.GREEN);
+                lineSetMajors.setCircleColor(Color.BLUE);
                 lineSetRedAlerts.setCircleColor(Color.RED);
+                lineSetPerfects.setCircleColor(Color.GREEN);
                 lineSetMajors.setLineWidth(0f);
                 lineSetRedAlerts.setLineWidth(0f);
+                lineSetPerfects.setLineWidth(0f);
 
                 lineSetMajors.setCircleRadius(7f);
                 lineSetRedAlerts.setCircleRadius(7f);
+                lineSetPerfects.setCircleRadius(7f);
                 lineSetMajors.setDrawCircleHole(true);
                 lineSetMajors.setValueTextSize(3f);
                 lineSetMajors.setDrawFilled(false);
@@ -300,9 +307,11 @@ public class moreGraphs extends Fragment {
                 lineSetMajors.setFormLineWidth(1f);
                 lineSetMajors.setDrawCircles(true);
                 lineSetRedAlerts.setDrawCircles(true);
+                lineSetPerfects.setDrawCircles(true);
 
                 lineSetMajors.setFormSize(15.f);
                 lineSetRedAlerts.setFormSize(15.f);
+                lineSetPerfects.setFormSize(15.f);
 
                 if (Utils.getSDKInt() >= 18) {
                     Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_launcher_background);
@@ -315,6 +324,7 @@ public class moreGraphs extends Fragment {
                 lineSetRedAlerts.setMode(LineDataSet.Mode.CUBIC_BEZIER);
                 lineDataSets.add(lineSetMajors);
                 lineDataSets.add(lineSetRedAlerts);
+                lineDataSets.add(lineSetPerfects);
 
                 LineData lineData = new LineData(lineDataSets);
                 lineData.setDrawValues(false);
@@ -367,6 +377,27 @@ public class moreGraphs extends Fragment {
                         if (isChecked == false){
                             Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
                             lineDataSets.remove(lineSetRedAlerts);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+
+                        }
+                        //lineDataSets.add(lineSet1);
+                    }
+                });
+
+                checkPerfects.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked == true){
+                            Toast.makeText(getContext(), "Slick Rick" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.add(lineSetPerfects);
+                            nChart.notifyDataSetChanged();
+                            nChart.animateY(1000);
+                        }
+                        if (isChecked == false){
+                            Toast.makeText(getContext(), "False Creek" + "", Toast.LENGTH_SHORT).show();
+                            lineDataSets.remove(lineSetPerfects);
                             nChart.notifyDataSetChanged();
                             nChart.animateY(1000);
 
@@ -507,7 +538,7 @@ public class moreGraphs extends Fragment {
 /////////////////////////////////////
     }
 
-    public void makeMajorsChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineDataMajors,ArrayList<Entry> lineDataRedAlerts) {
+    public void makeMajorsChart(FirebaseUser user, LineGraphSeries<DataPoint> series, ArrayList<BarEntry> yVals1, ArrayList<Entry> lineDataMajors,ArrayList<Entry> lineDataRedAlerts, ArrayList<Entry> lineDataPerfects) {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         String uid = "bob";
@@ -581,7 +612,7 @@ public class moreGraphs extends Fragment {
                         else{
                             Log.d(TAG, "Document does not exist" + document);
                         }
-                        getView().findViewById(R.id.MajorsChartButton).callOnClick();
+                        //getView().findViewById(R.id.MajorsChartButton).callOnClick();
 
                     }
 
@@ -589,6 +620,45 @@ public class moreGraphs extends Fragment {
                     Log.d(TAG, "Graph point! " + "RED ALERTS  NONONONONONONONONOONONONONONONON");
                 }
                 Collections.sort(lineDataRedAlerts, new EntryXComparator());
+            }
+
+        });
+
+        CollectionReference referencePerfect = rootRef.collection("Perfect").document(finalUid).collection("Data");
+        Query moonDayOrder3 = referencePerfect.orderBy(FieldPath.documentId());
+        moonDayOrder3.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                moonDayOrder3.orderBy(FieldPath.documentId(), Query.Direction.DESCENDING);
+                if (task.isSuccessful()) {
+                    Double DataTotal = 0.0;
+                    Log.d(TAG, "Graph point! " + "Perfects Yaaaahhhhhhooooooooooo");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        DataTotal = 0.0;
+                        //Double counter = Double.parseDouble(document.get("Counter").toString());
+                        if (document.exists()) {
+                            Log.d(TAG, "Graph point! " + document + DataTotal);
+                            DataTotal = (Double.parseDouble(document.get("Perfect").toString()));
+                            //if (counter != 0.0) average = DataTotal/counter;
+                            //else average = 3.5;
+                            Double db = new Double(DataTotal);
+                            float avgFloat = db.floatValue();
+                            int id = Integer.valueOf(document.getId());
+                            lineDataPerfects.add(new Entry (id, avgFloat));
+                            yVals1.add(new BarEntry(id, avgFloat));
+                        }
+                        else{
+                            Log.d(TAG, "Document does not exist" + document);
+                        }
+                        getView().findViewById(R.id.MajorsChartButton).callOnClick();
+
+                    }
+
+                } else{
+                    Log.d(TAG, "Graph point! " + "RED ALERTS  NONONONONONONONONOONONONONONONON");
+                }
+                Collections.sort(lineDataPerfects, new EntryXComparator());
             }
 
         });
